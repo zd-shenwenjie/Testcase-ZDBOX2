@@ -27,21 +27,21 @@ describe('Database test', () => {
                     done()
                 }).catch(done);
         });
-        it('should Upload test.json', (done) => {
-            // const fileStream = fs.createReadStream('../public/test_eth.json');
-            let formData = new FormData();
-            formData.append('test_eth.json', fs.createReadStream('tests\\test_eth.json'))
-            // console.log(__dirname + '\\..\\public\\test_eth.json')
-            // console.log(form_data)
-            // var buffer = fs.readFileSync();
-            // form_data.append("file", );
-            const headers = formData.getHeaders();
-            axios.post(`${standard_base_url}:${port}/general/arxml/eth`, formData, {headers})
-                .then(res => {
-                    console.log(res);
-                    done()
-                }).catch(done)
-        });
+        // it('should Upload test.json', (done) => {
+        //     // const fileStream = fs.createReadStream('../public/test_eth.json');
+        //     let formData = new FormData();
+        //     formData.append('test_eth.json', fs.createReadStream('tests\\test_eth.json'))
+        //     // console.log(__dirname + '\\..\\public\\test_eth.json')
+        //     // console.log(form_data)
+        //     // var buffer = fs.readFileSync();
+        //     // form_data.append("file", );
+        //     const headers = formData.getHeaders();
+        //     axios.post(`${standard_base_url}:${port}/general/arxml/eth`, formData, {headers})
+        //         .then(res => {
+        //             console.log(res);
+        //             done()
+        //         }).catch(done)
+        // });
     });
 });
 
