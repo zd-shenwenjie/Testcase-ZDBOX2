@@ -4,7 +4,6 @@ info:
   version: '1.0'
   description: ''
 servers:
-  - url: 'http://192.168.1.27:6001'
   - url: 'http://192.168.1.99:6001'
     description: ''
 paths:
@@ -239,7 +238,257 @@ paths:
     get:
       summary: Your GET endpoint
       tags: []
-      responses: {}
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example-1:
+                  value:
+                    method:
+                      '16391':
+                        path: someip/autosar/Service_Positioning.json
+                      '16399':
+                        input:
+                          key:
+                            present: true
+                          initialEventRequired:
+                            present: true
+                        return:
+                          result:
+                            present: true
+                            struct:
+                              subscriptionId:
+                                present: true
+                              status:
+                                present: true
+                      '16400':
+                        input:
+                          initialEventRequired:
+                            present: true
+                        return:
+                          result:
+                            present: true
+                            struct:
+                              subscriptionId:
+                                present: true
+                              status:
+                                present: true
+                      '16402':
+                        input:
+                          subscriptionId:
+                            present: true
+                        return:
+                          status:
+                            present: true
+                      '16647':
+                        input: {}
+                        return:
+                          result:
+                            present: false
+                            struct:
+                              status:
+                                present: true
+                      '16656':
+                        input:
+                          initialEventRequired:
+                            present: true
+                        return:
+                          result:
+                            present: true
+                            struct:
+                              subscriptionId:
+                                present: true
+                              status:
+                                present: true
+                      '16658':
+                        input:
+                          subscriptionId:
+                            present: true
+                        return:
+                          status:
+                            present: true
+                    event:
+                      '49280':
+                        input:
+                          subscriptionId:
+                            present: true
+                          updateCounter:
+                            present: true
+                          totalNoOfMessages:
+                            present: true
+                          eventMessageCounter:
+                            present: true
+                          noOfResourceElements:
+                            present: true
+                          type:
+                            present: true
+                          subscriptionStatus:
+                            present: true
+                          element:
+                            present: true
+                            struct:
+                              posType:
+                                present: true
+                              messageCounter:
+                                present: false
+                              latitude:
+                                present: false
+                              longitude:
+                                present: false
+                              altitudeMeanSeaLevel:
+                                present: false
+                              altitudeWGS84:
+                                present: false
+                              headingVelocityDirection:
+                                present: false
+                              headingYawAngle:
+                                present: false
+                              accuracyHeadingVelocityDirection:
+                                present: false
+                              accuracyHeadingYawAngle:
+                                present: false
+                              speed3D:
+                                present: false
+                              speed2D:
+                                present: false
+                              velocityNorthDirection:
+                                present: false
+                              velocityEastDirection:
+                                present: false
+                              velocityUpwardDirection:
+                                present: false
+                              accuracySpeed3D:
+                                present: false
+                              accuracySpeed2D:
+                                present: false
+                              accuracyHorizontal:
+                                present: false
+                              accuracyEllipseSemiMajorAxis:
+                                present: false
+                              accuracyEllipseSemiMajorAxisHeading:
+                                present: false
+                              accuracyEllipseSemiMinorAxis:
+                                present: false
+                              accuracyVertical:
+                                present: false
+                              accuracyPitchAngle:
+                                present: false
+                              accuracyRollAngle:
+                                present: false
+                              pitchAngle:
+                                present: false
+                              rollAngle:
+                                present: false
+                              drivingDirection:
+                                present: false
+                              statusFrontCamera:
+                                present: false
+                              statusGNSS:
+                                present: false
+                              statusLandmarks:
+                                present: false
+                              statusTopView:
+                                present: false
+                              statusLidar:
+                                present: false
+                              statusSystem:
+                                present: false
+                              latency:
+                                present: false
+                              preciseLocalTimeSeconds:
+                                present: false
+                              preciseLocalTimeNanoseconds:
+                                present: false
+                              geodeticDatum:
+                                present: false
+                              latitudeAsInt:
+                                present: false
+                              longitudeAsInt:
+                                present: false
+                      '49536':
+                        input:
+                          subscriptionId:
+                            present: true
+                          updateCounter:
+                            present: true
+                          totalNoOfMessages:
+                            present: true
+                          eventMessageCounter:
+                            present: true
+                          noOfResourceElements:
+                            present: true
+                          type:
+                            present: true
+                          subscriptionStatus:
+                            present: true
+                          element:
+                            present: true
+                            struct:
+                              elementId:
+                                present: true
+                              accuracyIsLaneAccurate:
+                                present: false
+                              numberOfLanes:
+                                present: false
+                              laneNumber:
+                                present: false
+                              linkId:
+                                present: false
+                              distanceOnLink:
+                                present: false
+                              offsetOnLane:
+                                present: false
+                              laneId:
+                                present: false
+                              laneGroupId:
+                                present: false
+                              tileId:
+                                present: false
+                              updateRegionId:
+                                present: false
+                              productId:
+                                present: false
+                              distanceLeftMarking:
+                                present: false
+                              distanceRightMarking:
+                                present: false
+                              locationIsCarTrain:
+                                present: false
+                              locationIsFerry:
+                                present: false
+                              locationIsParkingStructure:
+                                present: false
+                              locationIsParkingArea:
+                                present: false
+                              offRoadStatus:
+                                present: false
+                              gradient:
+                                present: false
+                              slope:
+                                present: false
+                              trafficDirection:
+                                present: false
+                              laneType:
+                                present: false
+                              isMotorwayRoad:
+                                present: false
+                              isUrbanRoad:
+                                present: false
+                              mapMatchingSource:
+                                present: false
+                              preciseLocalTimeSeconds:
+                                present: false
+                              preciseLocalTimeNanoseconds:
+                                present: false
+                              directionOnLink:
+                                present: false
+                              floornumber:
+                                present: false
       operationId: get-codec-id-someip-optional
     post:
       summary: ''
@@ -247,6 +496,43 @@ paths:
       responses:
         '200':
           description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  path:
+                    type: string
+                    minLength: 1
+                required:
+                  - path
+                x-examples:
+                  example-1:
+                    path: someip/autosar/Service_Positioning.json
+              examples:
+                example-1:
+                  value:
+                    path: someip/autosar/Service_Positioning.json
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                path:
+                  type: string
+                  minLength: 1
+              required:
+                - path
+              x-examples:
+                example-1:
+                  path: someip/autosar/Service_Positioning.json
+            examples:
+              example-1:
+                value:
+                  path: someip/autosar/Service_Positioning.json
   '/codec/{id}/someip/optional/{serviceId}/method/{methodId}':
     parameters:
       - schema:
@@ -255,12 +541,12 @@ paths:
         in: path
         required: true
       - schema:
-          type: number
+          type: string
         name: serviceId
         in: path
         required: true
       - schema:
-          type: number
+          type: string
         name: methodId
         in: path
         required: true
