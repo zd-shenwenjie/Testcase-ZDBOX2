@@ -1,0 +1,401 @@
+openapi: 3.0.0
+info:
+  title: Trace-service
+  version: '1.0'
+  description: ''
+servers:
+  - url: 'http://192.168.1.27:6001'
+  - url: 'http://192.168.1.99:6001'
+    description: ''
+paths:
+  /:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+              examples:
+                example-1:
+                  value: hello world trace-service
+      operationId: get-a
+    parameters: []
+  /codec:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Converter'
+              examples:
+                example-1:
+                  value:
+                    default-can:
+                      name: default-can
+                      protocol: CAN
+                      mod: DBC-CAN
+                      path: dbc_templates.json
+                    default-arxml:
+                      name: default-arxml
+                      protocol: SOAD
+                      mod: ARXML-ETH
+                      path: Matrix_GNSS.json
+                    default-someip:
+                      name: default-someip
+                      protocol: SOMEIP
+                    default-tcpevent:
+                      name: default-tcpevent
+                      protocol: TCPEVENT
+      operationId: get-codec
+      description: Get existing converter
+    post:
+      summary: ''
+      operationId: post-codec
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Converter'
+              examples:
+                example-1:
+                  value:
+                    name: codec-SOAD-testconverter-1021
+                    protocol: SOAD
+                    mod: ARXML-ETH
+                    path: general/arxml/eth/Matrix_GNSS.json
+      description: Create converter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateConverter'
+            examples:
+              example-1:
+                value:
+                  tag: testconverter
+                  protocol: SOAD
+                  mod: ARXML-ETH
+                  path: general/arxml/eth/Matrix_GNSS.json
+      parameters: []
+    delete:
+      summary: ''
+      operationId: delete-codec
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+              examples:
+                example-1:
+                  value:
+                    name: default-arxml
+      description: Delete converter
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+            examples:
+              example-1:
+                value:
+                  name: default-arxml
+        description: ''
+      parameters: []
+  '/codec/{id}/someip/name2id':
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  code:
+                    type: number
+                  msg:
+                    type: string
+                    minLength: 1
+                required:
+                  - code
+                  - msg
+                x-examples:
+                  example-1:
+                    code: 20
+                    msg: id not found
+              examples:
+                example-1:
+                  value:
+                    code: 0
+                    msg: string
+      operationId: 'get-codec-:id-someip'
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+  '/codec/{id}/someip/spec':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    post:
+      summary: ''
+      operationId: post-codec-id-someip-spec
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                path:
+                  type: string
+  '/codec/{id}/someip/optional/{serviceId}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: serviceId
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-codec-id-someip-optional
+    post:
+      summary: ''
+      operationId: post-codec-id-someip-optional-serviceId
+      responses:
+        '200':
+          description: OK
+  '/codec/{id}/someip/optional/{serviceId}/method/{methodId}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: serviceId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: methodId
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-codec-id-someip-optional-serviceId-method-methodId
+    post:
+      summary: ''
+      operationId: post-codec-id-someip-optional-serviceId-method-methodId
+      responses:
+        '200':
+          description: OK
+  '/codec/{id}/someip/optional/{serviceId}/event/{eventId}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: serviceId
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: eventId
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-codec-id-someip-optional-serviceId-event-eventId
+    post:
+      summary: ''
+      operationId: post-codec-id-someip-optional-serviceId-event-eventId
+      responses:
+        '200':
+          description: OK
+  /someip/config/ports:
+    post:
+      summary: ''
+      operationId: post-someip-config-ports
+      responses:
+        '200':
+          description: OK
+  /forwarding:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-forwarding
+    post:
+      summary: ''
+      operationId: post-forwarding
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: ''
+      operationId: delete-forwarding
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    ProtocolTag:
+      title: ProtocolTag
+      type: object
+      properties:
+        ipv4:
+          type: boolean
+        srcIp:
+          type: string
+        dstIp:
+          type: string
+        vlanId:
+          type: number
+        srcPort:
+          type: number
+        dstPort:
+          type: number
+        tag:
+          type: string
+      required:
+        - srcIp
+        - dstIp
+    TracingChannel:
+      title: TracingChannel
+      type: string
+    Converter:
+      description: ''
+      type: object
+      x-examples:
+        example-1:
+          name: default-arxml
+          protocol: SOAD
+          mod: ARXML-ETH
+          path: Matrix_GNSS.json
+      properties:
+        name:
+          type: string
+          minLength: 1
+        protocol:
+          type: string
+          minLength: 1
+          description: '''SOAD'' | ''SOMEIP'' | ''CAN'' | ''TCPEVENT'''
+        mod:
+          type: string
+          minLength: 1
+          description: '''ARXML-ETH'' | ''DBC-CAN'''
+        path:
+          type: string
+          minLength: 1
+      required:
+        - name
+        - protocol
+    CreateConverter:
+      description: ''
+      type: object
+      properties:
+        tag:
+          type: string
+          minLength: 1
+        protocol:
+          type: string
+          minLength: 1
+        mod:
+          type: string
+          minLength: 1
+        path:
+          type: string
+          minLength: 1
+      required:
+        - tag
+        - protocol
+        - mod
+        - path
+      x-examples:
+        example-1:
+          tag: testconverter
+          protocol: SOAD
+          mod: ARXML-ETH
+          path: general/arxml/eth/xxxx.json
+          value:
+            tag: testconverter
+            protocol: SOAD
+            mod: ARXML-ETH
+            path: general/arxml/eth/xxxx.json
+    Response_err:
+      description: ''
+      type: object
+      properties:
+        code:
+          type: number
+        msg:
+          type: string
+          minLength: 1
+      required:
+        - code
+        - msg
+      x-examples:
+        example-1:
+          code: 20
+          msg: id not found
+          value:
+            code: 20
+            msg: id not found
+  responses: {}
+  examples: {}
+  parameters:
+    content:
+      name: Content-Type
+      in: header
+      required: false
+      schema:
+        type: string
+      description: application/json
