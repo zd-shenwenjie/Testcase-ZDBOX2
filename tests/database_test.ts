@@ -17,7 +17,7 @@ describe('Database test', () => {
     before(() => {
         axios.delete(`${standard_base_url}:${port}/general/arxml/eth`, {params: {file: 'test_eth.json'}})
             .then(res => {
-                console.log(res);
+                console.log(res.status);
             })
     });
     describe('DATABASE_GENERAL_ARXML_ETH_PATH', () => {
@@ -29,9 +29,9 @@ describe('Database test', () => {
                 }).catch(done);
         });
         it('should Upload test.json', (done) => {
-            // const fileStream = fs.createReadStream('../public/test_eth.json');
+            const fileStream = fs.createReadStream('./resources/test_eth.json');
             let formData = new FormData();
-            formData.append('test_eth.json', 'tests/test_eth.json')
+            formData.append('file', fileStream)
             // console.log(__dirname + '\\..\\public\\test_eth.json')
             // console.log(form_data)
             // var buffer = fs.readFileSync();
@@ -39,7 +39,7 @@ describe('Database test', () => {
             const headers = formData.getHeaders();
             axios.post(`${standard_base_url}:${port}/general/arxml/eth`, formData, {headers})
                 .then(res => {
-                    console.log(res);
+                    // console.log(res);
                     done()
                 }).catch(done)
         });
