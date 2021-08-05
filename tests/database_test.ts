@@ -15,7 +15,7 @@ const port: string = process.env.TEST_DATABASE_PORT || '9001';
 
 describe('Database test', () => {
     before(() => {
-        axios.delete(`${standard_base_url}:${port}/general/arxml/eth`, {params: {file: 'test_eth.json'}})
+        axios.delete(`${standard_base_url}:${port}/general/arxml/eth`, {params: {file: 'test_eth.arxml'}})
             .then(res => {
                 console.log(res.status);
             })
@@ -24,12 +24,12 @@ describe('Database test', () => {
         it('should Confirm that the file does not exist', (done) => {
             axios.get(`${standard_base_url}:${port}/general/arxml/eth`)
                 .then(res => {
-                    expect(res.data.files).to.be.an('array').that.not.includes('test_eth.json');
+                    expect(res.data.files).to.be.an('array').that.not.includes('test_eth.arxml');
                     done()
                 }).catch(done);
         });
-        it('should Upload test.json', (done) => {
-            const fileStream = fs.createReadStream('./resources/test_eth.json');
+        it('should Upload test_eth.arxml', (done) => {
+            const fileStream = fs.createReadStream('./resources/test_eth.arxml');
             let formData = new FormData();
             formData.append('file', fileStream)
             // console.log(__dirname + '\\..\\public\\test_eth.json')
@@ -44,5 +44,60 @@ describe('Database test', () => {
                 }).catch(done)
         });
     });
-});
 
+    //someip_autosar
+    before(() => {
+        axios.delete(`${standard_base_url}:${port}/someip/service/autosar`, {params: {file: 'test_someip_autosar.arxml'}})
+            .then(res => {
+                console.log(res.status);
+            })
+        });
+    describe('DATABASE_SOMEIP_SERVICE_AUTOSAR', () => {
+        it('should Confirm that the file does not exist', (done) => {
+            axios.get(`${standard_base_url}:${port}/someip/service/autosar`)
+                .then(res => {
+                    expect(res.data.files).to.be.an('array').that.not.includes('test_someip_autosar.arxml');
+                    done()
+                }).catch(done);
+        })
+        it('should Upload test_someip_autosar.arxml', (done) => {
+            const fileStream = fs.createReadStream('./resources/test_someip_autosar.arxml');
+            let formData = new FormData();
+            formData.append('file', fileStream)
+            const headers = formData.getHeaders();
+            axios.post(`${standard_base_url}:${port}/someip/service/autosar`, formData, {headers})
+                .then(res => {
+                    // console.log(res);
+                    done()
+                }).catch(done)
+        })
+     });
+
+    // someip fibex
+    before(() => {
+        axios.delete(`${standard_base_url}:${port}/someip/service/fibex`, {params: {file: 'test_someip_fibex.xml'}})
+            .then(res => {
+                console.log(res.status);
+            })
+        });
+    describe('DATABASE_SOMEIP_SERVICE_Fibex', () => {
+        it('should Confirm that the file does not exist', (done) => {
+             axios.get(`${standard_base_url}:${port}/someip/service/fibex`)
+                .then(res => {
+                    expect(res.data.files).to.be.an('array').that.not.includes('test_someip_fibex.xml');
+                    done()
+                }).catch(done);
+        })
+        it('should Upload test_someip_fibex.xml', (done) => {
+            const fileStream = fs.createReadStream('./resources/test_someip_fibex.xml');
+            let formData = new FormData();
+            formData.append('file', fileStream)
+            const headers = formData.getHeaders();
+            axios.post(`${standard_base_url}:${port}/someip/service/autosar`, formData, {headers})
+                .then(res => {
+                    // console.log(res);
+                    done()
+                }).catch(done)
+        })
+    });    
+})
