@@ -3,9 +3,6 @@ info:
   title: database-management
   version: '1.0'
 servers:
-  - url: 'http://192.168.1.27:9001'
-  - description: ''
-    url: 'http://192.168.1.150:9001'
   - url: 'http://192.168.1.99:9001'
     description: ''
 paths:
@@ -57,8 +54,8 @@ paths:
                 example-1:
                   value:
                     file: file test3.arxml uploaded. start to convert. it may take several minutes.
-        '500':
-          description: Internal Server Error
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -158,13 +155,23 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Response_success'
+                description: ''
+                type: object
+                properties:
+                  file:
+                    type: string
+                    minLength: 1
+                required:
+                  - file
+                x-examples:
+                  example-1:
+                    file: file test_someip_autosar.arxml uploaded and converted succeeded
               examples:
                 example-1:
                   value:
-                    file: test_eth.json
-        '500':
-          description: Internal Server Error
+                    file: file test_someip_autosar.arxml uploaded and converted succeeded
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -183,6 +190,10 @@ paths:
                 file:
                   type: string
                   format: binary
+            examples:
+              example-1:
+                value:
+                  file: string
     delete:
       summary: ''
       operationId: delete-someip-service-autosar
@@ -227,6 +238,18 @@ paths:
                     files:
                       - 0x190_VoiceManagerService_V1.8.10F.json
                       - 0x60AB_Service_V2XMessage-ID-REF-Fix-Typo-Fix-FIELD-LENGTH-Fix-PP-Fix.json
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example-1:
+                  value:
+                    code: 30
+                    msg: 'invalid file format. expect .xml(fibex-xml), got .arxml'
       operationId: get-someip-service-fibex
     post:
       summary: ''
@@ -237,9 +260,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Response_success'
+                description: ''
+                type: object
+                properties:
+                  file:
+                    type: string
+                    minLength: 1
+                required:
+                  - file
+                x-examples:
+                  example-1:
+                    file: file test_someip_fibex.xml uploaded and converted succeeded.
               examples:
-                example-1: {}
+                example-1:
+                  value:
+                    file: file test_someip_fibex.xml uploaded and converted succeeded.
         '500':
           description: Internal Server Error
           content:
@@ -251,6 +286,20 @@ paths:
                   value:
                     code: 0
                     msg: string
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+            examples:
+              example-1:
+                value:
+                  file: string
+        description: ''
     delete:
       summary: ''
       operationId: delete-someip-service-fibex

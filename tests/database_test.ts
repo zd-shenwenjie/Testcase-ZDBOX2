@@ -75,7 +75,7 @@ describe('Database test', () => {
 
     // someip fibex
     before(() => {
-        axios.delete(`${standard_base_url}:${port}/someip/service/fibex`, {params: {file: 'test_someip_fibex.arxml'}})
+        axios.delete(`${standard_base_url}:${port}/someip/service/fibex`, {params: {file: 'test_someip_fibex.xml'}})
             .then(res => {
                 console.log(res.status);
             })
@@ -84,12 +84,12 @@ describe('Database test', () => {
         it('should Confirm that the file does not exist', (done) => {
              axios.get(`${standard_base_url}:${port}/someip/service/fibex`)
                 .then(res => {
-                    expect(res.data.files).to.be.an('array').that.not.includes('test_someip_fibex.arxml');
+                    expect(res.data.files).to.be.an('array').that.not.includes('test_someip_fibex.xml');
                     done()
                 }).catch(done);
         })
-        it('should Upload test_someip_fibex.arxml', (done) => {
-            const fileStream = fs.createReadStream('./resources/test_someip_fibex.arxml');
+        it('should Upload test_someip_fibex.xml', (done) => {
+            const fileStream = fs.createReadStream('./resources/test_someip_fibex.xml');
             let formData = new FormData();
             formData.append('file', fileStream)
             const headers = formData.getHeaders();
