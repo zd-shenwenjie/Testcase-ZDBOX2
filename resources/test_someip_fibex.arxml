@@ -1,0 +1,1145 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<fx:FIBEX xmlns:fx="http://www.asam.net/xml/fbx" xmlns:ho="http://www.asam.net/xml" xmlns:ethernet="http://www.asam.net/xml/fbx/ethernet" xmlns:it="http://www.asam.net/xml/fbx/it" xmlns:service="http://www.asam.net/xml/fbx/services" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" VERSION="4.1.2">
+  <!--BASELINE INFO-->
+  <!--VERSION: 1.35.1194-->
+  <!--COMMIT HASH: 7c3515992e0b6777ef80bf927cc0104decf659f0-->
+  <!--BRANCH NAME: feature-E3-11494-VehicleToEverything_V2X-->
+  <!--RELEASE TYPE: SNAPSHOT-->
+  <fx:PROJECT ID="V2XMessage">
+    <ho:SHORT-NAME>Service_V2XMessage</ho:SHORT-NAME>
+    <ho:COMPANIES-DATA>
+      <ho:COMPANY-DATA ID="volkswagenag" ROLE="MANUFACTURER">
+        <ho:SHORT-NAME>Volkswagen_AG</ho:SHORT-NAME>
+        <ho:LONG-NAME>Volkswagen_AG</ho:LONG-NAME>
+      </ho:COMPANY-DATA>
+    </ho:COMPANIES-DATA>
+  </fx:PROJECT>
+  <fx:ELEMENTS>
+  <fx:CLUSTERS>
+      <fx:CLUSTER ID="id_cluster_eth" xsi:type="fx:CLUSTER-TYPE">
+        <ho:SHORT-NAME>ETH_Cluster_MLBevo</ho:SHORT-NAME>
+        <fx:SPEED>100000000</fx:SPEED>
+        <fx:IS-HIGH-LOW-BIT-ORDER>false</fx:IS-HIGH-LOW-BIT-ORDER>
+        <fx:BIT-COUNTING-POLICY>MONOTONE</fx:BIT-COUNTING-POLICY>
+        <fx:PROTOCOL>ETHERNET</fx:PROTOCOL>
+        <fx:CHANNEL-REFS>
+          <fx:CHANNEL-REF ID-REF="id_channel_MLBevo_VLAN_Infotainment"/>
+          <fx:CHANNEL-REF ID-REF="id_channel_MLBevo_VLAN_FAS"/>
+          <fx:CHANNEL-REF ID-REF="id_channel_MLBevo_VLAN_Connect"/>
+          <fx:CHANNEL-REF ID-REF="id_channel_MLBevo_VLAN_Internet"/>
+        </fx:CHANNEL-REFS>
+      </fx:CLUSTER>
+    </fx:CLUSTERS>
+    <fx:CHANNELS>
+      <fx:CHANNEL ID="id_channel_MLBevo_VLAN_Infotainment" xsi:type="ethernet:CHANNEL-TYPE">
+        <ho:SHORT-NAME>MLBevo_VLAN_Infotainment</ho:SHORT-NAME>
+        <ethernet:VIRTUAL-LAN ID="id_VLAN_0x03">
+          <ho:SHORT-NAME>VLAN_ID_0x03</ho:SHORT-NAME>
+          <ethernet:VLAN-IDENTIFIER>3</ethernet:VLAN-IDENTIFIER>
+        </ethernet:VIRTUAL-LAN>
+      </fx:CHANNEL>
+      <fx:CHANNEL ID="id_channel_MLBevo_VLAN_Connect" xsi:type="ethernet:CHANNEL-TYPE">
+        <ho:SHORT-NAME>MLBevo_VLAN_Connect</ho:SHORT-NAME>
+        <ethernet:VIRTUAL-LAN ID="id_VLAN_0x04">
+          <ho:SHORT-NAME>VLAN_ID_0x04</ho:SHORT-NAME>
+          <ethernet:VLAN-IDENTIFIER>4</ethernet:VLAN-IDENTIFIER>
+        </ethernet:VIRTUAL-LAN>
+      </fx:CHANNEL>
+      <fx:CHANNEL ID="id_channel_MLBevo_VLAN_FAS" xsi:type="ethernet:CHANNEL-TYPE">
+        <ho:SHORT-NAME>MLBevo_VLAN_FAS</ho:SHORT-NAME>
+        <ethernet:VIRTUAL-LAN ID="id_VLAN_0x02">
+          <ho:SHORT-NAME>VLAN_ID_0x02</ho:SHORT-NAME>
+          <ethernet:VLAN-IDENTIFIER>2</ethernet:VLAN-IDENTIFIER>
+        </ethernet:VIRTUAL-LAN>
+      </fx:CHANNEL>
+      <fx:CHANNEL ID="id_channel_MLBevo_VLAN_Internet" xsi:type="ethernet:CHANNEL-TYPE">
+        <ho:SHORT-NAME>MLBevo_VLAN_Internet</ho:SHORT-NAME>
+        <ethernet:VIRTUAL-LAN ID="id_VLAN_0x07">
+          <ho:SHORT-NAME>VLAN_ID_0x07</ho:SHORT-NAME>
+          <ethernet:VLAN-IDENTIFIER>7</ethernet:VLAN-IDENTIFIER>
+        </ethernet:VIRTUAL-LAN>
+      </fx:CHANNEL>
+    </fx:CHANNELS>
+    <fx:ECUS>
+      <fx:ECU ID="id_ecu_conBox">
+        <ho:SHORT-NAME>conBox</ho:SHORT-NAME>
+        <fx:CONNECTORS>
+          <fx:CONNECTOR xsi:type="it:CONNECTOR-TYPE" ID="id_ecu_conBox_connector_1">
+            <fx:CHANNEL-REF ID-REF="id_channel_MLBevo_VLAN_Connect"/>
+            <it:NETWORK-ENDPOINTS>
+              <it:NETWORK-ENDPOINT ID="id_ecu_conBox_connector_1_nep_1">
+                <it:NETWORK-ENDPOINT-ADDRESSES>
+                  <it:NETWORK-ENDPOINT-ADDRESS>
+                    <it:IPV6>
+                      <it:IPV6-ADDRESS>fd53:7cb8:0383:0004:0000:0000:0000:0067</it:IPV6-ADDRESS>
+                      <it:IPV6-ADDRESS-SOURCE>FIXED</it:IPV6-ADDRESS-SOURCE>
+                      <it:DEFAULT-ROUTER>fd53:7cb8:0383:0004:0000:0000:0000:0010</it:DEFAULT-ROUTER>
+                    </it:IPV6>
+                  </it:NETWORK-ENDPOINT-ADDRESS>
+                </it:NETWORK-ENDPOINT-ADDRESSES>
+              </it:NETWORK-ENDPOINT>
+            </it:NETWORK-ENDPOINTS>
+            <it:APPLICATION-ENDPOINTS>
+              <it:APPLICATION-ENDPOINT ID="id_ecu_conBox_connector_server_alt">
+                <it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                  <it:TCP-TP>
+                    <it:TCP-PORT>
+                      <it:PORT-NUMBER>29173</it:PORT-NUMBER>
+                    </it:TCP-PORT>
+                  </it:TCP-TP>
+                </it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                <it:NETWORK-ENDPOINT-REF ID-REF="id_ecu_conBox_connector_1_nep_1"/>
+                <it:SERIALIZATION-TECHNOLOGY>
+                  <it:SERIALIZATION-TECHNOLOGY-NAME>SOME/IP</it:SERIALIZATION-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:SERIALIZATION-TECHNOLOGY>
+                <it:REMOTING-TECHNOLOGY>
+                  <it:REMOTING-TECHNOLOGY-NAME>SOME/IP</it:REMOTING-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:REMOTING-TECHNOLOGY>
+                <it:PROVIDED-SERVICE-INSTANCES>
+                  <it:PROVIDED-SERVICE-INSTANCE ID="id_ecu_conBox_connector_1_server_alt_V2XSecurityProvisioning">
+                    <it:INSTANCE-IDENTIFIER>1</it:INSTANCE-IDENTIFIER>
+                    <service:SERVICE-INTERFACE-REF ID-REF="SI_VWG_SERVICES_CONNECT_VEHICLETOEVERYTHING_V2X_V2XMESSAGE_V2_X_MESSAGE"/>
+                  </it:PROVIDED-SERVICE-INSTANCE>
+                </it:PROVIDED-SERVICE-INSTANCES>
+              </it:APPLICATION-ENDPOINT>
+              <it:APPLICATION-ENDPOINT ID="id_ecu_conBox_connector_1_server">
+                <it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                  <it:TCP-TP>
+                    <it:TCP-PORT>
+                      <it:PORT-NUMBER>29180</it:PORT-NUMBER>
+                    </it:TCP-PORT>
+                  </it:TCP-TP>
+                </it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                <it:NETWORK-ENDPOINT-REF ID-REF="id_ecu_conBox_connector_1_nep_1"/>
+                <it:SERIALIZATION-TECHNOLOGY>
+                  <it:SERIALIZATION-TECHNOLOGY-NAME>SOME/IP</it:SERIALIZATION-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:SERIALIZATION-TECHNOLOGY>
+                <it:REMOTING-TECHNOLOGY>
+                  <it:REMOTING-TECHNOLOGY-NAME>SOME/IP</it:REMOTING-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:REMOTING-TECHNOLOGY>
+              </it:APPLICATION-ENDPOINT>
+              <it:APPLICATION-ENDPOINT ID="id_ecu_conBox_connector_2_server">
+                <it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                  <it:TCP-TP>
+                    <it:TCP-PORT>
+                      <it:PORT-NUMBER>29182</it:PORT-NUMBER>
+                    </it:TCP-PORT>
+                  </it:TCP-TP>
+                </it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                <it:NETWORK-ENDPOINT-REF ID-REF="id_ecu_conBox_connector_1_nep_1"/>
+                <it:SERIALIZATION-TECHNOLOGY>
+                  <it:SERIALIZATION-TECHNOLOGY-NAME>SOME/IP</it:SERIALIZATION-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:SERIALIZATION-TECHNOLOGY>
+                <it:REMOTING-TECHNOLOGY>
+                  <it:REMOTING-TECHNOLOGY-NAME>SOME/IP</it:REMOTING-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:REMOTING-TECHNOLOGY>
+              </it:APPLICATION-ENDPOINT>
+              <it:APPLICATION-ENDPOINT ID="id_ecu_conBox_connector_3_server">
+                <it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                  <it:TCP-TP>
+                    <it:TCP-PORT>
+                      <it:PORT-NUMBER>29181</it:PORT-NUMBER>
+                    </it:TCP-PORT>
+                  </it:TCP-TP>
+                </it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                <it:NETWORK-ENDPOINT-REF ID-REF="id_ecu_conBox_connector_1_nep_1"/>
+                <it:SERIALIZATION-TECHNOLOGY>
+                  <it:SERIALIZATION-TECHNOLOGY-NAME>SOME/IP</it:SERIALIZATION-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:SERIALIZATION-TECHNOLOGY>
+                <it:REMOTING-TECHNOLOGY>
+                  <it:REMOTING-TECHNOLOGY-NAME>SOME/IP</it:REMOTING-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:REMOTING-TECHNOLOGY>
+                <it:PROVIDED-SERVICE-INSTANCES>
+                  <it:PROVIDED-SERVICE-INSTANCE ID="id_ecu_conBox_connector_3_V2XSecurityProvisioning">
+                    <it:INSTANCE-IDENTIFIER>1</it:INSTANCE-IDENTIFIER>
+                    <service:SERVICE-INTERFACE-REF ID-REF="SI_VWG_SERVICES_CONNECT_VEHICLETOEVERYTHING_V2X_V2XMESSAGE_V2_X_MESSAGE"/>
+                  </it:PROVIDED-SERVICE-INSTANCE>
+                </it:PROVIDED-SERVICE-INSTANCES>
+              </it:APPLICATION-ENDPOINT>
+              <it:APPLICATION-ENDPOINT ID="id_ecu_conBox_connector_1_client">
+                <it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                  <it:TCP-TP>
+                    <it:TCP-PORT>
+                      <it:PORT-NUMBER>29172</it:PORT-NUMBER>
+                    </it:TCP-PORT>
+                  </it:TCP-TP>
+                </it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                <it:NETWORK-ENDPOINT-REF ID-REF="id_ecu_conBox_connector_1_nep_1"/>
+                <it:SERIALIZATION-TECHNOLOGY>
+                  <it:SERIALIZATION-TECHNOLOGY-NAME>SOME/IP</it:SERIALIZATION-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:SERIALIZATION-TECHNOLOGY>
+                <it:REMOTING-TECHNOLOGY>
+                  <it:REMOTING-TECHNOLOGY-NAME>SOME/IP</it:REMOTING-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:REMOTING-TECHNOLOGY>
+              </it:APPLICATION-ENDPOINT>
+            </it:APPLICATION-ENDPOINTS>
+          </fx:CONNECTOR>
+        </fx:CONNECTORS>
+      </fx:ECU>
+      <fx:ECU ID="id_ecu_ZR_High">
+        <ho:SHORT-NAME>ZR_High</ho:SHORT-NAME>
+        <fx:CONNECTORS>
+          <fx:CONNECTOR xsi:type="it:CONNECTOR-TYPE" ID="id_ecu_ZR_High_connector_1">
+            <fx:CHANNEL-REF ID-REF="id_channel_MLBevo_VLAN_Infotainment"/>
+            <it:NETWORK-ENDPOINTS>
+              <it:NETWORK-ENDPOINT ID="id_ecu_ZR_High_connector_1_nep_1">
+                <it:NETWORK-ENDPOINT-ADDRESSES>
+                  <it:NETWORK-ENDPOINT-ADDRESS>
+                    <it:IPV6>
+                      <it:IPV6-ADDRESS>fd53:7cb8:0383:0003:0000:0000:0000:0073</it:IPV6-ADDRESS>
+                      <it:IPV6-ADDRESS-SOURCE>FIXED</it:IPV6-ADDRESS-SOURCE>
+                      <it:DEFAULT-ROUTER>fd53:7cb8:0383:0003:0000:0000:0000:0010</it:DEFAULT-ROUTER>
+                    </it:IPV6>
+                  </it:NETWORK-ENDPOINT-ADDRESS>
+                </it:NETWORK-ENDPOINT-ADDRESSES>
+              </it:NETWORK-ENDPOINT>
+            </it:NETWORK-ENDPOINTS>
+            <it:APPLICATION-ENDPOINTS>
+              <it:APPLICATION-ENDPOINT ID="id_ecu_ZR_High_connector_1_server_29180">
+                <it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                  <it:TCP-TP>
+                    <it:TCP-PORT>
+                      <it:PORT-NUMBER>29180</it:PORT-NUMBER>
+                    </it:TCP-PORT>
+                  </it:TCP-TP>
+                </it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                <it:NETWORK-ENDPOINT-REF ID-REF="id_ecu_ZR_High_connector_1_nep_1"/>
+                <it:SERIALIZATION-TECHNOLOGY>
+                  <it:SERIALIZATION-TECHNOLOGY-NAME>SOME/IP</it:SERIALIZATION-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:SERIALIZATION-TECHNOLOGY>
+                <it:REMOTING-TECHNOLOGY>
+                  <it:REMOTING-TECHNOLOGY-NAME>SOME/IP</it:REMOTING-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:REMOTING-TECHNOLOGY>
+              </it:APPLICATION-ENDPOINT>
+              <it:APPLICATION-ENDPOINT ID="id_ecu_ZR_High_connector_1_server_29173">
+                <it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                  <it:TCP-TP>
+                    <it:TCP-PORT>
+                      <it:PORT-NUMBER>29173</it:PORT-NUMBER>
+                    </it:TCP-PORT>
+                  </it:TCP-TP>
+                </it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                <it:NETWORK-ENDPOINT-REF ID-REF="id_ecu_ZR_High_connector_1_nep_1"/>
+                <it:SERIALIZATION-TECHNOLOGY>
+                  <it:SERIALIZATION-TECHNOLOGY-NAME>SOME/IP</it:SERIALIZATION-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:SERIALIZATION-TECHNOLOGY>
+                <it:REMOTING-TECHNOLOGY>
+                  <it:REMOTING-TECHNOLOGY-NAME>SOME/IP</it:REMOTING-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:REMOTING-TECHNOLOGY>
+              </it:APPLICATION-ENDPOINT>
+              <it:APPLICATION-ENDPOINT ID="id_ecu_ZR_High_connector_1_client">
+                <it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                  <it:TCP-TP>
+                    <it:TCP-PORT>
+                      <it:DYNAMICALLY-ASSIGNED>true</it:DYNAMICALLY-ASSIGNED>
+                    </it:TCP-PORT>
+                  </it:TCP-TP>
+                </it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                <it:NETWORK-ENDPOINT-REF ID-REF="id_ecu_ZR_High_connector_1_nep_1"/>
+                <it:SERIALIZATION-TECHNOLOGY>
+                  <it:SERIALIZATION-TECHNOLOGY-NAME>SOME/IP</it:SERIALIZATION-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:SERIALIZATION-TECHNOLOGY>
+                <it:REMOTING-TECHNOLOGY>
+                  <it:REMOTING-TECHNOLOGY-NAME>SOME/IP</it:REMOTING-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:REMOTING-TECHNOLOGY>
+                <it:CONSUMED-SERVICE-INSTANCES>
+                  <it:CONSUMED-SERVICE-INSTANCE ID="id_ecu_ZR_High_connector_1_client_id_ecu_conBox_connector_3_server_V2XSecurityProvisioning">
+                    <it:PROVIDED-SERVICE-INSTANCE-REF ID-REF="id_ecu_conBox_connector_3_V2XSecurityProvisioning"/>
+                  </it:CONSUMED-SERVICE-INSTANCE>
+                </it:CONSUMED-SERVICE-INSTANCES>
+              </it:APPLICATION-ENDPOINT>
+            </it:APPLICATION-ENDPOINTS>
+          </fx:CONNECTOR>
+        </fx:CONNECTORS>
+      </fx:ECU>
+      <fx:ECU ID="id_ecu_ConnectDomain">
+        <ho:SHORT-NAME>ConnectDomain</ho:SHORT-NAME>
+        <fx:CONNECTORS>
+          <fx:CONNECTOR xsi:type="it:CONNECTOR-TYPE" ID="id_ecu_ConnectDomain_connector_1">
+            <fx:CHANNEL-REF ID-REF="id_channel_MLBevo_VLAN_Connect"/>
+            <it:NETWORK-ENDPOINTS>
+              <it:NETWORK-ENDPOINT ID="id_ecu_ConnectDomain_connector_1_nep_1">
+                <it:NETWORK-ENDPOINT-ADDRESSES>
+                  <it:NETWORK-ENDPOINT-ADDRESS>
+                    <it:IPV6>
+                      <it:IPV6-ADDRESS>fd53:7cb8:0383:0004:0000:0000:0000:00ca</it:IPV6-ADDRESS>
+                      <it:IPV6-ADDRESS-SOURCE>FIXED</it:IPV6-ADDRESS-SOURCE>
+                      <it:DEFAULT-ROUTER>fd53:7cb8:0383:0004:0000:0000:0000:0010</it:DEFAULT-ROUTER>
+                    </it:IPV6>
+                  </it:NETWORK-ENDPOINT-ADDRESS>
+                </it:NETWORK-ENDPOINT-ADDRESSES>
+              </it:NETWORK-ENDPOINT>
+            </it:NETWORK-ENDPOINTS>
+            <it:APPLICATION-ENDPOINTS>
+              <it:APPLICATION-ENDPOINT ID="id_ecu_ConnectDomain_connector_1_server_alt">
+                <it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                  <it:TCP-TP>
+                    <it:TCP-PORT>
+                      <it:PORT-NUMBER>29173</it:PORT-NUMBER>
+                    </it:TCP-PORT>
+                  </it:TCP-TP>
+                </it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                <it:NETWORK-ENDPOINT-REF ID-REF="id_ecu_ConnectDomain_connector_1_nep_1"/>
+                <it:SERIALIZATION-TECHNOLOGY>
+                  <it:SERIALIZATION-TECHNOLOGY-NAME>SOME/IP</it:SERIALIZATION-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:SERIALIZATION-TECHNOLOGY>
+                <it:REMOTING-TECHNOLOGY>
+                  <it:REMOTING-TECHNOLOGY-NAME>SOME/IP</it:REMOTING-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:REMOTING-TECHNOLOGY>
+              </it:APPLICATION-ENDPOINT>
+              <it:APPLICATION-ENDPOINT ID="id_ecu_ConnectDomain_connector_1_server">
+                <it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                  <it:TCP-TP>
+                    <it:TCP-PORT>
+                      <it:PORT-NUMBER>29180</it:PORT-NUMBER>
+                    </it:TCP-PORT>
+                  </it:TCP-TP>
+                </it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                <it:NETWORK-ENDPOINT-REF ID-REF="id_ecu_ConnectDomain_connector_1_nep_1"/>
+                <it:SERIALIZATION-TECHNOLOGY>
+                  <it:SERIALIZATION-TECHNOLOGY-NAME>SOME/IP</it:SERIALIZATION-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:SERIALIZATION-TECHNOLOGY>
+                <it:REMOTING-TECHNOLOGY>
+                  <it:REMOTING-TECHNOLOGY-NAME>SOME/IP</it:REMOTING-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:REMOTING-TECHNOLOGY>
+              </it:APPLICATION-ENDPOINT>
+              <it:APPLICATION-ENDPOINT ID="id_ecu_ConnectDomain_connector_1_client">
+                <it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                  <it:TCP-TP>
+                    <it:TCP-PORT>
+                      <it:DYNAMICALLY-ASSIGNED>true</it:DYNAMICALLY-ASSIGNED>
+                    </it:TCP-PORT>
+                  </it:TCP-TP>
+                </it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                <it:NETWORK-ENDPOINT-REF ID-REF="id_ecu_ConnectDomain_connector_1_nep_1"/>
+                <it:SERIALIZATION-TECHNOLOGY>
+                  <it:SERIALIZATION-TECHNOLOGY-NAME>SOME/IP</it:SERIALIZATION-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:SERIALIZATION-TECHNOLOGY>
+                <it:REMOTING-TECHNOLOGY>
+                  <it:REMOTING-TECHNOLOGY-NAME>SOME/IP</it:REMOTING-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:REMOTING-TECHNOLOGY>
+              </it:APPLICATION-ENDPOINT>
+            </it:APPLICATION-ENDPOINTS>
+          </fx:CONNECTOR>
+        </fx:CONNECTORS>
+      </fx:ECU>
+      <fx:ECU ID="id_ecu_ZFAS">
+        <ho:SHORT-NAME>ZFAS</ho:SHORT-NAME>
+        <fx:CONNECTORS>
+          <fx:CONNECTOR xsi:type="it:CONNECTOR-TYPE" ID="id_ecu_ZFAS_connector_1">
+            <fx:CHANNEL-REF ID-REF="id_channel_MLBevo_VLAN_FAS"/>
+            <it:NETWORK-ENDPOINTS>
+              <it:NETWORK-ENDPOINT ID="id_ecu_ZFAS_connector_1_nep_1">
+                <it:NETWORK-ENDPOINT-ADDRESSES>
+                  <it:NETWORK-ENDPOINT-ADDRESS>
+                    <it:IPV6>
+                      <it:IPV6-ADDRESS>fd53:7cb8:0383:0002:0000:0000:0000:004f</it:IPV6-ADDRESS>
+                      <it:IPV6-ADDRESS-SOURCE>FIXED</it:IPV6-ADDRESS-SOURCE>
+                      <it:DEFAULT-ROUTER>fd53:7cb8:0383:0002:0000:0000:0000:0010</it:DEFAULT-ROUTER>
+                    </it:IPV6>
+                  </it:NETWORK-ENDPOINT-ADDRESS>
+                </it:NETWORK-ENDPOINT-ADDRESSES>
+              </it:NETWORK-ENDPOINT>
+            </it:NETWORK-ENDPOINTS>
+            <it:APPLICATION-ENDPOINTS>
+              <it:APPLICATION-ENDPOINT ID="id_ecu_ZFAS_connector_1_server_alt">
+                <it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                  <it:TCP-TP>
+                    <it:TCP-PORT>
+                      <it:PORT-NUMBER>29173</it:PORT-NUMBER>
+                    </it:TCP-PORT>
+                  </it:TCP-TP>
+                </it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                <it:NETWORK-ENDPOINT-REF ID-REF="id_ecu_ZFAS_connector_1_nep_1"/>
+                <it:SERIALIZATION-TECHNOLOGY>
+                  <it:SERIALIZATION-TECHNOLOGY-NAME>SOME/IP</it:SERIALIZATION-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:SERIALIZATION-TECHNOLOGY>
+                <it:REMOTING-TECHNOLOGY>
+                  <it:REMOTING-TECHNOLOGY-NAME>SOME/IP</it:REMOTING-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:REMOTING-TECHNOLOGY>
+              </it:APPLICATION-ENDPOINT>
+              <it:APPLICATION-ENDPOINT ID="id_ecu_ZFAS_connector_1_server">
+                <it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                  <it:TCP-TP>
+                    <it:TCP-PORT>
+                      <it:PORT-NUMBER>29180</it:PORT-NUMBER>
+                    </it:TCP-PORT>
+                  </it:TCP-TP>
+                </it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                <it:NETWORK-ENDPOINT-REF ID-REF="id_ecu_ZFAS_connector_1_nep_1"/>
+                <it:SERIALIZATION-TECHNOLOGY>
+                  <it:SERIALIZATION-TECHNOLOGY-NAME>SOME/IP</it:SERIALIZATION-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:SERIALIZATION-TECHNOLOGY>
+                <it:REMOTING-TECHNOLOGY>
+                  <it:REMOTING-TECHNOLOGY-NAME>SOME/IP</it:REMOTING-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:REMOTING-TECHNOLOGY>
+              </it:APPLICATION-ENDPOINT>
+              <it:APPLICATION-ENDPOINT ID="id_ecu_ZFAS_connector_1_client">
+                <it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                  <it:TCP-TP>
+                    <it:TCP-PORT>
+                      <it:DYNAMICALLY-ASSIGNED>true</it:DYNAMICALLY-ASSIGNED>
+                    </it:TCP-PORT>
+                  </it:TCP-TP>
+                </it:IT-TRANSPORT-PROTOCOL-CONFIGURATION>
+                <it:NETWORK-ENDPOINT-REF ID-REF="id_ecu_ZFAS_connector_1_nep_1"/>
+                <it:SERIALIZATION-TECHNOLOGY>
+                  <it:SERIALIZATION-TECHNOLOGY-NAME>SOME/IP</it:SERIALIZATION-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:SERIALIZATION-TECHNOLOGY>
+                <it:REMOTING-TECHNOLOGY>
+                  <it:REMOTING-TECHNOLOGY-NAME>SOME/IP</it:REMOTING-TECHNOLOGY-NAME>
+                  <it:VERSION>1</it:VERSION>
+                </it:REMOTING-TECHNOLOGY>
+              </it:APPLICATION-ENDPOINT>
+            </it:APPLICATION-ENDPOINTS>
+          </fx:CONNECTOR>
+        </fx:CONNECTORS>
+      </fx:ECU>
+    </fx:ECUS>
+    <fx:PACKAGES>
+		<fx:PACKAGE ID="Package_vwg">
+			<ho:SHORT-NAME>vwg</ho:SHORT-NAME>
+		</fx:PACKAGE>
+		<fx:PACKAGE ID="Package_services">
+			<ho:SHORT-NAME>services</ho:SHORT-NAME>
+			<fx:PACKAGE-REF ID-REF="Package_vwg"/>
+		</fx:PACKAGE>
+		<fx:PACKAGE ID="Package_v2xmessage">
+			<ho:SHORT-NAME>Package_v2xmessage</ho:SHORT-NAME>
+			<fx:PACKAGE-REF ID-REF="Package_services"/>
+		</fx:PACKAGE>
+    </fx:PACKAGES>
+    <fx:SERVICE-INTERFACES>
+      <fx:SERVICE-INTERFACE xsi:type="service:SERVICE-INTERFACE-TYPE" ID="SI_VWG_SERVICES_CONNECT_VEHICLETOEVERYTHING_V2X_V2XMESSAGE_V2_X_MESSAGE">
+        <ho:SHORT-NAME>V2XMessage</ho:SHORT-NAME>
+        <ho:DESC xml:lang="en">This Interface describes how received V2X messages are sent to vehicle functions.
+Responsible: Hehn, Thorsten, Dr. (I/EE-86)</ho:DESC>
+        <ho:DESC TYPE="asil-level">QM</ho:DESC>
+        <fx:SERVICE-IDENTIFIER>24747</fx:SERVICE-IDENTIFIER>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <service:API-VERSION>
+          <service:MAJOR>0</service:MAJOR>
+          <service:MINOR>1</service:MINOR>
+        </service:API-VERSION>
+        <service:METHODS>
+          <service:METHOD ID="ServiceInterface_V2XMessage_Method_setSubscription">
+            <ho:SHORT-NAME>setSubscription</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Client sets subscribed messages. Server will send all fields subscribed by at least one client in struct BasicSafetyMessage.</ho:DESC>
+            <service:METHOD-IDENTIFIER>2</service:METHOD-IDENTIFIER>
+            <service:CALL-SEMANTIC>FIRE_AND_FORGET</service:CALL-SEMANTIC>
+            <service:INPUT-PARAMETERS>
+              <service:INPUT-PARAMETER ID="ServiceInterface_V2XMessage_Method_setSubscription_Parameter_subVehicleEventFlags">
+                <ho:SHORT-NAME>subVehicleEventFlags</ho:SHORT-NAME>
+                <ho:DESC xml:lang="en">Flag indicating whether VehicleEventsFlags is subscribed</ho:DESC>
+                <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+                <fx:UTILIZATION>
+                  <fx:IS-HIGH-LOW-BYTE-ORDER>true</fx:IS-HIGH-LOW-BYTE-ORDER>
+                </fx:UTILIZATION>
+                <service:POSITION>0</service:POSITION>
+                <service:MANDATORY>true</service:MANDATORY>
+                <service:DATA-ID>1</service:DATA-ID>
+              </service:INPUT-PARAMETER>
+              <service:INPUT-PARAMETER ID="ServiceInterface_V2XMessage_Method_setSubscription_Parameter_subPathPrediction">
+                <ho:SHORT-NAME>subPathPrediction</ho:SHORT-NAME>
+                <ho:DESC xml:lang="en">Flag indicating whether PathPrediction is subscribed</ho:DESC>
+                <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+                <fx:UTILIZATION>
+                  <fx:IS-HIGH-LOW-BYTE-ORDER>true</fx:IS-HIGH-LOW-BYTE-ORDER>
+                </fx:UTILIZATION>
+                <service:POSITION>2</service:POSITION>
+                <service:MANDATORY>true</service:MANDATORY>
+                <service:DATA-ID>2</service:DATA-ID>
+              </service:INPUT-PARAMETER>
+              <service:INPUT-PARAMETER ID="ServiceInterface_V2XMessage_Method_setSubscription_Parameter_subPathHistory">
+                <ho:SHORT-NAME>subPathHistory</ho:SHORT-NAME>
+                <ho:DESC xml:lang="en">Flag indicating whether PathHistory is subscribed</ho:DESC>
+                <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+                <fx:UTILIZATION>
+                  <fx:IS-HIGH-LOW-BYTE-ORDER>true</fx:IS-HIGH-LOW-BYTE-ORDER>
+                </fx:UTILIZATION>
+                <service:POSITION>1</service:POSITION>
+                <service:MANDATORY>true</service:MANDATORY>
+                <service:DATA-ID>3</service:DATA-ID>
+              </service:INPUT-PARAMETER>
+              <service:INPUT-PARAMETER ID="ServiceInterface_V2XMessage_Method_setSubscription_Parameter_subExteriorLights">
+                <ho:SHORT-NAME>subExteriorLights</ho:SHORT-NAME>
+                <ho:DESC xml:lang="en">Flag indicating whether Exterior Lights is subscribed</ho:DESC>
+                <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+                <fx:UTILIZATION>
+                  <fx:IS-HIGH-LOW-BYTE-ORDER>true</fx:IS-HIGH-LOW-BYTE-ORDER>
+                </fx:UTILIZATION>
+                <service:POSITION>3</service:POSITION>
+                <service:MANDATORY>true</service:MANDATORY>
+                <service:DATA-ID>4</service:DATA-ID>
+              </service:INPUT-PARAMETER>
+              <service:INPUT-PARAMETER ID="ServiceInterface_V2XMessage_Method_setSubscription_Parameter_subVehicleEmergencyExtensions">
+                <ho:SHORT-NAME>subVehicleEmergencyExtensions</ho:SHORT-NAME>
+                <ho:DESC xml:lang="en">Flag indicating whether VehicleEmergenyExtensions is subscribed</ho:DESC>
+                <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+                <fx:UTILIZATION>
+                  <fx:IS-HIGH-LOW-BYTE-ORDER>true</fx:IS-HIGH-LOW-BYTE-ORDER>
+                </fx:UTILIZATION>
+                <service:POSITION>4</service:POSITION>
+                <service:MANDATORY>true</service:MANDATORY>
+                <service:DATA-ID>5</service:DATA-ID>
+              </service:INPUT-PARAMETER>
+            </service:INPUT-PARAMETERS>
+            <service:RELIABLE>true</service:RELIABLE>
+          </service:METHOD>
+        </service:METHODS>
+        <service:EVENTS>
+          <service:EVENT ID="ServiceInterface_V2XMessage_Method_basicSafetyMessageUpdate">
+            <ho:SHORT-NAME>basicSafetyMessageUpdate</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Basic Safety Message (BSM) send-on-update function.</ho:DESC>
+            <service:METHOD-IDENTIFIER>32769</service:METHOD-IDENTIFIER>
+            <service:CALL-SEMANTIC>FIRE_AND_FORGET</service:CALL-SEMANTIC>
+            <service:INPUT-PARAMETERS>
+              <service:INPUT-PARAMETER ID="ServiceInterface_V2XMessage_Method_basicSafetyMessageUpdate_Parameter_basicSafetyMessage">
+                <ho:SHORT-NAME>basicSafetyMessage</ho:SHORT-NAME>
+                <ho:DESC xml:lang="en">Basic Safety Message</ho:DESC>
+                <fx:DATATYPE-REF ID-REF="ComplexDatatype_BasicSafetyMessage" />
+                <fx:UTILIZATION>
+                  <fx:IS-HIGH-LOW-BYTE-ORDER>true</fx:IS-HIGH-LOW-BYTE-ORDER>
+                </fx:UTILIZATION>
+                <service:POSITION>0</service:POSITION>
+                <service:MANDATORY>true</service:MANDATORY>
+              </service:INPUT-PARAMETER>
+            </service:INPUT-PARAMETERS>
+            <service:RELIABLE>true</service:RELIABLE>
+            <service:SERIALIZATION-ATTRIBUTES>
+              <fx:LENGTH-FIELD-SIZE>16</fx:LENGTH-FIELD-SIZE>
+              <fx:ARRAY-LENGTH-FIELD-SIZE>16</fx:ARRAY-LENGTH-FIELD-SIZE>
+              <fx:PASS-ON-TO-SUBELEMENTS>true</fx:PASS-ON-TO-SUBELEMENTS>
+            </service:SERIALIZATION-ATTRIBUTES>
+          </service:EVENT>
+          <service:EVENT ID="ServiceInterface_V2XMessage_Method_subscriptionStatusUpdate">
+            <ho:SHORT-NAME>subscriptionStatusUpdate</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Update on subscribed messages, updated if at least one client changes subscription.</ho:DESC>
+            <service:METHOD-IDENTIFIER>32771</service:METHOD-IDENTIFIER>
+            <service:CALL-SEMANTIC>FIRE_AND_FORGET</service:CALL-SEMANTIC>
+            <service:INPUT-PARAMETERS>
+              <service:INPUT-PARAMETER ID="ServiceInterface_V2XMessage_Method_subscriptionStatusUpdate_Parameter_arg1">
+                <ho:SHORT-NAME>arg1</ho:SHORT-NAME>
+                <ho:DESC xml:lang="en"></ho:DESC>
+                <fx:DATATYPE-REF ID-REF="ComplexDatatype_V2XMessage_subscriptionStatusUpdate" />
+                <fx:UTILIZATION>
+                  <fx:IS-HIGH-LOW-BYTE-ORDER>true</fx:IS-HIGH-LOW-BYTE-ORDER>
+                </fx:UTILIZATION>
+                <service:POSITION>0</service:POSITION>
+                <service:MANDATORY>true</service:MANDATORY>
+              </service:INPUT-PARAMETER>
+            </service:INPUT-PARAMETERS>
+            <service:RELIABLE>true</service:RELIABLE>
+            <service:SERIALIZATION-ATTRIBUTES>
+              <fx:LENGTH-FIELD-SIZE>8</fx:LENGTH-FIELD-SIZE>
+              <fx:PASS-ON-TO-SUBELEMENTS>true</fx:PASS-ON-TO-SUBELEMENTS>
+            </service:SERIALIZATION-ATTRIBUTES>
+          </service:EVENT>
+        </service:EVENTS>
+        <service:EVENT-GROUPS>
+          <service:EVENT-GROUP ID="EVG_V2XMessage_basicSafetyMessageUpdate">
+            <ho:SHORT-NAME>V2XMessageBasicSafetyMessageUpdateEventGroup</ho:SHORT-NAME>
+            <fx:SERVICE-IDENTIFIER>32769</fx:SERVICE-IDENTIFIER>
+            <service:EVENT-REFS>
+              <service:EVENT-REF ID-REF="ServiceInterface_V2XMessage_Method_basicSafetyMessageUpdate"></service:EVENT-REF>
+            </service:EVENT-REFS>
+          </service:EVENT-GROUP>
+          <service:EVENT-GROUP ID="EVG_V2XMessage_subscriptionStatusUpdate">
+            <ho:SHORT-NAME>V2XMessageSubscriptionStatusUpdateEventGroup</ho:SHORT-NAME>
+            <fx:SERVICE-IDENTIFIER>32771</fx:SERVICE-IDENTIFIER>
+            <service:EVENT-REFS>
+              <service:EVENT-REF ID-REF="ServiceInterface_V2XMessage_Method_subscriptionStatusUpdate"></service:EVENT-REF>
+            </service:EVENT-REFS>
+          </service:EVENT-GROUP>
+        </service:EVENT-GROUPS>
+      </fx:SERVICE-INTERFACE>
+    </fx:SERVICE-INTERFACES>
+    <fx:DATATYPES>
+      <fx:DATATYPE xsi:type="fx:COMMON-DATATYPE-TYPE" ID="CommonDatatype_BOOL">
+        <ho:SHORT-NAME>BOOL</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:CODING-REF ID-REF="Coding_BOOL" />
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMMON-DATATYPE-TYPE" ID="CommonDatatype_UINT8">
+        <ho:SHORT-NAME>UINT8</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:CODING-REF ID-REF="Coding_UINT8" />
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMMON-DATATYPE-TYPE" ID="CommonDatatype_UINT16">
+        <ho:SHORT-NAME>UINT16</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:CODING-REF ID-REF="Coding_UINT16" />
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMMON-DATATYPE-TYPE" ID="CommonDatatype_UINT32">
+        <ho:SHORT-NAME>UINT32</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:CODING-REF ID-REF="Coding_UINT32" />
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMMON-DATATYPE-TYPE" ID="CommonDatatype_UINT64">
+        <ho:SHORT-NAME>UINT64</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:CODING-REF ID-REF="Coding_UINT64" />
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMMON-DATATYPE-TYPE" ID="CommonDatatype_INT8">
+        <ho:SHORT-NAME>INT8</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:CODING-REF ID-REF="Coding_INT8" />
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMMON-DATATYPE-TYPE" ID="CommonDatatype_INT16">
+        <ho:SHORT-NAME>INT16</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:CODING-REF ID-REF="Coding_INT16" />
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMMON-DATATYPE-TYPE" ID="CommonDatatype_INT32">
+        <ho:SHORT-NAME>INT32</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:CODING-REF ID-REF="Coding_INT32" />
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMMON-DATATYPE-TYPE" ID="CommonDatatype_INT64">
+        <ho:SHORT-NAME>INT64</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:CODING-REF ID-REF="Coding_INT64" />
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMMON-DATATYPE-TYPE" ID="CommonDatatype_FLOAT32">
+        <ho:SHORT-NAME>FLOAT32</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:CODING-REF ID-REF="Coding_FLOAT32" />
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMMON-DATATYPE-TYPE" ID="CommonDatatype_FLOAT64">
+        <ho:SHORT-NAME>FLOAT64</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:CODING-REF ID-REF="Coding_FLOAT64" />
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMPLEX-DATATYPE-TYPE" ID="CommonDatatype_UUID">
+        <ho:SHORT-NAME>UUID</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:COMPLEX-DATATYPE-CLASS>TYPEDEF</fx:COMPLEX-DATATYPE-CLASS>
+        <fx:MEMBERS>
+          <fx:MEMBER ID="UUID_0Array_arrayMember">
+            <ho:SHORT-NAME>arrayMember</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en"></ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_UINT8" />
+            <fx:ARRAY-DECLARATION>
+              <fx:ARRAY-DIMENSION>
+                <fx:DIMENSION>1</fx:DIMENSION>
+                <fx:MINIMUM-SIZE>16</fx:MINIMUM-SIZE>
+                <fx:MAXIMUM-SIZE>16</fx:MAXIMUM-SIZE>
+              </fx:ARRAY-DIMENSION>
+            </fx:ARRAY-DECLARATION>
+            <fx:POSITION>0</fx:POSITION>
+          </fx:MEMBER>
+        </fx:MEMBERS>
+      </fx:DATATYPE>
+      
+      <fx:DATATYPE xsi:type="fx:COMPLEX-DATATYPE-TYPE" ID="ComplexDatatype_BasicSafetyMessage">
+        <ho:SHORT-NAME>BasicSafetyMessage</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:COMPLEX-DATATYPE-CLASS>STRUCTURE</fx:COMPLEX-DATATYPE-CLASS>
+        <fx:MEMBERS>
+          <fx:MEMBER ID="ComplexDatatype_BasicSafetyMessage_basicSafetyMessageCoreData">
+            <ho:SHORT-NAME>basicSafetyMessageCoreData</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Core Data Part of the Basic Safety Message, including id, position, speed, and heading.
+This field is non-optional as it includes DSecond which applications use as keep-alive.</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="ComplexDatatype_basicSafetyMessageCoreDataArray0" />
+            <fx:POSITION>0</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>0</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_BasicSafetyMessage_vehicleEventFlags">
+            <ho:SHORT-NAME>vehicleEventFlags</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Event Flags for an ITS station, as shown in struct vehicleEventFlags.</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="ComplexDatatype_VehicleEventFlags" />
+            <fx:POSITION>1</fx:POSITION>
+            <fx:MANDATORY>false</fx:MANDATORY>
+            <fx:DATA-ID>1</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_BasicSafetyMessage_pathHistory">
+            <ho:SHORT-NAME>pathHistory</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Path History Points (1 to 23) of the current ITS station.</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="ComplexDatatype_pathHistoryArray0" />
+            <fx:POSITION>2</fx:POSITION>
+            <fx:MANDATORY>false</fx:MANDATORY>
+            <fx:DATA-ID>2</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_BasicSafetyMessage_pathPrediction">
+            <ho:SHORT-NAME>pathPrediction</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Predicted path using a curve radius.</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="ComplexDatatype_pathPredictionArray0" />
+            <fx:POSITION>3</fx:POSITION>
+            <fx:MANDATORY>false</fx:MANDATORY>
+            <fx:DATA-ID>3</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_BasicSafetyMessage_exteriorLights">
+            <ho:SHORT-NAME>exteriorLights</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Indication of exterior lights on the ITS station.</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="ComplexDatatype_ExteriorLights" />
+            <fx:POSITION>4</fx:POSITION>
+            <fx:MANDATORY>false</fx:MANDATORY>
+            <fx:DATA-ID>4</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_BasicSafetyMessage_vehicleEmergencyExtensions">
+            <ho:SHORT-NAME>vehicleEmergencyExtensions</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Indication of emergency responders.</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="ComplexDatatype_VehicleEmergencyExtensions" />
+            <fx:POSITION>5</fx:POSITION>
+            <fx:MANDATORY>false</fx:MANDATORY>
+            <fx:DATA-ID>5</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_BasicSafetyMessage_isEgoVehicle">
+            <ho:SHORT-NAME>isEgoVehicle</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Information on whether this is the BasicSafety Message from our own vehicle (&quot;self&quot;).</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>6</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>6</fx:DATA-ID>
+          </fx:MEMBER>
+        </fx:MEMBERS>
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMPLEX-DATATYPE-TYPE" ID="ComplexDatatype_VehicleEventFlags">
+        <ho:SHORT-NAME>VehicleEventFlags</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:COMPLEX-DATATYPE-CLASS>STRUCTURE</fx:COMPLEX-DATATYPE-CLASS>
+        <fx:MEMBERS>
+          <fx:MEMBER ID="ComplexDatatype_VehicleEventFlags_eventHazardLights">
+            <ho:SHORT-NAME>eventHazardLights</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Vehicle Hazard Lights are on</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>0</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>0</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_VehicleEventFlags_eventStopLineViolation">
+            <ho:SHORT-NAME>eventStopLineViolation</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">The vehicle anticipates that it will pass the stop line without coming to a full stop before reaching it.</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>1</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>1</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_VehicleEventFlags_eventABSActivated">
+            <ho:SHORT-NAME>eventABSActivated</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">ABS system activated exceeding 100ms in length and active.</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>2</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>2</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_VehicleEventFlags_eventTractionControlLoss">
+            <ho:SHORT-NAME>eventTractionControlLoss</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Traction Control: system activated exceeding 100ms in length and active.</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>3</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>3</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_VehicleEventFlags_eventStabilityControlActivated">
+            <ho:SHORT-NAME>eventStabilityControlActivated</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Stability Control: system activated exceeding 100ms in length and active.</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>4</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>4</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_VehicleEventFlags_eventHazardousMaterials">
+            <ho:SHORT-NAME>eventHazardousMaterials</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Hazardous materials transport vehicle.</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>5</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>5</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_VehicleEventFlags_eventReserved1">
+            <ho:SHORT-NAME>eventReserved1</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Reserved</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>6</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>6</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_VehicleEventFlags_eventHardBraking">
+            <ho:SHORT-NAME>eventHardBraking</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">The vehicle is decelerating at a level of greater than 0.4g.</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>7</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>7</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_VehicleEventFlags_eventLightsChanged">
+            <ho:SHORT-NAME>eventLightsChanged</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Lights Changed：the status of the lighting of the vehicle has changed within the last two seconds</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>8</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>8</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_VehicleEventFlags_eventWipersChanged">
+            <ho:SHORT-NAME>eventWipersChanged</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Wipers Changed：the status of wipers (front or rear) of the vehicle has changed within the last two seconds</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>9</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>9</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_VehicleEventFlags_eventFlatTire">
+            <ho:SHORT-NAME>eventFlatTire</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Flat tire：the vehicle has determined that at least one tire has run flat。</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>10</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>10</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_VehicleEventFlags_eventDisabledVehicle">
+            <ho:SHORT-NAME>eventDisabledVehicle</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Disabled Vehicle：any vehicle that considers itself disabled can’t move.</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>11</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>11</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_VehicleEventFlags_eventAirBagDeployment">
+            <ho:SHORT-NAME>eventAirBagDeployment</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Air Bag Deployment：at least one airbag has been deployed</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>12</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>12</fx:DATA-ID>
+          </fx:MEMBER>
+        </fx:MEMBERS>
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMPLEX-DATATYPE-TYPE" ID="ComplexDatatype_ExteriorLights">
+        <ho:SHORT-NAME>ExteriorLights</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:COMPLEX-DATATYPE-CLASS>STRUCTURE</fx:COMPLEX-DATATYPE-CLASS>
+        <fx:MEMBERS>
+          <fx:MEMBER ID="ComplexDatatype_ExteriorLights_lowBeamHeadlightsOn">
+            <ho:SHORT-NAME>lowBeamHeadlightsOn</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">LowBeam Headlights are on</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>0</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>0</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_ExteriorLights_highBeamHeadlightsOn">
+            <ho:SHORT-NAME>highBeamHeadlightsOn</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">HighBeam Headlights are on</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>1</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>1</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_ExteriorLights_leftTurnSignalOn">
+            <ho:SHORT-NAME>leftTurnSignalOn</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">LeftTurn Signal is on</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>2</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>2</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_ExteriorLights_rightTurnSignalOn">
+            <ho:SHORT-NAME>rightTurnSignalOn</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">RightTurn Signal is on</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>3</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>3</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_ExteriorLights_hazardSignalOn">
+            <ho:SHORT-NAME>hazardSignalOn</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Hazard Signal is on</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>4</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>4</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_ExteriorLights_automaticLightControlOn">
+            <ho:SHORT-NAME>automaticLightControlOn</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Automatic Light Control is on</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>5</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>5</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_ExteriorLights_daytimeRunningLightsOn">
+            <ho:SHORT-NAME>daytimeRunningLightsOn</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Daytime Running Lights are on</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>6</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>6</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_ExteriorLights_fogLightOn">
+            <ho:SHORT-NAME>fogLightOn</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Fog Light is on</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>7</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>7</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_ExteriorLights_parkingLightsOn">
+            <ho:SHORT-NAME>parkingLightsOn</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Parking Lights are on</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>8</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>8</fx:DATA-ID>
+          </fx:MEMBER>
+        </fx:MEMBERS>
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMPLEX-DATATYPE-TYPE" ID="ComplexDatatype_VehicleEmergencyExtensions">
+        <ho:SHORT-NAME>VehicleEmergencyExtensions</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:COMPLEX-DATATYPE-CLASS>STRUCTURE</fx:COMPLEX-DATATYPE-CLASS>
+        <fx:MEMBERS>
+          <fx:MEMBER ID="ComplexDatatype_VehicleEmergencyExtensions_responseType">
+            <ho:SHORT-NAME>responseType</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">See literals in responseType</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_UINT8" />
+            <fx:POSITION>0</fx:POSITION>
+            <fx:MANDATORY>false</fx:MANDATORY>
+            <fx:DATA-ID>0</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_VehicleEmergencyExtensions_sirenInUse">
+            <ho:SHORT-NAME>sirenInUse</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">See literals in sirenInUse</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_UINT8" />
+            <fx:POSITION>1</fx:POSITION>
+            <fx:MANDATORY>false</fx:MANDATORY>
+            <fx:DATA-ID>1</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_VehicleEmergencyExtensions_lightbarInUse">
+            <ho:SHORT-NAME>lightbarInUse</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">See literals in lightbarInUse</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_UINT8" />
+            <fx:POSITION>2</fx:POSITION>
+            <fx:MANDATORY>false</fx:MANDATORY>
+            <fx:DATA-ID>2</fx:DATA-ID>
+          </fx:MEMBER>
+        </fx:MEMBERS>
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMPLEX-DATATYPE-TYPE" ID="ComplexDatatype_V2XMessage_subscriptionStatusUpdate">
+        <ho:SHORT-NAME>V2XMessage_subscriptionStatusUpdate</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:COMPLEX-DATATYPE-CLASS>STRUCTURE</fx:COMPLEX-DATATYPE-CLASS>
+        <fx:MEMBERS>
+          <fx:MEMBER ID="ComplexDatatype_V2XMessage_subscriptionStatusUpdate_subStatusVehicleEventFlags">
+            <ho:SHORT-NAME>subStatusVehicleEventFlags</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Status whether VehicleEventFlags is subscribed</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>0</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>0</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_V2XMessage_subscriptionStatusUpdate_subStatusPathHistory">
+            <ho:SHORT-NAME>subStatusPathHistory</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Status if PathHistory is subscribed</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>1</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>1</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_V2XMessage_subscriptionStatusUpdate_subStatusPathPrediction">
+            <ho:SHORT-NAME>subStatusPathPrediction</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Status if PathPrediction is subscribed</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>2</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>2</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_V2XMessage_subscriptionStatusUpdate_subStatusExteriorLights">
+            <ho:SHORT-NAME>subStatusExteriorLights</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Status if ExteriorLights is subscribed</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>3</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>3</fx:DATA-ID>
+          </fx:MEMBER>
+          <fx:MEMBER ID="ComplexDatatype_V2XMessage_subscriptionStatusUpdate_subStatusVehicleEmergencyExtensions">
+            <ho:SHORT-NAME>subStatusVehicleEmergencyExtensions</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en">Status if VehicleEmergencyExtensions is subscribed</ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_BOOL" />
+            <fx:POSITION>4</fx:POSITION>
+            <fx:MANDATORY>true</fx:MANDATORY>
+            <fx:DATA-ID>4</fx:DATA-ID>
+          </fx:MEMBER>
+        </fx:MEMBERS>
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMPLEX-DATATYPE-TYPE" ID="ComplexDatatype_basicSafetyMessageCoreDataArray0">
+        <ho:SHORT-NAME>basicSafetyMessageCoreDataArray0</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:COMPLEX-DATATYPE-CLASS>TYPEDEF</fx:COMPLEX-DATATYPE-CLASS>
+        <fx:MEMBERS>
+          <fx:MEMBER ID="ComplexDatatype_basicSafetyMessageCoreDataArray0_arrayMember">
+            <ho:SHORT-NAME>arrayMember</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en"></ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_UINT8" />
+            <fx:ARRAY-DECLARATION>
+              <fx:ARRAY-DIMENSION>
+                <fx:DIMENSION>1</fx:DIMENSION>
+                <fx:MINIMUM-SIZE>32</fx:MINIMUM-SIZE>
+                <fx:MAXIMUM-SIZE>64</fx:MAXIMUM-SIZE>
+              </fx:ARRAY-DIMENSION>
+            </fx:ARRAY-DECLARATION>
+            <fx:POSITION>0</fx:POSITION>
+          </fx:MEMBER>
+        </fx:MEMBERS>
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMPLEX-DATATYPE-TYPE" ID="ComplexDatatype_pathHistoryArray0">
+        <ho:SHORT-NAME>pathHistoryArray0</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:COMPLEX-DATATYPE-CLASS>TYPEDEF</fx:COMPLEX-DATATYPE-CLASS>
+        <fx:MEMBERS>
+          <fx:MEMBER ID="ComplexDatatype_pathHistoryArray0_arrayMember">
+            <ho:SHORT-NAME>arrayMember</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en"></ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_UINT8" />
+            <fx:ARRAY-DECLARATION>
+              <fx:ARRAY-DIMENSION>
+                <fx:DIMENSION>1</fx:DIMENSION>
+                <fx:MINIMUM-SIZE>24</fx:MINIMUM-SIZE>
+                <fx:MAXIMUM-SIZE>420</fx:MAXIMUM-SIZE>
+              </fx:ARRAY-DIMENSION>
+            </fx:ARRAY-DECLARATION>
+            <fx:POSITION>0</fx:POSITION>
+          </fx:MEMBER>
+        </fx:MEMBERS>
+      </fx:DATATYPE>
+      <fx:DATATYPE xsi:type="fx:COMPLEX-DATATYPE-TYPE" ID="ComplexDatatype_pathPredictionArray0">
+        <ho:SHORT-NAME>pathPredictionArray0</ho:SHORT-NAME>
+        <fx:PACKAGE-REF ID-REF="Package_v2xmessage" />
+        <fx:COMPLEX-DATATYPE-CLASS>TYPEDEF</fx:COMPLEX-DATATYPE-CLASS>
+        <fx:MEMBERS>
+          <fx:MEMBER ID="ComplexDatatype_pathPredictionArray0_arrayMember">
+            <ho:SHORT-NAME>arrayMember</ho:SHORT-NAME>
+            <ho:DESC xml:lang="en"></ho:DESC>
+            <fx:DATATYPE-REF ID-REF="CommonDatatype_UINT8" />
+            <fx:ARRAY-DECLARATION>
+              <fx:ARRAY-DIMENSION>
+                <fx:DIMENSION>1</fx:DIMENSION>
+                <fx:MINIMUM-SIZE>3</fx:MINIMUM-SIZE>
+                <fx:MAXIMUM-SIZE>3</fx:MAXIMUM-SIZE>
+              </fx:ARRAY-DIMENSION>
+            </fx:ARRAY-DECLARATION>
+            <fx:POSITION>0</fx:POSITION>
+          </fx:MEMBER>
+        </fx:MEMBERS>
+      </fx:DATATYPE>
+      
+    </fx:DATATYPES>
+  </fx:ELEMENTS>
+  <fx:PROCESSING-INFORMATION>
+    <fx:CODINGS>
+      
+      <fx:CODING ID="Coding_BOOL">
+        <ho:SHORT-NAME>BOOL</ho:SHORT-NAME>
+        <ho:CODED-TYPE ho:BASE-DATA-TYPE="A_UINT8" CATEGORY="STANDARD-LENGTH-TYPE">
+          <ho:BIT-LENGTH>8</ho:BIT-LENGTH>
+        </ho:CODED-TYPE>
+      </fx:CODING>
+      
+      
+      <fx:CODING ID="Coding_UINT8">
+        <ho:SHORT-NAME>UINT8</ho:SHORT-NAME>
+        <ho:CODED-TYPE ho:BASE-DATA-TYPE="A_UINT8" CATEGORY="STANDARD-LENGTH-TYPE">
+          <ho:BIT-LENGTH>8</ho:BIT-LENGTH>
+        </ho:CODED-TYPE>
+      </fx:CODING>
+      
+      <fx:CODING ID="Coding_UINT16">
+        <ho:SHORT-NAME>UINT16</ho:SHORT-NAME>
+        <ho:CODED-TYPE ho:BASE-DATA-TYPE="A_UINT16" CATEGORY="STANDARD-LENGTH-TYPE">
+          <ho:BIT-LENGTH>16</ho:BIT-LENGTH>
+        </ho:CODED-TYPE>
+      </fx:CODING>
+      
+      <fx:CODING ID="Coding_UINT32">
+        <ho:SHORT-NAME>UINT32</ho:SHORT-NAME>
+        <ho:CODED-TYPE ho:BASE-DATA-TYPE="A_UINT32" CATEGORY="STANDARD-LENGTH-TYPE">
+          <ho:BIT-LENGTH>32</ho:BIT-LENGTH>
+        </ho:CODED-TYPE>
+      </fx:CODING>
+      
+      <fx:CODING ID="Coding_UINT64">
+        <ho:SHORT-NAME>UINT64</ho:SHORT-NAME>
+        <ho:CODED-TYPE ho:BASE-DATA-TYPE="A_UINT64" CATEGORY="STANDARD-LENGTH-TYPE">
+          <ho:BIT-LENGTH>64</ho:BIT-LENGTH>
+        </ho:CODED-TYPE>
+      </fx:CODING>
+      
+      
+      <fx:CODING ID="Coding_INT8">
+        <ho:SHORT-NAME>INT8</ho:SHORT-NAME>
+        <ho:CODED-TYPE ho:BASE-DATA-TYPE="A_INT8" CATEGORY="STANDARD-LENGTH-TYPE">
+          <ho:BIT-LENGTH>8</ho:BIT-LENGTH>
+        </ho:CODED-TYPE>
+      </fx:CODING>
+      
+      <fx:CODING ID="Coding_INT16">
+        <ho:SHORT-NAME>INT16</ho:SHORT-NAME>
+        <ho:CODED-TYPE ho:BASE-DATA-TYPE="A_INT16" CATEGORY="STANDARD-LENGTH-TYPE">
+          <ho:BIT-LENGTH>16</ho:BIT-LENGTH>
+        </ho:CODED-TYPE>
+      </fx:CODING>
+      
+      <fx:CODING ID="Coding_INT32">
+        <ho:SHORT-NAME>INT32</ho:SHORT-NAME>
+        <ho:CODED-TYPE ho:BASE-DATA-TYPE="A_INT32" CATEGORY="STANDARD-LENGTH-TYPE">
+          <ho:BIT-LENGTH>32</ho:BIT-LENGTH>
+        </ho:CODED-TYPE>
+      </fx:CODING>
+      
+      <fx:CODING ID="Coding_INT64">
+        <ho:SHORT-NAME>INT64</ho:SHORT-NAME>
+        <ho:CODED-TYPE ho:BASE-DATA-TYPE="A_INT64" CATEGORY="STANDARD-LENGTH-TYPE">
+          <ho:BIT-LENGTH>64</ho:BIT-LENGTH>
+        </ho:CODED-TYPE>
+      </fx:CODING>
+      
+      
+      <fx:CODING ID="Coding_FLOAT32">
+        <ho:SHORT-NAME>FLOAT32</ho:SHORT-NAME>
+        <ho:CODED-TYPE ho:BASE-DATA-TYPE="A_FLOAT32" CATEGORY="STANDARD-LENGTH-TYPE">
+          <ho:BIT-LENGTH>32</ho:BIT-LENGTH>
+        </ho:CODED-TYPE>
+      </fx:CODING>
+      
+      <fx:CODING ID="Coding_FLOAT64">
+        <ho:SHORT-NAME>FLOAT64</ho:SHORT-NAME>
+        <ho:CODED-TYPE ho:BASE-DATA-TYPE="A_FLOAT64" CATEGORY="STANDARD-LENGTH-TYPE">
+          <ho:BIT-LENGTH>64</ho:BIT-LENGTH>
+        </ho:CODED-TYPE>
+      </fx:CODING>
+      
+      
+      
+      
+      
+    </fx:CODINGS>
+  </fx:PROCESSING-INFORMATION>
+</fx:FIBEX>
