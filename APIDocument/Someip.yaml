@@ -8,7 +8,7 @@ servers:
 paths:
   /instance:
     get:
-      summary: Get all instances
+      summary: Get all the simulation instances
       tags: []
       responses:
         '200':
@@ -47,7 +47,7 @@ paths:
                           ttl: 0
       operationId: get-instance
     post:
-      summary: Load instances
+      summary: Create simulation instance
       operationId: post-instance
       responses:
         '200':
@@ -217,7 +217,7 @@ paths:
                     initial_delay_max: 100
                     ttl: 3
     delete:
-      summary: Delete all instances
+      summary: Delete all  the instances
       operationId: delete-instance
       responses:
         '200':
@@ -241,7 +241,7 @@ paths:
         in: path
         required: true
     post:
-      summary: Start the instance of someip server
+      summary: Start all someip service of  the instances
       operationId: post-instance-id-start
       responses:
         '200':
@@ -299,7 +299,7 @@ paths:
         in: path
         required: true
     post:
-      summary: Stop the instance of someip server
+      summary: Stop all someip service of  the instances
       operationId: post-instance-id-stop
       responses:
         '200':
@@ -337,7 +337,7 @@ paths:
         in: path
         required: true
     post:
-      summary: Start server someip service discovery
+      summary: Start the someip service discovery of instance
       operationId: post-instance-id-discovery-start
       responses:
         '200':
@@ -400,7 +400,7 @@ paths:
         in: path
         required: true
     post:
-      summary: Stop server someip service discovery
+      summary: Stop the someip service discovery of instance
       operationId: post-instance-id-discovery-stop
       responses:
         '200':
@@ -487,7 +487,7 @@ paths:
         in: path
         required: true
     get:
-      summary: get server someip service payload
+      summary: Get the payload of someip service
       tags: []
       responses:
         '200':
@@ -555,7 +555,7 @@ paths:
       operationId: get-instance-id-appPort-serviceId-methodId-direction-payload
       description: ''
     post:
-      summary: Set server someip service payload
+      summary: Set the payload of someip service
       operationId: post-instance-id-appPort-serviceId-methodId-direction-payload
       responses:
         '200':
@@ -624,7 +624,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Delete server someip service rule
+      summary: Get Callback to the simulation instance
       tags: []
       responses:
         '200':
@@ -748,7 +748,7 @@ paths:
       operationId: get-instance-id-appPort-serviceId-rule
       description: ''
     post:
-      summary: Add server someip service rule
+      summary: Add Callback to the simulation instance
       operationId: post-instance-id-appPort-serviceId-rule
       responses:
         '200':
@@ -845,7 +845,7 @@ paths:
                   }
         description: ''
     delete:
-      summary: Delete server someip service rule
+      summary: Delete Callback to the simulation instance
       operationId: delete-instance-id-appPort-serviceId-rule
       responses:
         '200':
@@ -930,7 +930,7 @@ paths:
                   funcId: '(sourceChannel, message, service) => {console.log(''hello rule function !!!'');}'
   /instance/header/encode:
     post:
-      summary: encode header by object
+      summary: Encode someip header by object
       operationId: post-instance-header-encode
       responses:
         '200':
@@ -1123,7 +1123,7 @@ paths:
         in: path
         required: true
     post:
-      summary: encode someip header by option
+      summary: Encode someip header by parameter
       operationId: post-instance-id-appPort-header-encode
       responses:
         '200':
@@ -1278,7 +1278,7 @@ paths:
         in: path
         required: true
     post:
-      summary: encode someip payload
+      summary: Encode the payload object
       operationId: post-instance-id-appPort-serviceId-methodId-direction-payload-encode
       responses:
         '200':
@@ -1418,7 +1418,7 @@ paths:
         in: path
         required: true
     post:
-      summary: decode someip payload
+      summary: Decode the payload buffer
       operationId: post-instance-id-appPort-serviceId-methodId-direction-payload-decode
       responses:
         '200':
@@ -1550,7 +1550,7 @@ paths:
         in: path
         required: true
     post:
-      summary: encode someip pdu
+      summary: Encode PDU (header+payload) object
       operationId: post-instance-id-appPort-direction-pdu-encode
       responses:
         '200':
@@ -1785,7 +1785,7 @@ paths:
         in: path
         required: true
     post:
-      summary: decode someip pdu
+      summary: Decode PDU (header+payload) buffer
       operationId: post-instance-id-appPort-direction-pdu-decode
       responses:
         '200':
@@ -1933,8 +1933,75 @@ paths:
         content:
           application/json:
             schema:
+              description: ''
               type: object
-              properties: {}
+              properties:
+                type:
+                  type: string
+                  minLength: 1
+                data:
+                  type: array
+                  items:
+                    required: []
+                    properties: {}
+              required:
+                - type
+                - data
+              x-examples:
+                example-1:
+                  type: Buffer
+                  data:
+                    - 1
+                    - 44
+                    - 0
+                    - 1
+                    - 0
+                    - 0
+                    - 0
+                    - 9
+                    - 0
+                    - 1
+                    - 0
+                    - 1
+                    - 1
+                    - 1
+                    - 0
+                    - 0
+                    - 0
+                    - 5
+                    - 53
+                    - 46
+                    - 50
+                    - 46
+                    - 48
+            examples:
+              example-1:
+                value:
+                  type: Buffer
+                  data:
+                    - 1
+                    - 44
+                    - 0
+                    - 1
+                    - 0
+                    - 0
+                    - 0
+                    - 9
+                    - 0
+                    - 1
+                    - 0
+                    - 1
+                    - 1
+                    - 1
+                    - 0
+                    - 0
+                    - 0
+                    - 5
+                    - 53
+                    - 46
+                    - 50
+                    - 46
+                    - 48
           application/xml:
             schema:
               description: ''
@@ -2000,7 +2067,7 @@ paths:
         in: path
         required: true
     post:
-      summary: send someip pdu buffer
+      summary: Send PDU buffer
       operationId: post-instance-id-appPort-pdu-send
       responses:
         '200':
@@ -2151,7 +2218,7 @@ paths:
         in: path
         required: true
     post:
-      summary: send someip pdu buffer by pdu obj
+      summary: Send PDU buffer (from PDU object encode)
       operationId: post-instance-id-appPort-direction-pdu-send
       responses:
         '200':
@@ -2620,4 +2687,4 @@ components:
           code: 200
           message: get all instances successed.
           data: []
-  responses: {} 
+  responses: {}
