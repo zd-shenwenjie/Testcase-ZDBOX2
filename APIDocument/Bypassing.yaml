@@ -1,0 +1,250 @@
+openapi: 3.0.0
+info:
+  title: Bypassing
+  version: '1.0'
+servers:
+  - url: 'http://192.168.1.99:7001'
+  - url: 'http://192.168.1.27:7001'
+    description: ''
+paths:
+  /:
+    parameters: []
+    get:
+      summary: ''
+      tags: []
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              examples:
+                example-1:
+                  value:
+                    name: abc
+      operationId: get-users-userId
+      description: Retrieve the information of the user with the matching user ID.
+    post:
+      summary: ''
+      operationId: post
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                  type:
+                    type: string
+                    minLength: 1
+                required:
+                  - name
+                  - type
+                x-examples:
+                  example-1:
+                    name: abc1
+                    type: pdu
+              examples:
+                example-1:
+                  value:
+                    name: abc1
+                    type: pdu
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example-1:
+                  value: bypassing instance named abc1 already exist
+                example-2:
+                  value: type pduw invalid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                type:
+                  type: string
+                  minLength: 1
+              required:
+                - name
+                - type
+              x-examples:
+                example-1:
+                  name: abc1
+                  type: pdu
+            examples:
+              example-1:
+                value:
+                  name: abc1
+                  type: pdu
+    delete:
+      summary: ''
+      operationId: delete
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                description: ''
+                type: object
+                properties:
+                  name:
+                    type: string
+                    minLength: 1
+                required:
+                  - name
+                x-examples:
+                  example-1:
+                    name: abc1
+              examples:
+                example-1:
+                  value:
+                    name: abc1
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: {}
+              examples:
+                example-1:
+                  value: abc not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+              required:
+                - name
+              x-examples:
+                example-1:
+                  name: abc1
+            examples:
+              example-1:
+                value:
+                  name: abc1
+        description: ''
+  /clearall:
+    delete:
+      summary: ''
+      operationId: delete-clearall
+      responses:
+        '200':
+          description: OK
+  '/{instance}/channel':
+    parameters:
+      - schema:
+          type: string
+        name: instance
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-instance
+    post:
+      summary: ''
+      operationId: post-instance-channel
+      responses:
+        '200':
+          description: OK
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            examples:
+              example-1:
+                value:
+                  srcPortID: '104'
+                  dstPortID: '103'
+                  vlan: '4'
+                  srcIP: 'fd:53:7c:b8:03:83:00:04:00:00:00:00:00:00:00:67'
+                  dstIP: 'ff:14:00:00:00:00:00:00:00:00:00:00:00:00:00:09'
+                  srcPort: '42995'
+                  dstPort: '42557'
+  '/{instance}/rules':
+    parameters:
+      - schema:
+          type: string
+        name: instance
+        in: path
+        required: true
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses: {}
+      operationId: get-instance-rules
+    post:
+      summary: ''
+      operationId: post-instance-rules
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    User:
+      title: User
+      type: object
+      description: ''
+      x-examples:
+        Alice Smith:
+          id: 142
+          firstName: Alice
+          lastName: Smith
+          email: alice.smith@gmail.com
+          dateOfBirth: '1997-10-31'
+          emailVerified: true
+          signUpDate: '2019-08-24'
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+          format: email
+        dateOfBirth:
+          type: string
+          format: date
+          example: '1997-10-31'
+        emailVerified:
+          type: boolean
+          description: Set to true if the user's email has been verified.
+        createDate:
+          type: string
+          format: date
+          description: The date that the user was created.
+      required:
+        - id
+        - firstName
+        - lastName
+        - email
+        - emailVerified

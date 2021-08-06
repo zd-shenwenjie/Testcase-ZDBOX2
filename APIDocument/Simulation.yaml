@@ -13,7 +13,7 @@ servers:
 paths:
   /:
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses:
         '200':
@@ -36,7 +36,7 @@ paths:
         in: path
         required: true
     post:
-      summary: ''
+      summary: Create ETH PDU
       operationId: post-ipdu-eth-portID
       responses:
         '200':
@@ -223,7 +223,7 @@ paths:
                           - phys: '14'
         description: ''
     get:
-      summary: ''
+      summary: Send ETH PDU
       operationId: get-ipdu-eth-portID
       responses:
         '200':
@@ -277,7 +277,7 @@ paths:
         in: path
         required: true
     post:
-      summary: ''
+      summary: Send CAN PDU
       operationId: post-ipdu-can-portID
       responses:
         '200':
@@ -304,7 +304,7 @@ paths:
       description: Send can pdu
   '/projects/{project}':
     get:
-      summary: Your GET endpoint
+      summary: Return file list of specific project
       tags: []
       responses:
         '200':
@@ -348,7 +348,7 @@ paths:
         in: path
         required: true
     delete:
-      summary: ''
+      summary: Delete project
       operationId: delete-projects-project
       responses:
         '200':
@@ -385,7 +385,7 @@ paths:
       description: Delete project
   '/projects/{project}/files':
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses:
         '200':
@@ -486,7 +486,7 @@ paths:
       description: Delete file under given project
   /current:
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses: {}
       operationId: get-current
@@ -517,7 +517,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses: {}
       operationId: get-modules-name-status
@@ -560,7 +560,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses: {}
       operationId: get-modules-name-activate
@@ -584,7 +584,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses: {}
       operationId: get-modules-name-data
@@ -607,7 +607,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses: {}
       operationId: get-modules-name-data-msgId
@@ -881,3 +881,4 @@ components:
               filename: student.txt
               path: /root/simulations/proj1/student.txt
               size: 27
+
