@@ -1,0 +1,877 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0",
+    "title": "Database-management",
+    "contact": {},
+    "x-codegen-settings": {
+      "Nullify404": false,
+      "GenerateAsyncCode": true,
+      "UseMethodPrefix": false,
+      "UseModelPostfix": false,
+      "UseControllerPrefix": true,
+      "UseEnumPostfix": true,
+      "CollectParameters": false,
+      "UseConstructorsForConfig": false,
+      "UseCommonSDKLibrary": false,
+      "iOSUseAppInfoPlist": false,
+      "AndroidUseAppManifest": false,
+      "BodySerialization": 0,
+      "EnableAdditionalModelProperties": false,
+      "PreserveParameterOrder": true,
+      "AppendContentHeaders": true,
+      "iOSGenerateCoreData": false,
+      "GenerateInterfaces": false,
+      "NodeHttpClient": "NODE_REQUEST",
+      "ValidateRequiredParameters": false,
+      "JavaUsePropertiesConfig": false,
+      "Timeout": 0.0,
+      "StoreTimezoneInformation": false,
+      "EnablePHPComposerVersionString": false,
+      "EnableLogging": false,
+      "ArraySerialization": "Indexed",
+      "ModelSerializationScheme": "Json",
+      "UseExceptionPrefix": true,
+      "RunscopeEnabled": false,
+      "AndroidHttpClient": "ANDROID_OK",
+      "ObjCHttpClient": "UNIREST",
+      "CSharpHttpClient": "UNIREST",
+      "PHPHttpClient": "UNIREST",
+      "JavaHttpClient": "JAVA_OK",
+      "ParameterArrayFormat": "ParamArrayWithIndex",
+      "SecurityProtocols": [
+          "Ssl3",
+          "Tls"
+      ],
+      "GenerateTravisConfig": false,
+      "GenerateCircleConfig": false,
+      "GenerateAppveyorConfig": false,
+      "GenerateJenkinsConfig": false,
+      "EnableHttpCache": false,
+      "Retries": 0,
+      "RetryInterval": 1.0,
+      "GenerateAdvancedDocs": true,
+      "UnderscoreNumbers": true,
+      "UseSingletonPattern": true,
+      "DisableLinting": false,
+      "ApplyCustomizations": [],
+      "SortResources": false,
+      "AllowSkippingSSLCertVerification": false,
+      "DoNotSplitWords": [],
+      "EnableGlobalUserAgent": true,
+      "ReturnCompleteHttpResponse": false,
+      "GenerateModels": true,
+      "GenerateExceptions": true,
+      "IgnoreIfNullJson": false,
+      "DisableDocs": false,
+      "LiftParameterDescriptionFromCustomType": false,
+      "ThrowForHttpErrorStatusCodes": true,
+      "ResponseMapping": {
+        "Type": "Simple"
+      },
+      "ForceKeywordArgsInRuby": false,
+      "SymbolizeHashKeysInRuby": false,
+      "UsageExampleEndpoint": {
+        "Description": "",
+        "EndpointGroupName": "",
+        "EndpointName": ""
+      },
+      "IsLatestVersion": false,
+      "EnableImmutableModels": false,
+      "GenerateEnums": true,
+      "BackoffFactor": 2.0,
+      "StatusCodesToRetry": [
+          408,
+          413,
+          429,
+          500,
+          502,
+          503,
+          504,
+          521,
+          522,
+          524
+      ],
+      "RequestMethodsToRetry": [
+          "GET",
+          "PUT"
+      ],
+      "UserConfigurableRetries": true,
+      "UseEndpointMethodName": false,
+      "EncodeTemplateParameters": true,
+      "GenerateExamplesForOptionalFields": false,
+      "MultitargetDotnetVersions": false,
+      "BackoffMax": 0.0,
+      "RetryOnTimeout": true
+    },
+    "x-server-configuration": {
+      "default-environment": "production",
+      "default-server": "default",
+      "environments": [
+        {
+          "name": "production",
+          "description": "",
+          "servers": [
+            {
+              "name": "default",
+              "url": "http://192.168.1.99:9001"
+            }
+          ]
+        }
+      ],
+      "parameters": []
+    },
+    "x-image-uri": ""
+  },
+  "host": "192.168.1.99:9001",
+  "basePath": "/",
+  "schemes": [
+      "http"
+  ],
+  "consumes": [
+      "application/json"
+  ],
+  "produces": [
+      "application/json"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "Test get database-router",
+        "summary": "Untitled Endpoint_GET",
+        "operationId": "UntitledEndpoint_GET",
+        "deprecated": false,
+        "produces": [
+            "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "string"
+            },
+            "examples": {
+              "application/json": "hello world database-management"
+            },
+            "headers": {}
+          }
+        },
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "RAW",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "statusCode": "200",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "hello world database-management"
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Test Untitled Endpoint_GET",
+            "x-testDescription": "Test get database-router"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/general/arxml/eth": {
+      "get": {
+        "description": "",
+        "summary": "get-general-armxl-eth",
+        "operationId": "get-general-armxl-eth",
+        "deprecated": false,
+        "produces": [
+            "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Response_file"
+            },
+            "examples": {
+              "application/json": {
+                "files": [
+                    "E3_1_2_Premium_V12.03.20F_P03_AR430_20200501_HCP3_CN1_Systempartition_AP.json",
+                    "Matrix_GNSS.json"
+                ]
+              }
+            },
+            "headers": {}
+          }
+        },
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/general/arxml/eth"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "KEYS",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "statusCode": "200",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\"files\":[\"E3_1_2_Premium_V12.03.20F_P03_AR430_20200501_HCP3_CN1_Systempartition_AP.json\",\"Matrix_GNSS.json\"]}"
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Test get-general-armxl-eth",
+            "x-testDescription": "Testcase for testing endpoint get-general-armxl-eth"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      },
+      "post": {
+        "description": "",
+        "summary": "post-general-armxl-eth",
+        "operationId": "post-general-armxl-eth",
+        "deprecated": false,
+        "produces": [
+            "application/json"
+        ],
+        "consumes": [
+            "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "format": "file",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Response_success"
+            },
+            "examples": {
+              "application/json": {
+                "file": "file test3.arxml uploaded. start to convert. it may take several minutes."
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Response_err"
+            },
+            "examples": {
+              "application/json": {
+                "code": 30,
+                "msg": "invalid file format. expect .arxml, got .zip"
+              }
+            },
+            "headers": {}
+          }
+        },
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/general/arxml/eth"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "KEYS",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "statusCode": "200",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\"file\":\"file test3.arxml uploaded. start to convert. it may take several minutes.\"}"
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Test post-general-armxl-eth",
+            "x-testDescription": "Testcase for testing endpoint post-general-armxl-eth"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      },
+      "delete": {
+        "description": "",
+        "summary": "delete-general-armxl-eth",
+        "operationId": "delete-general-armxl-eth",
+        "deprecated": false,
+        "produces": [
+            "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "file name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/GeneralArxmlEthResponse"
+            },
+            "examples": {
+              "application/json": {
+                "code": 0
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Response_err"
+            },
+            "examples": {
+              "application/json": {
+                "code": 31,
+                "msg": "file not exist. test_eth.json"
+              }
+            },
+            "headers": {}
+          }
+        },
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "DELETE",
+              "uri": "/general/arxml/eth"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "KEYS",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "statusCode": "200",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\"code\":0}"
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Test delete-general-armxl-eth",
+            "x-testDescription": "Testcase for testing endpoint delete-general-armxl-eth"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/someip/service/autosar": {
+      "get": {
+        "description": "",
+        "summary": "get-someip-service-autosar",
+        "operationId": "get-someip-service-autosar",
+        "deprecated": false,
+        "produces": [
+            "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Response_file"
+            },
+            "examples": {
+              "application/json": {
+                "files": [
+                    "Service_Positioning.json"
+                ]
+              }
+            },
+            "headers": {}
+          }
+        },
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/someip/service/autosar"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "KEYS",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "statusCode": "200",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\"files\":[\"Service_Positioning.json\"]}"
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Test get-someip-service-autosar",
+            "x-testDescription": "Testcase for testing endpoint get-someip-service-autosar"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      },
+      "post": {
+        "description": "",
+        "summary": "post-someip-service-autosar",
+        "operationId": "post-someip-service-autosar",
+        "deprecated": false,
+        "produces": [
+            "application/json"
+        ],
+        "consumes": [
+            "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "format": "file",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Response_success"
+            },
+            "examples": {
+              "application/json": {
+                "file": "file test_someip_autosar.arxml uploaded and converted succeeded"
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Response_err"
+            },
+            "examples": {
+              "application/json": {
+                "code": 30,
+                "msg": "invalid file format. expect .arxml, got .zip"
+              }
+            },
+            "headers": {}
+          }
+        },
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/someip/service/autosar"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "KEYS",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "statusCode": "200",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\"file\":\"file test_someip_autosar.arxml uploaded and converted succeeded\"}"
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Test post-someip-service-autosar",
+            "x-testDescription": "Testcase for testing endpoint post-someip-service-autosar"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      },
+      "delete": {
+        "description": "",
+        "summary": "delete-someip-service-autosar",
+        "operationId": "delete-someip-service-autosar",
+        "deprecated": false,
+        "produces": [
+            "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "description": "file name"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Response_err"
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object"
+            },
+            "headers": {}
+          }
+        },
+        "x-unitTests": [],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    },
+    "/someip/service/fibex": {
+      "get": {
+        "description": "",
+        "summary": "get-someip-service-fibex",
+        "operationId": "get-someip-service-fibex",
+        "deprecated": false,
+        "produces": [
+            "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Response_file"
+            },
+            "examples": {
+              "application/json": {
+                "files": [
+                    "0x190_VoiceManagerService_V1.8.10F.json",
+                    "0x60AB_Service_V2XMessage-ID-REF-Fix-Typo-Fix-FIELD-LENGTH-Fix-PP-Fix.json"
+                ]
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "type": "object"
+            },
+            "examples": {
+              "application/json": {
+                "code": 30,
+                "msg": "invalid file format. expect .xml(fibex-xml), got .arxml"
+              }
+            },
+            "headers": {}
+          }
+        },
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "GET",
+              "uri": "/someip/service/fibex"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "KEYS",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "statusCode": "200",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\"files\":[\"0x190_VoiceManagerService_V1.8.10F.json\",\"0x60AB_Service_V2XMessage-ID-REF-Fix-Typo-Fix-FIELD-LENGTH-Fix-PP-Fix.json\"]}"
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Test get-someip-service-fibex",
+            "x-testDescription": "Testcase for testing endpoint get-someip-service-fibex"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      },
+      "post": {
+        "description": "",
+        "summary": "post-someip-service-fibex",
+        "operationId": "post-someip-service-fibex",
+        "deprecated": false,
+        "produces": [
+            "application/json"
+        ],
+        "consumes": [
+            "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "file",
+            "in": "formData",
+            "required": false,
+            "type": "file",
+            "format": "file",
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Response_success"
+            },
+            "examples": {
+              "application/json": {
+                "file": "file test_someip_fibex.xml uploaded and converted succeeded."
+              }
+            },
+            "headers": {}
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Response_err"
+            },
+            "examples": {
+              "application/json": {
+                "code": 0,
+                "msg": "string"
+              }
+            },
+            "headers": {}
+          }
+        },
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "POST",
+              "uri": "/someip/service/fibex"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "KEYS",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "statusCode": "200",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\"file\":\"file test_someip_fibex.xml uploaded and converted succeeded.\"}"
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Test post-someip-service-fibex",
+            "x-testDescription": "Testcase for testing endpoint post-someip-service-fibex"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      },
+      "delete": {
+        "description": "",
+        "summary": "delete-someip-service-fibex",
+        "operationId": "delete-someip-service-fibex",
+        "deprecated": false,
+        "produces": [
+            "application/json"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/SomeipServiceFibexResponse1"
+            },
+            "examples": {
+              "application/json": {
+                "code": 0
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Response_err"
+            },
+            "examples": {
+              "application/json": {
+                "code": 31,
+                "msg": "file not exist. test_eth.json"
+              }
+            },
+            "headers": {}
+          }
+        },
+        "x-unitTests": [
+          {
+            "request": {
+              "method": "DELETE",
+              "uri": "/someip/service/fibex"
+            },
+            "expectedResponse": {
+              "x-allowExtraHeaders": true,
+              "x-bodyMatchMode": "KEYS",
+              "x-arrayOrderedMatching": false,
+              "x-arrayCheckCount": false,
+              "x-matchResponseSchema": true,
+              "statusCode": "200",
+              "headers": {
+                "Content-Type": "application/json"
+              },
+              "body": "{\"code\":0}"
+            },
+            "x-testShouldPass": true,
+            "x-testEnabled": true,
+            "x-testName": "Test delete-someip-service-fibex",
+            "x-testDescription": "Testcase for testing endpoint delete-someip-service-fibex"
+          }
+        ],
+        "x-operation-settings": {
+          "CollectParameters": false,
+          "AllowDynamicQueryParameters": false,
+          "AllowDynamicFormParameters": false,
+          "IsMultiContentStreaming": false
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Response_err": {
+      "title": "Response_err",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "number",
+          "format": "double"
+        },
+        "msg": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+          "code",
+          "msg"
+      ]
+    },
+    "Response_success": {
+      "title": "Response_success",
+      "type": "object",
+      "properties": {
+        "file": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+          "file"
+      ]
+    },
+    "Response_file": {
+      "title": "Response_file",
+      "type": "object",
+      "properties": {
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+          "files"
+      ]
+    },
+    "GeneralArxmlEthResponse": {
+      "title": "GeneralArxmlEthResponse",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+          "code"
+      ]
+    },
+    "SomeipServiceFibexResponse1": {
+      "title": "SomeipServiceFibexResponse1",
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "required": [
+          "code"
+      ]
+    }
+  },
+  "tags": []
+}

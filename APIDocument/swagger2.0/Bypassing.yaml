@@ -1,0 +1,239 @@
+swagger: '2.0'
+info:
+  version: '1.0'
+  title: Bypassing
+  contact: {}
+host: 192.168.1.99:7001
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /:
+    get:
+      description: ''
+      summary: Untitled Endpoint_GET
+      operationId: UntitledEndpoint_GET
+      deprecated: false
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            $ref: '#/definitions/Response'
+          examples:
+            application/json:
+              name: abc
+          headers: {}
+    post:
+      description: ''
+      summary: post
+      operationId: post
+      deprecated: false
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          schema:
+            $ref: '#/definitions/Request'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Response1'
+          examples:
+            application/json:
+              name: abc1
+              type: pdu
+          headers: {}
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+          headers: {}
+    delete:
+      description: ''
+      summary: delete
+      operationId: delete
+      deprecated: false
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: body
+          in: body
+          required: false
+          description: ''
+          schema:
+            $ref: '#/definitions/Request1'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Response2'
+          examples:
+            application/json:
+              name: abc1
+          headers: {}
+        '400':
+          description: Bad Request
+          schema:
+            type: object
+          headers: {}
+  /clearall:
+    delete:
+      description: ''
+      summary: delete-clearall
+      operationId: delete-clearall
+      deprecated: false
+      produces:
+        - application/json
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          headers: {}
+  /{instance}/channel:
+    get:
+      description: ''
+      summary: get-instance
+      operationId: get-instance
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: instance
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+    post:
+      description: ''
+      summary: post-instance-channel
+      operationId: post-instance-channel
+      deprecated: false
+      produces:
+        - application/json
+      consumes:
+        - application/json
+      parameters:
+        - name: instance
+          in: path
+          required: true
+          type: string
+        - name: body
+          in: body
+          required: false
+          schema:
+            example:
+              srcPortID: '104'
+              dstPortID: '103'
+              vlan: '4'
+              srcIP: fd:53:7c:b8:03:83:00:04:00:00:00:00:00:00:00:67
+              dstIP: ff:14:00:00:00:00:00:00:00:00:00:00:00:00:00:09
+              srcPort: '42995'
+              dstPort: '42557'
+            type: object
+      responses:
+        '200':
+          description: OK
+          headers: {}
+  /{instance}/rules:
+    get:
+      description: ''
+      summary: get-instance-rules
+      operationId: get-instance-rules
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: instance
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: ''
+          headers: {}
+    post:
+      description: ''
+      summary: post-instance-rules
+      operationId: post-instance-rules
+      deprecated: false
+      produces:
+        - application/json
+      parameters:
+        - name: instance
+          in: path
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          headers: {}
+definitions:
+  Response:
+    title: Response
+    type: object
+    properties:
+      name:
+        type: string
+        minLength: 1
+  Request:
+    title: Request
+    type: object
+    properties:
+      name:
+        type: string
+        minLength: 1
+      type:
+        type: string
+        minLength: 1
+    required:
+      - name
+      - type
+  Response1:
+    title: Response1
+    type: object
+    properties:
+      name:
+        type: string
+        minLength: 1
+      type:
+        type: string
+        minLength: 1
+    required:
+      - name
+      - type
+  Request1:
+    title: Request1
+    type: object
+    properties:
+      name:
+        type: string
+        minLength: 1
+    required:
+      - name
+  Response2:
+    title: Response2
+    type: object
+    properties:
+      name:
+        type: string
+        minLength: 1
+    required:
+      - name
+tags: []
