@@ -6,10 +6,14 @@ info:
 servers:
   - url: 'http://192.168.1.99:6001'
     description: ''
+  - url: 'http://192.168.1.135:6001'
+    description: ''
+  - description: ''
+    url: 'http://192.168.1.85:6001'
 paths:
   /:
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses:
         '200':
@@ -25,7 +29,7 @@ paths:
     parameters: []
   /codec:
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses:
         '200':
@@ -122,7 +126,7 @@ paths:
       parameters: []
   '/codec/{id}/someip/name2id':
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses:
         '200':
@@ -236,7 +240,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses:
         '200':
@@ -551,7 +555,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses: {}
       operationId: get-codec-id-someip-optional-serviceId-method-methodId
@@ -579,7 +583,7 @@ paths:
         in: path
         required: true
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses: {}
       operationId: get-codec-id-someip-optional-serviceId-event-eventId
@@ -596,24 +600,60 @@ paths:
       responses:
         '200':
           description: OK
-  /forwarding:
-    get:
-      summary: Your GET endpoint
-      tags: []
-      responses: {}
-      operationId: get-forwarding
-    post:
-      summary: ''
-      operationId: post-forwarding
-      responses:
-        '200':
-          description: OK
-    delete:
-      summary: ''
-      operationId: delete-forwarding
-      responses:
-        '200':
-          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/configPorts'
+              examples:
+                example-1:
+                  value:
+                    added:
+                      - ipv4: false
+                        vlanId: 0
+                        srcPort: '3'
+                        dstPort: 0
+                        tag: someip
+                      - ipv4: false
+                        vlanId: 0
+                        srcPort: 0
+                        dstPort: '3'
+                        tag: someip
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response_err'
+              examples:
+                example-1:
+                  value:
+                    code: 20
+                    msg: 'expect ''tcp'' or ''udp'' protocol, got '
+      parameters:
+        - schema:
+            type: string
+            example: tcp
+          in: query
+          name: protocol
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              x-examples:
+                example-1:
+                  ports: 1
+              properties:
+                ports:
+                  type: string
+              required:
+                - ports
+            examples:
+              example-1:
+                value:
+                  ports: '3'
 components:
   schemas:
     ProtocolTag:
@@ -759,6 +799,61 @@ components:
             event:
               basicSafetyMessageUpdate: 32769
               subscriptionStatusUpdate: 32771
+    configPorts:
+      description: ''
+      type: object
+      properties:
+        added:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            required:
+              - ipv4
+              - vlanId
+              - srcPort
+              - dstPort
+              - tag
+            properties:
+              ipv4:
+                type: boolean
+              vlanId:
+                type: number
+              srcPort:
+                type: string
+                minLength: 1
+              dstPort:
+                type: number
+              tag:
+                type: string
+                minLength: 1
+      required:
+        - added
+      x-examples:
+        example-1:
+          added:
+            - ipv4: false
+              vlanId: 0
+              srcPort: '3'
+              dstPort: 0
+              tag: someip
+            - ipv4: false
+              vlanId: 0
+              srcPort: 0
+              dstPort: '3'
+              tag: someip
+          value:
+            added:
+              - ipv4: false
+                vlanId: 0
+                srcPort: '3'
+                dstPort: 0
+                tag: someip
+              - ipv4: false
+                vlanId: 0
+                srcPort: 0
+                dstPort: '3'
+                tag: someip
   responses: {}
   examples: {}
   parameters:

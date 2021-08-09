@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: database-management
+  title: Database-management
   version: '1.0'
 servers:
   - url: 'http://192.168.1.99:9001'
@@ -8,7 +8,7 @@ servers:
 paths:
   /:
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses:
         '200':
@@ -24,7 +24,7 @@ paths:
       description: Test get database-router
   /general/arxml/eth:
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses:
         '200':
@@ -131,7 +131,7 @@ paths:
     parameters: []
   /someip/service/autosar:
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses:
         '200':
@@ -223,7 +223,7 @@ paths:
           description: file name
   /someip/service/fibex:
     get:
-      summary: Your GET endpoint
+      summary: ''
       tags: []
       responses:
         '200':
