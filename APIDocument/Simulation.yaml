@@ -10,6 +10,8 @@ servers:
     url: 'http://192.168.1.135:8001'
   - url: 'http://192.168.1.85:8001'
     description: ''
+  - url: 'http://192.168.1.125:8001'
+    description: ''
 paths:
   /:
     get:
@@ -881,4 +883,3 @@ components:
               filename: student.txt
               path: /root/simulations/proj1/student.txt
               size: 27
-
