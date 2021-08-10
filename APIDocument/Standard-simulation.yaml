@@ -3,7 +3,11 @@ info:
   title: Standard-simulation
   version: '1.0'
 servers:
+  - url: 'http://192.168.1.125:8010'
   - url: 'http://192.168.1.99:8010'
+    description: ''
+  - url: 'http://192.168.1.135:8010'
+    description: ''
 paths:
   /:
     parameters: []
@@ -323,6 +327,7 @@ paths:
     parameters:
       - schema:
           type: string
+          example: abc12
         name: instance
         in: path
         required: true
@@ -330,6 +335,7 @@ paths:
     parameters:
       - schema:
           type: string
+          example: abc12
         name: instance
         in: path
         required: true
@@ -385,6 +391,7 @@ paths:
     parameters:
       - schema:
           type: string
+          example: abc12
         name: instance
         in: path
         required: true
@@ -441,11 +448,13 @@ paths:
     parameters:
       - schema:
           type: string
+          example: abc12
         name: instance
         in: path
         required: true
       - schema:
           type: string
+          example: '960'
         name: msgId
         in: path
         required: true
@@ -602,6 +611,7 @@ paths:
     parameters:
       - schema:
           type: string
+          example: abc12
         name: instance
         in: path
         required: true
@@ -898,11 +908,13 @@ paths:
     parameters:
       - schema:
           type: string
+          example: abc12
         name: instance
         in: path
         required: true
       - schema:
           type: string
+          example: '960'
         name: msgId
         in: path
         required: true
