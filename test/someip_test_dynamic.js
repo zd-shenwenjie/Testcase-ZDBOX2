@@ -6,8 +6,11 @@ const chai = require('chai');
 
 chai.should();
 
+const traceToolkit = require('../toolkit/traceToolkit-v2');
+
 const SERVER_SOMEIP_URL = 'http://192.168.1.125:5001';
 const CLIENT_SOMEIP_URL = 'http://192.168.1.125:5001';
+const MITM_URL = '192.168.1.99'
 const server_config = fs.readJSONSync(path.join(__dirname, 'server.json'));
 const client_config = fs.readJSONSync(path.join(__dirname, 'client.json'));
 const service_spec = fs.readJSONSync(path.join(__dirname, '0xFF00_TestabilityService_V2.0.0F_CBox.json'))
@@ -20,7 +23,7 @@ var client_ins_id = ''
 var server_ins_id = ''
 
 let current_hook_id = '';
-var converterKey = await toolkit.createConverter("SOMEIP", '', './someip/fibex/0xFF00_TestabilityService_V2.0.0F_CBox.json');
+var converterKey; 
 var session;
 
 
@@ -39,25 +42,26 @@ before('create client and server instance', () => {
 
   //start client instance
   it('get client instance & start someip simulation client instance', async () => {
-    const res = await axios.get(`${CLIENT_SOMEIP_URL}/instance`);
+    let res = await axios.get(`${CLIENT_SOMEIP_URL}/instance`);
     client_ins_id = 'someip-client_1.0.0_2';
-    const res = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/start`);
+    res = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/start`);
       console.log(res.data);
   });
 
   it('get server instance & start someip simulation server instance', async () => {
-    const res = await axios.get(`${SERVER_SOMEIP_URL}/instance`);
+    let res = await axios.get(`${SERVER_SOMEIP_URL}/instance`);
     server_ins_id = 'someip-server_1.0.0_1';
-    const res = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/start`);
+    res = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/start`);
   })
 
   it('setup tracing service', async () => {
-    console.log(await toolkit.addSomeipConverterSpec(converterKey
+    converterKey = await traceToolkit.createConverter("SOMEIP", '', './someip/fibex/0xFF00_TestabilityService_V2.0.0F_CBox.json');
+    console.log(await traceToolkit.addSomeipConverterSpec(converterKey
         //, './someip/fibex/0x190_VoiceManagerService_V1.8.10F.json'
         ))
-    console.log(await toolkit.addSomeipPorts('tcp', [Number(application_endpoint)]))
-    console.log(await toolkit.getConverter());
-    session = await toolkit.startSession();
+    console.log(await traceToolkit.addSomeipPorts('tcp', [Number(application_endpoint)]))
+    console.log(await traceToolkit.getConverter());
+    session = await traceToolkit.startSession();
     console.log(await session.getTracingChannel());
     console.log(await session.addTracingChannel({
         bus: 'ipdu',
@@ -107,27 +111,29 @@ after('clear all env', () => {
 
 describe('test get payload Server & Client', () => {
 //  --------------get (each) payload client side---------
-  it('client: get someip service payload obj', async () => {
+  describe('client: get someip service payload obj',  () => {
     const appPort = application_endpoint;
     const serviceId = 65280;
-    const methodId = 1;
     const direction = 'input'; // 'input' | 'return'
     service_spec.services[0]['methods'].forEach(async method => {
-      methodId = method['num_id']
-      const res = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
-      console.log(res.data);
+      const methodId = method['num_id']
+      it(`Method ${methodId}: ${method['name']} `, async (done) => {
+        const res = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
+        console.log(res.data);
+      })
     });
   })
-  it('Server: get someip service payload obj', async () => {
+  describe('Server: get someip service payload obj', async () => {
     // const service_spec = fs.readJSONSync(path.join(__dirname, '0xFF00_TestabilityService_V2.0.0F_CBox.json'))
     const appPort = application_endpoint;
     const serviceId = 65280;
-    let methodId = 1;
-    const direction = 'input'; // 'input' | 'return'
+    const direction = 'return'; // 'input' | 'return'
     service_spec.services[0]['methods'].forEach(async method => {
-      methodId = method['num_id']
-      const res = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
-      console.log(res.data);
+      const methodId = method['num_id']
+      it(`Method ${methodId}: ${method['name']} `, async (done) => {
+        const res = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
+        console.log(res.data);
+      })
     });
   })
 })
@@ -143,41 +149,87 @@ describe('payload set & get & encode & decode', () => {
   // 6. using encoder to generate a byte Stream
   // 7. using decoder to parser the byte Stream 
   // 8. parsered date should be equal with the random data
-  it('client side Decoder & Encoder', async () => {
-    service_spec.services[0]['methods'].forEach(async method => {
-      methodId = method['num_id']
-      const direction = 'input'; 
-      const res_get = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
-      console.log(res_get.data);
-      // testObj {
-      //   outUINT16: 5, outUINT32: 6
-      // }
-      let testObj = res_get.data;
-      let first_level_keys = Object.keys(testObj);
-      first_level_keys.forEach( paramKey => {
-        testObj[paramKey] = Math.random() * 10000;
+  describe('client side set & get & Decoder & Encoder', async () => {
+    service_spec.services[0]['methods'].forEach(async (method) => {
+      it(`Method ${method['num_id']}: ${method['name']}`, async () => {
+        methodId = method['num_id']
+      
+        const direction = 'input'; 
+        const res_get = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
+        console.log(res_get.data);
+        // testObj {
+        //   outUINT16: 5, outUINT32: 6
+        // }
+        let testObj = res_get.data;
+        let first_level_keys = Object.keys(testObj);
+        first_level_keys.forEach( paramKey => {
+          testObj[paramKey] = Math.random() * 10000;
+        })
+        const res_set = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`, testObj);
+        console.log(res_set.data)
+        const res_get2 = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
+        console.log(res_get2.data)
+        // assertion 5
+        res_get2.data.should.equal(testObj);
+  
+        const res_encode = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload/encode`, 
+          testObj
+        );
+        console.log(res_encode.data);
+        let testByteStream = res_encode.data;
+        const res_decode = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload/decode`, 
+          testByteStream
+        )
+        // testByteStream{
+        //   type: 'Buffer',
+        //   data: [0, 5, 0, 0, 0, 6 ]
+        // }
+        console.log(res_decode.data)
+        let finalObj = res_decode.data
+        finalObj.should.equal(testObj)
       })
-      const res_set = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`, testObj);
-      console.log(res_set.data)
-      const res_get2 = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
-      console.log(res_get2.data)
-      // assertion 5
+    });
+  })
 
-      const res_encode = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload/encode`, 
-        testObj
-      );
-      console.log(res_encode.data);
-      let testByteStream = res_encode.data;
-      const res_decode = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload/decode`, 
-        testByteStream
-      )
-      // testByteStream{
-      //   type: 'Buffer',
-      //   data: [0, 5, 0, 0, 0, 6 ]
-      // }
-      console.log(res_decode.data)
-      let finalObj = res_decode.data
-      finalObj.should.equal(testObj)
+  describe('server side set & get & Decoder & Encoder', async () => {
+    service_spec.services[0]['methods'].forEach(async (method) => {
+      it(`Method ${method['num_id']}: ${method['name']}`, async () => {
+        methodId = method['num_id']
+      
+        const direction = 'input'; 
+        const res_get = await axios.get(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
+        console.log(res_get.data);
+        // testObj {
+        //   outUINT16: 5, outUINT32: 6
+        // }
+        let testObj = res_get.data;
+        let first_level_keys = Object.keys(testObj);
+        first_level_keys.forEach( paramKey => {
+          testObj[paramKey] = Math.random() * 10000;
+        })
+        const res_set = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`, testObj);
+        console.log(res_set.data)
+        const res_get2 = await axios.get(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
+        console.log(res_get2.data)
+        // assertion 5
+        res_get2.data.should.equal(testObj);
+  
+        const res_encode = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload/encode`, 
+          testObj
+        );
+        console.log(res_encode.data);
+        let testByteStream = res_encode.data;
+        const res_decode = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload/decode`, 
+          testByteStream
+        )
+        // testByteStream{
+        //   type: 'Buffer',
+        //   data: [0, 5, 0, 0, 0, 6 ]
+        // }
+        console.log(res_decode.data)
+        let finalObj = res_decode.data
+        finalObj.should.equal(testObj)
+      })
     });
   })
 
