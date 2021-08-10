@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const FormData = require('form-data');
 const expect = chai.expect;
+const toolkit = require('../toolkit/traceToolkit-v2')
 
 ////    "test": "mocha --require ts-node/register 'tests/**/*.ts'",
 
@@ -75,13 +76,48 @@ describe('Trace test', () => {
                     console.log(res.data);
                 });
 
-            Promise.allSettled([ getActivatePromise, postActivatePromise])
+            Promise.allSettled([getActivatePromise, postActivatePromise])
                 .then((results) => {
                     console.log(results);
                     done();
                 })
         });
+    });
 
+    describe('start can-ws and listen', () => {
+        it('should ', async () => {
+            const converterKey = await toolkit.createConverter('CAN', 'DBC-CAN', './dbc_templates.json');
+            const resGetConverter = await toolkit.getConverter();
+            const session = await toolkit.startSession();
+
+            const tracingChannel = await session.getTracingChannel();
+
+            const addChannel = await session.addTracingChannel({
+                // todo
+            }, [converterKey, 'default-can']);
+
+            await session.subscribePDU(() => {
+                return true
+            }, (pdus) => {
+                pdus.forEach(ele => {
+                    if (ele.parsed) {
+                        console.dir(ele, {depth: null});
+                    }
+                })
+            });
+            await new Promise((res) => {setTimeout(res, 20000)});
+
+            toolkit.stopSession(session);
+            await toolkit.deleteConverter(converterKey);
+        });
+    })
+
+    // close can-ws adn delete instance
+    after((done) => {
+        const deletePromise = axios.delete(`http://${publisher_base_url}:${standard_simulation_port}`, {data: {uuid: instance}})
+            .then((res) => {
+                // console.log(res)
+            });
     })
 })
 
