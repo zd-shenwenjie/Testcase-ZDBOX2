@@ -28,6 +28,9 @@ var session;
 
 
 before('create client and server instance', () => {
+  // TODO: using database management to upload service spec
+  it('database should be uploaded via database management')
+
   //create client instance
   it('create someip simulation client instance', async () => {
     const res = await axios.post(`${CLIENT_SOMEIP_URL}/instance`, client_config);
@@ -106,6 +109,9 @@ after('clear all env', () => {
     toolkit.stopSession(session)
     toolkit.deleteConverter(converterKey)
   })
+
+  // TODO: delete database used by this case
+  it('database should be deleted') 
 })
 
 describe('test get payload Server & Client', () => {
