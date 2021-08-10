@@ -15,7 +15,7 @@
     "interface_version": 1,
     "bind_generic_function": false,
     "applications": {
-        "29180": {
+        "30500": {
             "protocol": "tcp",
             "bind_generic_function": false,
             "spec_files": {
