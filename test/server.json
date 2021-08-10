@@ -1,0 +1,34 @@
+{
+    "id": 1,
+    "name": "someip-server",
+    "version": "1.0.0",
+    "phy_id": 104,
+    "vlan": 4,
+    "role": "server",
+    "server_ip": "fd53:7cb8:0383:0004:0000:0000:0000:0067",
+    "server_mask": 64,
+    "client_ip": "fd53:7cb8:0383:0004:0000:0000:0000:0001",
+    "client_mask": 64,
+    "client_id": 1,
+    "protocol_version": 1,
+    "interface_version": 1,
+    "bind_generic_function": false,
+    "applications": {
+        "30500": {
+            "protocol": "tcp",
+            "bind_generic_function": true,
+            "spec_files": {
+                "65280": "0xFF00_TestabilityService_V2.0.0F_CBox.json"
+            }
+        }
+    },
+    "service_discovery": {
+        "enable": true,
+        "protocol": "udp",
+        "multicast_ip": "224.224.224.245",
+        "multicast_port": 30490,
+        "initial_delay_min": 10,
+        "initial_delay_max": 100,
+        "ttl": 3
+    }
+}

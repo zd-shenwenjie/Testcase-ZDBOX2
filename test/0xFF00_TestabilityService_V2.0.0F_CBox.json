@@ -1,0 +1,3481 @@
+{
+    "clusters": [
+      {
+        "name": "ETH_Cluster_MLBevo",
+        "speed": 100000000,
+        "endianness": "big",
+        "protocol": "ETHERNET",
+        "channels": [
+          {
+            "name": "MLBevo_VLAN_Connect",
+            "vlan": 4,
+            "ecus": [
+              {
+                "name": "TesterECU",
+                "connectors": [
+                  {
+                    "id": "ID_TESTER_ECU_CONNECTOR_1",
+                    "endpoints": [
+                      {
+                        "addresses": [
+                          {
+                            "ipv6": {
+                              "address": "fd53:7cb8:0383:0004:0000:0000:0000:0001",
+                              "source": "FIXED"
+                            }
+                          }
+                        ]
+                      }
+                    ],
+                    "applications": [
+                      {
+                        "id": "ID_TESTER_ECU_CONNECTOR_1_AEP_UDP_1",
+                        "tp_protocol": "udp",
+                        "port": 30500,
+                        "provide_services": [
+                          "ID_PSI_TESTABILITY_SERVICE_TESTER_UDP"
+                        ],
+                        "consume_services": [
+                          "ID_PSI_TESTABILITY_SERVICE_DUT_UDP"
+                        ]
+                      },
+                      {
+                        "id": "ID_TESTER_ECU_CONNECTOR_1_AEP_TCP_1",
+                        "tp_protocol": "tcp",
+                        "port": 30600,
+                        "provide_services": [
+                          "ID_PSI_TESTABILITY_SERVICE_TESTER_TCP"
+                        ],
+                        "consume_services": []
+                      },
+                      {
+                        "id": "ID_TESTER_ECU_CONNECTOR_1_AEP_TCP_2",
+                        "tp_protocol": "tcp",
+                        "port": 30601,
+                        "provide_services": [],
+                        "consume_services": [
+                          "ID_PSI_TESTABILITY_SERVICE_DUT_TCP"
+                        ]
+                      },
+                      {
+                        "id": "ID_TESTER_ECU_CONNECTOR_1_AEP_SD",
+                        "tp_protocol": "udp",
+                        "port": 30490,
+                        "provide_services": [],
+                        "consume_services": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "DutECU",
+                "connectors": [
+                  {
+                    "id": "ID_DUT_ECU_CONNECTOR_1",
+                    "endpoints": [
+                      {
+                        "addresses": [
+                          {
+                            "ipv6": {
+                              "address": "fd53:7cb8:0383:0004:0000:0000:0000:0067",
+                              "source": "FIXED"
+                            }
+                          }
+                        ]
+                      }
+                    ],
+                    "applications": [
+                      {
+                        "id": "ID_DUT_ECU_CONNECTOR_1_AEP_UDP_1",
+                        "tp_protocol": "udp",
+                        "port": 30500,
+                        "provide_services": [
+                          "ID_PSI_TESTABILITY_SERVICE_DUT_UDP"
+                        ],
+                        "consume_services": [
+                          "ID_PSI_TESTABILITY_SERVICE_TESTER_UDP"
+                        ]
+                      },
+                      {
+                        "id": "ID_DUT_ECU_CONNECTOR_1_AEP_TCP_1",
+                        "tp_protocol": "tcp",
+                        "port": 30601,
+                        "provide_services": [
+                          "ID_PSI_TESTABILITY_SERVICE_DUT_TCP"
+                        ],
+                        "consume_services": []
+                      },
+                      {
+                        "id": "ID_DUT_ECU_CONNECTOR_1_AEP_TCP_2",
+                        "tp_protocol": "tcp",
+                        "port": 30600,
+                        "provide_services": [],
+                        "consume_services": [
+                          "ID_PSI_TESTABILITY_SERVICE_TESTER_TCP"
+                        ]
+                      },
+                      {
+                        "id": "ID_DUT_ECU_CONNECTOR_1_AEP_SD",
+                        "tp_protocol": "udp",
+                        "port": 30490,
+                        "provide_services": [],
+                        "consume_services": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "services": [
+      {
+        "id": "SI_TESTABILITY_SERVICE",
+        "num_id": 65280,
+        "name": "TestabilityService",
+        "version": {
+          "major": 2,
+          "minor": 0
+        },
+        "methods": [
+          {
+            "id": "ServiceInterface_TestabilityService_Method_checkByteOrder",
+            "num_id": 1,
+            "name": "checkByteOrder",
+            "desc": {
+              "#text": "This request/response method operates in two different ways depending on the setting of the parameter operationType. If operationType == PERFORM_SUMMATORY, the DUT shall return the summatory of inUINT32 and inUINT16 as outUINT32 considering that both summands are Big Endian. outUINT16 shall be 0 in case the summatory fits inside outUINT32, otherwise outUINT32 shall carry the 4 less significant bytes of the result and outUINT16 the rest. If operationType == RETURN_MEMORY_ARRANGEMENT, the DUT shall return both values in the exact byte order they have been stored in the device's registry. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "operationType",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "EnumOperationType",
+                  "type": "enum",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8,
+                  "elements": [
+                    {
+                      "value": 0,
+                      "string": "PERFORM_SUMMATORY"
+                    },
+                    {
+                      "value": 1,
+                      "string": "RETURN_MEMORY_ARRANGEMENT"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "inUINT32",
+                "pos": 1,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT32",
+                  "type": "common",
+                  "code_name": "UINT32",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 32
+                }
+              },
+              {
+                "name": "inUINT16",
+                "pos": 2,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT16",
+                  "type": "common",
+                  "code_name": "UINT16",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 16
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outUINT16",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT16",
+                  "type": "common",
+                  "code_name": "UINT16",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 16
+                }
+              },
+              {
+                "name": "outUINT32",
+                "pos": 1,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT32",
+                  "type": "common",
+                  "code_name": "UINT32",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 32
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoBool",
+            "num_id": 2,
+            "name": "echoBool",
+            "desc": {
+              "#text": "This request/response method takes a boolean as input parameter which shall be returned without changes as return parameter by the DUT. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inBOOL",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "BOOL",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outBOOL",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "BOOL",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoUINT8",
+            "num_id": 3,
+            "name": "echoUINT8",
+            "desc": {
+              "#text": "This request/response method takes a UINT8 as input parameter which shall be returned without changes as return parameter by the DUT. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification. This method shall also be implemented by the Testability Service Instance-ID 0x0001 and 0x0002 (Tester) and shall be invoked by the DUT when the triggerEchoUINT8 method of Testability Service Instance-ID 0x0003 and 0x0004 is called.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inUINT8",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outUINT8",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoUINT16",
+            "num_id": 4,
+            "name": "echoUINT16",
+            "desc": {
+              "#text": "This request/response method takes a UINT16 as input parameter which shall be returned without changes as return parameter by the DUT. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inUINT16",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT16",
+                  "type": "common",
+                  "code_name": "UINT16",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 16
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outUINT16",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT16",
+                  "type": "common",
+                  "code_name": "UINT16",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 16
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoUINT32",
+            "num_id": 5,
+            "name": "echoUINT32",
+            "desc": {
+              "#text": "This request/response method takes a UINT32 as input parameter which shall be returned without changes as return parameter by the DUT. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inUINT32",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT32",
+                  "type": "common",
+                  "code_name": "UINT32",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 32
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outUINT32",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT32",
+                  "type": "common",
+                  "code_name": "UINT32",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 32
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoUINT64",
+            "num_id": 6,
+            "name": "echoUINT64",
+            "desc": {
+              "#text": "This request/response method takes a UINT64 as input parameter which shall be returned without changes as return parameter by the DUT. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inUINT64",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT64",
+                  "type": "common",
+                  "code_name": "UINT64",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 64
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outUINT64",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT64",
+                  "type": "common",
+                  "code_name": "UINT64",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 64
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoSINT8",
+            "num_id": 7,
+            "name": "echoSINT8",
+            "desc": {
+              "#text": "This request/response method takes a SINT8 as input parameter which shall be returned without changes as return parameter by the DUT. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inSINT8",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "INT8",
+                  "type": "common",
+                  "code_name": "INT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outSINT8",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "INT8",
+                  "type": "common",
+                  "code_name": "INT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoSINT16",
+            "num_id": 8,
+            "name": "echoSINT16",
+            "desc": {
+              "#text": "This request/response method takes a SINT16 as input parameter which shall be returned without changes as return parameter by the DUT. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inSINT16",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "INT16",
+                  "type": "common",
+                  "code_name": "INT16",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 16
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outSINT16",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "INT16",
+                  "type": "common",
+                  "code_name": "INT16",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 16
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoSINT32",
+            "num_id": 9,
+            "name": "echoSINT32",
+            "desc": {
+              "#text": "This request/response method takes a SINT32 as input parameter which shall be returned without changes as return parameter by the DUT. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inSINT32",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "INT32",
+                  "type": "common",
+                  "code_name": "INT32",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 32
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outSINT32",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "INT32",
+                  "type": "common",
+                  "code_name": "INT32",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 32
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoSINT64",
+            "num_id": 10,
+            "name": "echoSINT64",
+            "desc": {
+              "#text": "This request/response method takes a SINT64 as input parameter which shall be returned without changes as return parameter by the DUT. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inSINT64",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "INT64",
+                  "type": "common",
+                  "code_name": "INT64",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 64
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outSINT64",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "INT64",
+                  "type": "common",
+                  "code_name": "INT64",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 64
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoFLOAT32",
+            "num_id": 11,
+            "name": "echoFLOAT32",
+            "desc": {
+              "#text": "This request/response method takes a FLOAT32 as input parameter which shall be returned without changes as return parameter by the DUT. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inFLOAT32",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "FLOAT32",
+                  "type": "common",
+                  "code_name": "FLOAT32",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 32
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outFLOAT32",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "FLOAT32",
+                  "type": "common",
+                  "code_name": "FLOAT32",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 32
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoFLOAT64",
+            "num_id": 12,
+            "name": "echoFLOAT64",
+            "desc": {
+              "#text": "This request/response method takes a FLOAT64 as input parameter which shall be returned without changes as return parameter by the DUT. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inFLOAT64",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "FLOAT64",
+                  "type": "common",
+                  "code_name": "FLOAT64",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 64
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outFLOAT64",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "FLOAT64",
+                  "type": "common",
+                  "code_name": "FLOAT64",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 64
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoInverseStruct",
+            "num_id": 13,
+            "name": "echoInverseStruct",
+            "desc": {
+              "#text": "This request/response method has an input parametert of type TestStruct. The method shall return the struct with the values of the two struct members interchanged. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inStruct",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestStruct",
+                  "type": "structure",
+                  "members": [
+                    {
+                      "name": "a",
+                      "pos": 0,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT8",
+                        "type": "common",
+                        "code_name": "UINT8",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 8
+                      }
+                    },
+                    {
+                      "name": "b",
+                      "pos": 1,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT16",
+                        "type": "common",
+                        "code_name": "UINT16",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 16
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outStruct",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestStruct",
+                  "type": "structure",
+                  "members": [
+                    {
+                      "name": "a",
+                      "pos": 0,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT8",
+                        "type": "common",
+                        "code_name": "UINT8",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 8
+                      }
+                    },
+                    {
+                      "name": "b",
+                      "pos": 1,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT16",
+                        "type": "common",
+                        "code_name": "UINT16",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 16
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "serialization": {
+              "length_field_size": 8
+            }
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoInverseDynamicArray",
+            "num_id": 16,
+            "name": "echoInverseDynamicArray",
+            "desc": {
+              "#text": "This request/response method has a dynamic length array as input parameter. The configured array length field size is 1 byte. The array holds from 0 to 5 UINT8 items. The method shall return the array items in inverse order. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inArray",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestDynamicArray",
+                  "type": "typedef",
+                  "members": [
+                    {
+                      "name": "arrayMember",
+                      "pos": 0,
+                      "array": {
+                        "dimension": 1,
+                        "min_size": 0,
+                        "max_size": 5
+                      },
+                      "datatype": {
+                        "name": "UINT8",
+                        "type": "common",
+                        "code_name": "UINT8",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 8
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outArray",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestDynamicArray",
+                  "type": "typedef",
+                  "members": [
+                    {
+                      "name": "arrayMember",
+                      "pos": 0,
+                      "array": {
+                        "dimension": 1,
+                        "min_size": 0,
+                        "max_size": 5
+                      },
+                      "datatype": {
+                        "name": "UINT8",
+                        "type": "common",
+                        "code_name": "UINT8",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 8
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "serialization": {
+              "array_length_field_size": 8
+            }
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoInverseDynamicMultidimensionalArray",
+            "num_id": 17,
+            "name": "echoInverseDynamicMultidimensionalArray",
+            "desc": {
+              "#text": "This request/response method has a multidimensional dynamic length array as input parameter. The configured array length field size is 1 byte. The multi dimensional array holds 5 UINT8 arrays with 5 UINT8 items per array. The method shall return the array items in inverse order. Inverse order means in the scope of this method to inverse the order of all UINT8 items in each array but not the order of arrays. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inArray",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestMultiDimDynamicArray",
+                  "type": "typedef",
+                  "members": [
+                    {
+                      "name": "arrayMember",
+                      "pos": 0,
+                      "array": {
+                        "dimension": 1,
+                        "min_size": 0,
+                        "max_size": 5
+                      },
+                      "datatype": {
+                        "name": "TestDynamicArray",
+                        "type": "typedef",
+                        "members": [
+                          {
+                            "name": "arrayMember",
+                            "pos": 0,
+                            "array": {
+                              "dimension": 1,
+                              "min_size": 0,
+                              "max_size": 5
+                            },
+                            "datatype": {
+                              "name": "UINT8",
+                              "type": "common",
+                              "code_name": "UINT8",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 8
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outArray",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestMultiDimDynamicArray",
+                  "type": "typedef",
+                  "members": [
+                    {
+                      "name": "arrayMember",
+                      "pos": 0,
+                      "array": {
+                        "dimension": 1,
+                        "min_size": 0,
+                        "max_size": 5
+                      },
+                      "datatype": {
+                        "name": "TestDynamicArray",
+                        "type": "typedef",
+                        "members": [
+                          {
+                            "name": "arrayMember",
+                            "pos": 0,
+                            "array": {
+                              "dimension": 1,
+                              "min_size": 0,
+                              "max_size": 5
+                            },
+                            "datatype": {
+                              "name": "UINT8",
+                              "type": "common",
+                              "code_name": "UINT8",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 8
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "serialization": {
+              "array_length_field_size": 8
+            }
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoComplexDynamicArray",
+            "num_id": 19,
+            "name": "echoComplexDynamicArray",
+            "desc": {
+              "#text": "This request/response method has an array of structs as input parameter. The configured array and struct length field size is 1 byte. The method shall return the input parameter without change as output parameter. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inArray",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestComplexDynamicArray",
+                  "type": "typedef",
+                  "members": [
+                    {
+                      "name": "arrayMember",
+                      "pos": 0,
+                      "array": {
+                        "dimension": 1,
+                        "min_size": 1,
+                        "max_size": 5
+                      },
+                      "datatype": {
+                        "name": "TestStruct",
+                        "type": "structure",
+                        "members": [
+                          {
+                            "name": "a",
+                            "pos": 0,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT8",
+                              "type": "common",
+                              "code_name": "UINT8",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 8
+                            }
+                          },
+                          {
+                            "name": "b",
+                            "pos": 1,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT16",
+                              "type": "common",
+                              "code_name": "UINT16",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 16
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outArray",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestComplexDynamicArray",
+                  "type": "typedef",
+                  "members": [
+                    {
+                      "name": "arrayMember",
+                      "pos": 0,
+                      "array": {
+                        "dimension": 1,
+                        "min_size": 1,
+                        "max_size": 5
+                      },
+                      "datatype": {
+                        "name": "TestStruct",
+                        "type": "structure",
+                        "members": [
+                          {
+                            "name": "a",
+                            "pos": 0,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT8",
+                              "type": "common",
+                              "code_name": "UINT8",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 8
+                            }
+                          },
+                          {
+                            "name": "b",
+                            "pos": 1,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT16",
+                              "type": "common",
+                              "code_name": "UINT16",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 16
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "serialization": {
+              "length_field_size": 8,
+              "array_length_field_size": 8
+            }
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoUTF8String",
+            "num_id": 20,
+            "name": "echoUTF8String",
+            "desc": {
+              "#text": "This request/response method has a string as input parameter. The configured array length field size is 1 byte. The method shall return the input parameter without change as output parameter. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inString",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestString",
+                  "type": "common",
+                  "code_name": "UNICODE2STRING",
+                  "unit": "byte",
+                  "length_type": "string",
+                  "encoding": "UTF-8",
+                  "length": {
+                    "min": 0,
+                    "max": 96
+                  }
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outString",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestString",
+                  "type": "common",
+                  "code_name": "UNICODE2STRING",
+                  "unit": "byte",
+                  "length_type": "string",
+                  "encoding": "UTF-8",
+                  "length": {
+                    "min": 0,
+                    "max": 96
+                  }
+                }
+              }
+            ],
+            "serialization": {
+              "length_field_size": 8
+            }
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoInverseBitField",
+            "num_id": 21,
+            "name": "echoInverseBitField",
+            "desc": {
+              "#text": "This request/response method has two bitfields as input parameter. The method shall return the bit fields with inverse bit order (bit 0 -> bit 7, bit 1 -> bit 6, ...). outBitfield1 shall contain the bits of inBitfield1 in inverse order, outBitfield2 shall contain the bits of inBitfield2 in inverse order. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inBitfield1",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestBitfield",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              },
+              {
+                "name": "inBitfield2",
+                "pos": 1,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestBitfield",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outBitfield1",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestBitfield",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              },
+              {
+                "name": "outBitfield2",
+                "pos": 1,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestBitfield",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoComplexStruct",
+            "num_id": 23,
+            "name": "echoComplexStruct",
+            "desc": {
+              "#text": "This request/response method has a complex struct as input parameter. The configured array and struct length field size is 1 byte. The method shall return the input parameter without change as output parameter. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inStruct",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestComplexStruct",
+                  "type": "structure",
+                  "members": [
+                    {
+                      "name": "a",
+                      "pos": 0,
+                      "required": false,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT8",
+                        "type": "common",
+                        "code_name": "UINT8",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 8
+                      }
+                    },
+                    {
+                      "name": "b",
+                      "pos": 1,
+                      "required": false,
+                      "array": false,
+                      "datatype": {
+                        "name": "TestString",
+                        "type": "common",
+                        "code_name": "UNICODE2STRING",
+                        "unit": "byte",
+                        "length_type": "string",
+                        "encoding": "UTF-8",
+                        "length": {
+                          "min": 0,
+                          "max": 96
+                        }
+                      }
+                    },
+                    {
+                      "name": "c",
+                      "pos": 2,
+                      "required": false,
+                      "array": false,
+                      "datatype": {
+                        "name": "TestDynamicArray",
+                        "type": "typedef",
+                        "members": [
+                          {
+                            "name": "arrayMember",
+                            "pos": 0,
+                            "array": {
+                              "dimension": 1,
+                              "min_size": 0,
+                              "max_size": 5
+                            },
+                            "datatype": {
+                              "name": "UINT8",
+                              "type": "common",
+                              "code_name": "UINT8",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 8
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outStruct",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestComplexStruct",
+                  "type": "structure",
+                  "members": [
+                    {
+                      "name": "a",
+                      "pos": 0,
+                      "required": false,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT8",
+                        "type": "common",
+                        "code_name": "UINT8",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 8
+                      }
+                    },
+                    {
+                      "name": "b",
+                      "pos": 1,
+                      "required": false,
+                      "array": false,
+                      "datatype": {
+                        "name": "TestString",
+                        "type": "common",
+                        "code_name": "UNICODE2STRING",
+                        "unit": "byte",
+                        "length_type": "string",
+                        "encoding": "UTF-8",
+                        "length": {
+                          "min": 0,
+                          "max": 96
+                        }
+                      }
+                    },
+                    {
+                      "name": "c",
+                      "pos": 2,
+                      "required": false,
+                      "array": false,
+                      "datatype": {
+                        "name": "TestDynamicArray",
+                        "type": "typedef",
+                        "members": [
+                          {
+                            "name": "arrayMember",
+                            "pos": 0,
+                            "array": {
+                              "dimension": 1,
+                              "min_size": 0,
+                              "max_size": 5
+                            },
+                            "datatype": {
+                              "name": "UINT8",
+                              "type": "common",
+                              "code_name": "UINT8",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 8
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "serialization": {
+              "length_field_size": 8,
+              "array_length_field_size": 8
+            }
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoExtensibleStruct",
+            "num_id": 24,
+            "name": "echoExtensibleStruct",
+            "desc": {
+              "#text": "This request/response method has an extensible struct as input parameter. The configured array and struct length field size is 2 byte. The method shall return the input parameter without change as output parameter. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inStruct",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestExtensibleStruct",
+                  "type": "structure",
+                  "members": [
+                    {
+                      "name": "a",
+                      "pos": 0,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT8",
+                        "type": "common",
+                        "code_name": "UINT8",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 8
+                      }
+                    },
+                    {
+                      "name": "b",
+                      "pos": 1,
+                      "required": false,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT16",
+                        "type": "common",
+                        "code_name": "UINT16",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 16
+                      }
+                    },
+                    {
+                      "name": "c",
+                      "pos": 2,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT32",
+                        "type": "common",
+                        "code_name": "UINT32",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 32
+                      }
+                    },
+                    {
+                      "name": "d",
+                      "pos": 3,
+                      "required": false,
+                      "array": false,
+                      "datatype": {
+                        "name": "FLOAT64",
+                        "type": "common",
+                        "code_name": "FLOAT64",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 64
+                      }
+                    },
+                    {
+                      "name": "e",
+                      "pos": 4,
+                      "required": false,
+                      "array": false,
+                      "datatype": {
+                        "name": "TestDynamicArray",
+                        "type": "typedef",
+                        "members": [
+                          {
+                            "name": "arrayMember",
+                            "pos": 0,
+                            "array": {
+                              "dimension": 1,
+                              "min_size": 0,
+                              "max_size": 5
+                            },
+                            "datatype": {
+                              "name": "UINT8",
+                              "type": "common",
+                              "code_name": "UINT8",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 8
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outStruct",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestExtensibleStruct",
+                  "type": "structure",
+                  "members": [
+                    {
+                      "name": "a",
+                      "pos": 0,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT8",
+                        "type": "common",
+                        "code_name": "UINT8",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 8
+                      }
+                    },
+                    {
+                      "name": "b",
+                      "pos": 1,
+                      "required": false,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT16",
+                        "type": "common",
+                        "code_name": "UINT16",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 16
+                      }
+                    },
+                    {
+                      "name": "c",
+                      "pos": 2,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT32",
+                        "type": "common",
+                        "code_name": "UINT32",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 32
+                      }
+                    },
+                    {
+                      "name": "d",
+                      "pos": 3,
+                      "required": false,
+                      "array": false,
+                      "datatype": {
+                        "name": "FLOAT64",
+                        "type": "common",
+                        "code_name": "FLOAT64",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 64
+                      }
+                    },
+                    {
+                      "name": "e",
+                      "pos": 4,
+                      "required": false,
+                      "array": false,
+                      "datatype": {
+                        "name": "TestDynamicArray",
+                        "type": "typedef",
+                        "members": [
+                          {
+                            "name": "arrayMember",
+                            "pos": 0,
+                            "array": {
+                              "dimension": 1,
+                              "min_size": 0,
+                              "max_size": 5
+                            },
+                            "datatype": {
+                              "name": "UINT8",
+                              "type": "common",
+                              "code_name": "UINT8",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 8
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "serialization": {
+              "length_field_size": 16,
+              "array_length_field_size": 16
+            }
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoExtensibleStructInExtensibleStruct",
+            "num_id": 25,
+            "name": "echoExtensibleStructInExtensibleStruct",
+            "desc": {
+              "#text": "This request/response method has an extensible struct as input parameter. The extensible struct contains another extensible struct. The configured array and struct length field size is 2 byte. The method shall return the input parameter without change as output parameter. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inStruct",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestExtensibleStructInExtensibleStruct",
+                  "type": "structure",
+                  "members": [
+                    {
+                      "name": "a",
+                      "pos": 0,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT8",
+                        "type": "common",
+                        "code_name": "UINT8",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 8
+                      }
+                    },
+                    {
+                      "name": "b",
+                      "pos": 1,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT16",
+                        "type": "common",
+                        "code_name": "UINT16",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 16
+                      }
+                    },
+                    {
+                      "name": "c",
+                      "pos": 2,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT32",
+                        "type": "common",
+                        "code_name": "UINT32",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 32
+                      }
+                    },
+                    {
+                      "name": "d",
+                      "pos": 3,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT32",
+                        "type": "common",
+                        "code_name": "UINT32",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 32
+                      }
+                    },
+                    {
+                      "name": "e",
+                      "pos": 4,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "TestExtensibleStruct",
+                        "type": "structure",
+                        "members": [
+                          {
+                            "name": "a",
+                            "pos": 0,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT8",
+                              "type": "common",
+                              "code_name": "UINT8",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 8
+                            }
+                          },
+                          {
+                            "name": "b",
+                            "pos": 1,
+                            "required": false,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT16",
+                              "type": "common",
+                              "code_name": "UINT16",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 16
+                            }
+                          },
+                          {
+                            "name": "c",
+                            "pos": 2,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT32",
+                              "type": "common",
+                              "code_name": "UINT32",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 32
+                            }
+                          },
+                          {
+                            "name": "d",
+                            "pos": 3,
+                            "required": false,
+                            "array": false,
+                            "datatype": {
+                              "name": "FLOAT64",
+                              "type": "common",
+                              "code_name": "FLOAT64",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 64
+                            }
+                          },
+                          {
+                            "name": "e",
+                            "pos": 4,
+                            "required": false,
+                            "array": false,
+                            "datatype": {
+                              "name": "TestDynamicArray",
+                              "type": "typedef",
+                              "members": [
+                                {
+                                  "name": "arrayMember",
+                                  "pos": 0,
+                                  "array": {
+                                    "dimension": 1,
+                                    "min_size": 0,
+                                    "max_size": 5
+                                  },
+                                  "datatype": {
+                                    "name": "UINT8",
+                                    "type": "common",
+                                    "code_name": "UINT8",
+                                    "unit": "bit",
+                                    "length_type": "fixed",
+                                    "length": 8
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outStruct",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestExtensibleStructInExtensibleStruct",
+                  "type": "structure",
+                  "members": [
+                    {
+                      "name": "a",
+                      "pos": 0,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT8",
+                        "type": "common",
+                        "code_name": "UINT8",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 8
+                      }
+                    },
+                    {
+                      "name": "b",
+                      "pos": 1,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT16",
+                        "type": "common",
+                        "code_name": "UINT16",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 16
+                      }
+                    },
+                    {
+                      "name": "c",
+                      "pos": 2,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT32",
+                        "type": "common",
+                        "code_name": "UINT32",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 32
+                      }
+                    },
+                    {
+                      "name": "d",
+                      "pos": 3,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT32",
+                        "type": "common",
+                        "code_name": "UINT32",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 32
+                      }
+                    },
+                    {
+                      "name": "e",
+                      "pos": 4,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "TestExtensibleStruct",
+                        "type": "structure",
+                        "members": [
+                          {
+                            "name": "a",
+                            "pos": 0,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT8",
+                              "type": "common",
+                              "code_name": "UINT8",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 8
+                            }
+                          },
+                          {
+                            "name": "b",
+                            "pos": 1,
+                            "required": false,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT16",
+                              "type": "common",
+                              "code_name": "UINT16",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 16
+                            }
+                          },
+                          {
+                            "name": "c",
+                            "pos": 2,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT32",
+                              "type": "common",
+                              "code_name": "UINT32",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 32
+                            }
+                          },
+                          {
+                            "name": "d",
+                            "pos": 3,
+                            "required": false,
+                            "array": false,
+                            "datatype": {
+                              "name": "FLOAT64",
+                              "type": "common",
+                              "code_name": "FLOAT64",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 64
+                            }
+                          },
+                          {
+                            "name": "e",
+                            "pos": 4,
+                            "required": false,
+                            "array": false,
+                            "datatype": {
+                              "name": "TestDynamicArray",
+                              "type": "typedef",
+                              "members": [
+                                {
+                                  "name": "arrayMember",
+                                  "pos": 0,
+                                  "array": {
+                                    "dimension": 1,
+                                    "min_size": 0,
+                                    "max_size": 5
+                                  },
+                                  "datatype": {
+                                    "name": "UINT8",
+                                    "type": "common",
+                                    "code_name": "UINT8",
+                                    "unit": "bit",
+                                    "length_type": "fixed",
+                                    "length": 8
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "serialization": {
+              "length_field_size": 16,
+              "array_length_field_size": 16
+            }
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoNonExtensibleStructInExtensibleStruct",
+            "num_id": 26,
+            "name": "echoNonExtensibleStructInExtensibleStruct",
+            "desc": {
+              "#text": "This request/response method has an extensible struct as input parameter. The extensible struct contains a non-extensible struct. The configured array and struct length field size is 2 byte. The method shall return the input parameter without change as output parameter. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inStruct",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestNonExtensibleStructInExtensibleStruct",
+                  "type": "structure",
+                  "members": [
+                    {
+                      "name": "a",
+                      "pos": 0,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT8",
+                        "type": "common",
+                        "code_name": "UINT8",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 8
+                      }
+                    },
+                    {
+                      "name": "b",
+                      "pos": 1,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT16",
+                        "type": "common",
+                        "code_name": "UINT16",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 16
+                      }
+                    },
+                    {
+                      "name": "c",
+                      "pos": 2,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT32",
+                        "type": "common",
+                        "code_name": "UINT32",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 32
+                      }
+                    },
+                    {
+                      "name": "d",
+                      "pos": 3,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "FLOAT64",
+                        "type": "common",
+                        "code_name": "FLOAT64",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 64
+                      }
+                    },
+                    {
+                      "name": "e",
+                      "pos": 4,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "TestStruct",
+                        "type": "structure",
+                        "members": [
+                          {
+                            "name": "a",
+                            "pos": 0,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT8",
+                              "type": "common",
+                              "code_name": "UINT8",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 8
+                            }
+                          },
+                          {
+                            "name": "b",
+                            "pos": 1,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT16",
+                              "type": "common",
+                              "code_name": "UINT16",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 16
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outStruct",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestNonExtensibleStructInExtensibleStruct",
+                  "type": "structure",
+                  "members": [
+                    {
+                      "name": "a",
+                      "pos": 0,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT8",
+                        "type": "common",
+                        "code_name": "UINT8",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 8
+                      }
+                    },
+                    {
+                      "name": "b",
+                      "pos": 1,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT16",
+                        "type": "common",
+                        "code_name": "UINT16",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 16
+                      }
+                    },
+                    {
+                      "name": "c",
+                      "pos": 2,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT32",
+                        "type": "common",
+                        "code_name": "UINT32",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 32
+                      }
+                    },
+                    {
+                      "name": "d",
+                      "pos": 3,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "FLOAT64",
+                        "type": "common",
+                        "code_name": "FLOAT64",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 64
+                      }
+                    },
+                    {
+                      "name": "e",
+                      "pos": 4,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "TestStruct",
+                        "type": "structure",
+                        "members": [
+                          {
+                            "name": "a",
+                            "pos": 0,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT8",
+                              "type": "common",
+                              "code_name": "UINT8",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 8
+                            }
+                          },
+                          {
+                            "name": "b",
+                            "pos": 1,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT16",
+                              "type": "common",
+                              "code_name": "UINT16",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 16
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "serialization": {
+              "length_field_size": 16,
+              "array_length_field_size": 16
+            }
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoExtensibleStructInNonExtensibleStruct",
+            "num_id": 27,
+            "name": "echoExtensibleStructInNonExtensibleStruct",
+            "desc": {
+              "#text": "This request/response method has a non-extensible struct as input parameter. The non-extensible struct contains an extensible struct. The configured array and struct length field size is 2 byte. The method shall return the input parameter without change as output parameter. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inStruct",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestExtensibleStructInNonExtensibleStruct",
+                  "type": "structure",
+                  "members": [
+                    {
+                      "name": "a",
+                      "pos": 0,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT8",
+                        "type": "common",
+                        "code_name": "UINT8",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 8
+                      }
+                    },
+                    {
+                      "name": "b",
+                      "pos": 1,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT16",
+                        "type": "common",
+                        "code_name": "UINT16",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 16
+                      }
+                    },
+                    {
+                      "name": "c",
+                      "pos": 2,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT32",
+                        "type": "common",
+                        "code_name": "UINT32",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 32
+                      }
+                    },
+                    {
+                      "name": "d",
+                      "pos": 3,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "TestExtensibleStruct",
+                        "type": "structure",
+                        "members": [
+                          {
+                            "name": "a",
+                            "pos": 0,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT8",
+                              "type": "common",
+                              "code_name": "UINT8",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 8
+                            }
+                          },
+                          {
+                            "name": "b",
+                            "pos": 1,
+                            "required": false,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT16",
+                              "type": "common",
+                              "code_name": "UINT16",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 16
+                            }
+                          },
+                          {
+                            "name": "c",
+                            "pos": 2,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT32",
+                              "type": "common",
+                              "code_name": "UINT32",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 32
+                            }
+                          },
+                          {
+                            "name": "d",
+                            "pos": 3,
+                            "required": false,
+                            "array": false,
+                            "datatype": {
+                              "name": "FLOAT64",
+                              "type": "common",
+                              "code_name": "FLOAT64",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 64
+                            }
+                          },
+                          {
+                            "name": "e",
+                            "pos": 4,
+                            "required": false,
+                            "array": false,
+                            "datatype": {
+                              "name": "TestDynamicArray",
+                              "type": "typedef",
+                              "members": [
+                                {
+                                  "name": "arrayMember",
+                                  "pos": 0,
+                                  "array": {
+                                    "dimension": 1,
+                                    "min_size": 0,
+                                    "max_size": 5
+                                  },
+                                  "datatype": {
+                                    "name": "UINT8",
+                                    "type": "common",
+                                    "code_name": "UINT8",
+                                    "unit": "bit",
+                                    "length_type": "fixed",
+                                    "length": 8
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "name": "e",
+                      "pos": 4,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "FLOAT64",
+                        "type": "common",
+                        "code_name": "FLOAT64",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 64
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outStruct",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestExtensibleStructInNonExtensibleStruct",
+                  "type": "structure",
+                  "members": [
+                    {
+                      "name": "a",
+                      "pos": 0,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT8",
+                        "type": "common",
+                        "code_name": "UINT8",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 8
+                      }
+                    },
+                    {
+                      "name": "b",
+                      "pos": 1,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT16",
+                        "type": "common",
+                        "code_name": "UINT16",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 16
+                      }
+                    },
+                    {
+                      "name": "c",
+                      "pos": 2,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "UINT32",
+                        "type": "common",
+                        "code_name": "UINT32",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 32
+                      }
+                    },
+                    {
+                      "name": "d",
+                      "pos": 3,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "TestExtensibleStruct",
+                        "type": "structure",
+                        "members": [
+                          {
+                            "name": "a",
+                            "pos": 0,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT8",
+                              "type": "common",
+                              "code_name": "UINT8",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 8
+                            }
+                          },
+                          {
+                            "name": "b",
+                            "pos": 1,
+                            "required": false,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT16",
+                              "type": "common",
+                              "code_name": "UINT16",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 16
+                            }
+                          },
+                          {
+                            "name": "c",
+                            "pos": 2,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT32",
+                              "type": "common",
+                              "code_name": "UINT32",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 32
+                            }
+                          },
+                          {
+                            "name": "d",
+                            "pos": 3,
+                            "required": false,
+                            "array": false,
+                            "datatype": {
+                              "name": "FLOAT64",
+                              "type": "common",
+                              "code_name": "FLOAT64",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 64
+                            }
+                          },
+                          {
+                            "name": "e",
+                            "pos": 4,
+                            "required": false,
+                            "array": false,
+                            "datatype": {
+                              "name": "TestDynamicArray",
+                              "type": "typedef",
+                              "members": [
+                                {
+                                  "name": "arrayMember",
+                                  "pos": 0,
+                                  "array": {
+                                    "dimension": 1,
+                                    "min_size": 0,
+                                    "max_size": 5
+                                  },
+                                  "datatype": {
+                                    "name": "UINT8",
+                                    "type": "common",
+                                    "code_name": "UINT8",
+                                    "unit": "bit",
+                                    "length_type": "fixed",
+                                    "length": 8
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "name": "e",
+                      "pos": 4,
+                      "required": true,
+                      "array": false,
+                      "datatype": {
+                        "name": "FLOAT64",
+                        "type": "common",
+                        "code_name": "FLOAT64",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 64
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "serialization": {
+              "length_field_size": 16,
+              "array_length_field_size": 16
+            }
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoUINT8UINT16UINT32",
+            "num_id": 28,
+            "name": "echoUINT8UINT16UINT32",
+            "desc": {
+              "#text": "This request/response method has three unsigned integer input parameters. The method shall return the input parameters without change as output parameters. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification. This method shall also be implemented by the Testability Service Instance-ID 0x0001 and 0x0002 (Tester) and shall be invoked by the DUT when the triggerEcho_UINT8_UINT16_UINT32 method of Testability Service Instance-ID 0x0003 and 0x0004 is called.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inUINT8",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              },
+              {
+                "name": "inUINT16",
+                "pos": 1,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT16",
+                  "type": "common",
+                  "code_name": "UINT16",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 16
+                }
+              },
+              {
+                "name": "inUINT32",
+                "pos": 2,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT32",
+                  "type": "common",
+                  "code_name": "UINT32",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 32
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outUINT8",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              },
+              {
+                "name": "outUINT16",
+                "pos": 1,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT16",
+                  "type": "common",
+                  "code_name": "UINT16",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 16
+                }
+              },
+              {
+                "name": "outUINT32",
+                "pos": 2,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT32",
+                  "type": "common",
+                  "code_name": "UINT32",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 32
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoExtensibleParameters",
+            "num_id": 29,
+            "name": "echoExtensibleParameters",
+            "desc": {
+              "#text": "This request/response method has up three unsigned integer input parameters. The first parameter is mandatory, the others are optional. The method shall return the input parameters without change as output parameters. This means that the number of output parameters shall correspond to the number of input parameters. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification. This method shall also be implemented by the Testability Service Instance-ID 0x0001 and 0x0002 (Tester) and shall be invoked by the DUT when the triggerEchoExtensibleParameters method of Testability Service Instance-ID 0x0003 and 0x0004 is called.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inUINT8",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              },
+              {
+                "name": "inUINT16",
+                "pos": 1,
+                "required": false,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT16",
+                  "type": "common",
+                  "code_name": "UINT16",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 16
+                }
+              },
+              {
+                "name": "inUINT32",
+                "pos": 2,
+                "required": false,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT32",
+                  "type": "common",
+                  "code_name": "UINT32",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 32
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outUINT8",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              },
+              {
+                "name": "outUINT16",
+                "pos": 1,
+                "required": false,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT16",
+                  "type": "common",
+                  "code_name": "UINT16",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 16
+                }
+              },
+              {
+                "name": "outUINT32",
+                "pos": 2,
+                "required": false,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT32",
+                  "type": "common",
+                  "code_name": "UINT32",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 32
+                }
+              }
+            ],
+            "serialization": {
+              "length_field_size": 16
+            }
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_noResponseUINT8",
+            "num_id": 30,
+            "name": "noResponseUINT8",
+            "desc": {
+              "#text": "This request/no return method has one input parameter. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification. This method shall also be implemented by the Testability Service Instance-ID 0x0001 and 0x0002 (Tester) and shall be invoked by the DUT when the triggerFireForget_UINT8 method of Testability Service Instance-ID 0x0003 and 0x0004 is called.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "FIRE_AND_FORGET",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inUINT8",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_triggerEventUINT8",
+            "num_id": 31,
+            "name": "triggerEventUINT8",
+            "desc": {
+              "#text": "This request/no return method forces the DUT to sent the event TestEventUINT8 to the tester assuming a previously established subscription. When the method is called, the method shall send the event TestEventUINT8. The parameter N_RETRY specifies the maximum number of retries in case acknowledgement and retry for events is used. It overwrites the default value for the number of retries. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "FIRE_AND_FORGET",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "triggerNRetry",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_triggerEchoUINT8",
+            "num_id": 32,
+            "name": "triggerEchoUINT8",
+            "desc": {
+              "#text": "This request/no return method forces the DUT to call the method echoUINT8. When the method is called on the DUT, the method shall call the method echoUINT8 of the tester service instance. The method shall pass the parameter inUINT8 to the method echoUINT8. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "FIRE_AND_FORGET",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inUINT8",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_triggerEcho_UINT8_UINT16_UINT32",
+            "num_id": 33,
+            "name": "triggerEcho_UINT8_UINT16_UINT32",
+            "desc": {
+              "#text": "This request/no return method forces the DUT to call the method echoUINT8UINT16UINT32. When the method is called on the DUT, the method shall call the method echoUINT8UINT16UINT32 of the tester service instance. The method shall pass the parameters inUINT8, inUINT16, inUINT32 to the method echoUINT8UINT16UINT32. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "FIRE_AND_FORGET",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inUINT8",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              },
+              {
+                "name": "inUINT16",
+                "pos": 1,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT16",
+                  "type": "common",
+                  "code_name": "UINT16",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 16
+                }
+              },
+              {
+                "name": "inUINT32",
+                "pos": 2,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT32",
+                  "type": "common",
+                  "code_name": "UINT32",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 32
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_triggerFireForget_UINT8",
+            "num_id": 34,
+            "name": "triggerFireForget_UINT8",
+            "desc": {
+              "#text": "This request/no return method forces the DUT to call the method noResponseUINT8. When the method is called on the DUT, the method shall call the method noResponseUINT8 of the tester service instance. The method shall pass the parameter inUINT8 to the method noResponseUINT8. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "FIRE_AND_FORGET",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inUINT8",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_triggerSetterUINT8",
+            "num_id": 35,
+            "name": "triggerSetterUINT8",
+            "desc": {
+              "#text": "This request/no return method forces the DUT to call the set method of the property TestFieldUINT8. When the method is called on the DUT, the method shall call the set method of the property TestFieldUINT8 of the tester service instance. The method shall pass the parameter inUINT8 to the set method. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "FIRE_AND_FORGET",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inUINT8",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_triggerGetterUINT8",
+            "num_id": 36,
+            "name": "triggerGetterUINT8",
+            "desc": {
+              "#text": "This request/no return method forces the DUT to call the get method of the property TestFieldUINT8. When the method is called on the DUT, the method shall call the get method of the property TestFieldUINT8 of the tester service instance. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "FIRE_AND_FORGET",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inUINT8",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_triggerEchoExtensibleParameters",
+            "num_id": 37,
+            "name": "triggerEchoExtensibleParameters",
+            "desc": {
+              "#text": "This request/no return method forces the DUT to call the method echoExtensibleParameters. When the method is called on the DUT, the method shall call the method echoExtensibleParameters of the tester service instance. The method shall pass the parameters inUINT8, inUINT16, inUINT32 to the method echoExtensibleParameters. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "FIRE_AND_FORGET",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inUINT8",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              },
+              {
+                "name": "inUINT16",
+                "pos": 1,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT16",
+                  "type": "common",
+                  "code_name": "UINT16",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 16
+                }
+              },
+              {
+                "name": "inUINT32",
+                "pos": 2,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT32",
+                  "type": "common",
+                  "code_name": "UINT32",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 32
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_activateTsClient",
+            "num_id": 38,
+            "name": "activateTsClient",
+            "desc": {
+              "#text": "This request/response method shall activate the client instance of the Testability Service on the DUT. It has a single UINT8 parameter which specifies the time in seconds the DUT has to wait before actually activating the client service instance (i.e. transition from the down phase to the initial wait phase) and proceed with the start-up. When activateTsClient is called for Testability Service server Instance-ID 0x0003, the Testability Service client shall search for a Testability Service Server offering the Instance-ID 0x0001 (UDP support). When activateTsClient is called for Testability Service server Instance-ID 0x0004, the Testability Service client shall search for a Testability Service Server offering the Instance-ID 0x0002 (TCP support). A SOME/IP response message shall be sent back indicating if the client activation could be initiated succesfully (return code 0x00) or not (return code 0x20). This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "startTimeout",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_deactivateTsClient",
+            "num_id": 39,
+            "name": "deactivateTsClient",
+            "desc": {
+              "#text": "This request/response method shall deactivate the client instance of the Testability Service on the DUT. It has a single UINT8 parameter which specifies the time in seconds the DUT has to wait before actually deactivating the client service instance (i.e. transition from the main phase to the down phase) and proceed with the shutdown. A SOME/IP response message shall be sent back indicating if the client deactivation could be initiated succesfully (return code 0x00) or not (return code 0x20). This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "startTimeout",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_resetInterface",
+            "num_id": 86,
+            "name": "resetInterface",
+            "desc": {
+              "#text": "This request/response method tells the DUT to reset and restart the Testability Service server instance. The method shall reset the Testability Service server instance after the delay specified in the method's payload (if set to 0 then the reset has to be performed directly upon reception of the request). Resets means that it has to go through the entire shutdown and start phases as defined in the Service Discovery specification (main phase -> down phase -> initial wait phase -> repetition phase -> main phase).  A SOME/IP response message shall be sent back indicating if the request has been succesfully received and accepted prior to start the reset process (return code 0x00) or if the reset cannot be performed (return code 0x20). This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "delay",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_enableSubscription",
+            "num_id": 40,
+            "name": "enableSubscription",
+            "desc": {
+              "#text": "This request/response method allows the Testability Service client to subscribe to eventgroups provided by the Testability Service instance of the tester. When the method is called for Testability Service Instance-ID 0x0003, the Testability Service client shall subscribe to an eventgroup of the Testability Service Instance-ID 0x0001. When the method is called for Testability Service Instance-ID 0x0004, the Testability Service client shall subscribe to an eventgroup of the Testability Service Instance-ID 0x0002. The eventgroup to which the client shall subscribe is specified by the parameter eventGroupId of the method. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "eventGroupId",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_getSupportedFunctions",
+            "num_id": 16368,
+            "name": "getSupportedFunctions",
+            "desc": "This method shall return a list of all supported Testability Service method and event Ids. The method shall be implemented in all Testability service instances.",
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "return_params": [
+              {
+                "name": "ids",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "TestabilityServiceFunctionListType",
+                  "type": "typedef",
+                  "members": [
+                    {
+                      "name": "arrayMember",
+                      "pos": 0,
+                      "array": {
+                        "dimension": 1,
+                        "min_size": 0,
+                        "max_size": 128
+                      },
+                      "datatype": {
+                        "name": "UINT16",
+                        "type": "common",
+                        "code_name": "UINT16",
+                        "unit": "bit",
+                        "length_type": "fixed",
+                        "length": 16
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "serialization": {
+              "array_length_field_size": 16
+            }
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_echoLargeDataArray",
+            "num_id": 87,
+            "name": "echoLargeDataArray",
+            "desc": {
+              "#text": "This request/response method has a dynamic length array  of type LargeDataArray as input parameter. The configured array length field size is 2 bytes. The array holds from 0 to 8191 UINT8 items. The method shall return the array items in the exact order they were received. This method shall be implemented by the Testability Service Instance-ID 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "inArray",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "LargeDataArray",
+                  "type": "typedef",
+                  "members": [
+                    {
+                      "name": "arrayMember",
+                      "pos": 0,
+                      "array": {
+                        "dimension": 1,
+                        "min_size": 0,
+                        "max_size": 8191
+                      },
+                      "datatype": {
+                        "name": "TestStruct",
+                        "type": "structure",
+                        "members": [
+                          {
+                            "name": "a",
+                            "pos": 0,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT8",
+                              "type": "common",
+                              "code_name": "UINT8",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 8
+                            }
+                          },
+                          {
+                            "name": "b",
+                            "pos": 1,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT16",
+                              "type": "common",
+                              "code_name": "UINT16",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 16
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "return_params": [
+              {
+                "name": "outArray",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "LargeDataArray",
+                  "type": "typedef",
+                  "members": [
+                    {
+                      "name": "arrayMember",
+                      "pos": 0,
+                      "array": {
+                        "dimension": 1,
+                        "min_size": 0,
+                        "max_size": 8191
+                      },
+                      "datatype": {
+                        "name": "TestStruct",
+                        "type": "structure",
+                        "members": [
+                          {
+                            "name": "a",
+                            "pos": 0,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT8",
+                              "type": "common",
+                              "code_name": "UINT8",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 8
+                            }
+                          },
+                          {
+                            "name": "b",
+                            "pos": 1,
+                            "required": true,
+                            "array": false,
+                            "datatype": {
+                              "name": "UINT16",
+                              "type": "common",
+                              "code_name": "UINT16",
+                              "unit": "bit",
+                              "length_type": "fixed",
+                              "length": 16
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "serialization": {
+              "length_field_size": 32,
+              "array_length_field_size": 32
+            }
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_getLastValueEventUINT8",
+            "num_id": 88,
+            "name": "getLastValueEventUINT8",
+            "desc": {
+              "#text": "This request/response method tells the Testability Service client instance to return the value of the last testEventUINT8 received. In case no valid subscription for an eventgroup holding testEventUINT8 is available or the last testEventUINT8 was received outside of a valid subscription, the value returned for this method request shall be 0. This method shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "return_params": [
+              {
+                "name": "outEventValue",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_getLastValueEventMulticastUINT8",
+            "num_id": 89,
+            "name": "getLastValueEventMulticastUINT8",
+            "desc": {
+              "#text": "This request/response method tells the Testability Service client instance to return the value of the last testEventMulticastUINT8 received. In case no valid subscription for an eventgroup holding testEventMulticastUINT8 is available or the last testEventMulticastUINT8 was received outside of a valid subscription, the value returned for this method request shall be 0. This method shall be implemented by the Testability Service Instance-ID 0x0003 and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "REQUEST_RESPONSE",
+            "reliable": true,
+            "return_params": [
+              {
+                "name": "outEventValue",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_triggerEventMulticastUINT8",
+            "num_id": 90,
+            "name": "triggerEventMulticastUINT8",
+            "desc": {
+              "#text": "This request/no return method forces the DUT to sent the event TestEventMulticastUINT8 to the tester assuming a previously established subscription. When the method is called, the method shall send the event TestEventMulticastUINT8. This method shall be implemented by the Testability Service Instance-ID 0x0003 (DUT) and can be invoked by the tester according to the test specification.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "FIRE_AND_FORGET",
+            "reliable": true
+          }
+        ],
+        "events": [
+          {
+            "id": "ServiceInterface_TestabilityService_Method_testEventUINT8",
+            "num_id": 32769,
+            "name": "testEventUINT8",
+            "desc": "The testEventUINT8 shall be sent by the DUT Testability Service Instance 0x0003 and 0x0004 when the tester calls the method triggerEventUINT8.",
+            "call_semantic": "FIRE_AND_FORGET",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "data",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Method_testEventMulticastUINT8",
+            "num_id": 32770,
+            "name": "testEventMulticastUINT8",
+            "desc": {
+              "#text": "The testEventMulticastUINT8 shall be sent by the DUT Testability Service Instance 0x0003 when the tester calls the method triggerEventMulticastUINT8.",
+              "@xml:lang": "en"
+            },
+            "call_semantic": "FIRE_AND_FORGET",
+            "reliable": true,
+            "input_params": [
+              {
+                "name": "data",
+                "pos": 0,
+                "required": true,
+                "endianness": "big",
+                "datatype": {
+                  "name": "UINT8",
+                  "type": "common",
+                  "code_name": "UINT8",
+                  "unit": "bit",
+                  "length_type": "fixed",
+                  "length": 8
+                }
+              }
+            ]
+          }
+        ],
+        "fields": [
+          {
+            "id": "ServiceInterface_TestabilityService_Field_TestFieldUINT8",
+            "name": "TestFieldUINT8",
+            "desc": "This field shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT) and 0x0001 and 0x0003 (Tester).",
+            "access_permission": "NOTIFY_READ_WRITE",
+            "datatype": {
+              "name": "UINT8",
+              "type": "common",
+              "code_name": "UINT8",
+              "unit": "bit",
+              "length_type": "fixed",
+              "length": 8
+            }
+          },
+          {
+            "id": "ServiceInterface_TestabilityService_Field_TestFieldUINT64",
+            "name": "TestFieldUINT64",
+            "desc": "This field shall be implemented by the Testability Service Instance-ID 0x0003 and 0x0004 (DUT).",
+            "access_permission": "NOTIFY_READ_ONLY",
+            "datatype": {
+              "name": "UINT64",
+              "type": "common",
+              "code_name": "UINT64",
+              "unit": "bit",
+              "length_type": "fixed",
+              "length": 64
+            }
+          }
+        ],
+        "event_groups": [
+          {
+            "service_id": 111,
+            "name": "EventGroup1",
+            "event_ids": [
+              "ServiceInterface_TestabilityService_Method_testEventUINT8"
+            ]
+          },
+          {
+            "service_id": 112,
+            "name": "EventGroup2",
+            "event_ids": []
+          },
+          {
+            "service_id": 113,
+            "name": "EventGroupMC",
+            "event_ids": [
+              "ServiceInterface_TestabilityService_Method_testEventMulticastUINT8"
+            ]
+          }
+        ]
+      }
+    ]
+  }
