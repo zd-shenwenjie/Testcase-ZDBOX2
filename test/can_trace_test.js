@@ -119,7 +119,7 @@ before('create can-standard-simulation and can-websocket', () => {
     })
 })
 
-after('close all item',(done) => {
+after('close all item', (done) => {
     toolkit.stopSession(session);
     axios.post(`http://${publisher_base_url}:${standard_simulation_port}/modules/${instance}/stop`)
         .then(res => {
@@ -139,7 +139,7 @@ describe('CAN-Trace test', () => {
                 pdus.forEach(ele => {
                     if (ele.parsed) {
                         // console.dir(ele, {depth: null});
-                        console.log(ele.id);
+                        // console.log(ele.id);
                         expect(ele.id).to.be.equal(960);
                     }
                 });
@@ -149,15 +149,27 @@ describe('CAN-Trace test', () => {
             });
         });
 
-        it('should test2', async () => {
+        it('should verify cycle', async () => {
+            await axios.put(`http://${publisher_base_url}:${standard_simulation_port}/modules/${instance}/trigger/cycle/${msgId}`,
+                {
+                    "time": 10
+                }).then(res => {
+                expect(res.data.time).to.be.equal(10);
+                console.log('---------------------')
+            })
+
+            await axios.get(`http://${publisher_base_url}:${standard_simulation_port}/modules/${instance}/trigger/cycle/${msgId}`)
+                .then(res => {
+                    expect(res.data.time).to.be.equal(10);
+                })
+
             await session.subscribePDU(() => {
                 return true
             }, (pdus) => {
                 pdus.forEach(ele => {
                     if (ele.parsed) {
                         // console.dir(ele, {depth: null});
-                        console.log(ele.id);
-
+                        // console.log(ele.id);
                         expect(ele.id).to.be.equal(960);
                     }
                 });
@@ -167,8 +179,23 @@ describe('CAN-Trace test', () => {
             });
         });
 
-        it('should test3', function () {
-            console.log('test3')
+        it('should test change date', async () => {
+            // console.log('test3')
+
+            // dataList.forEach((item) => {
+            //     bodyFormData.append('dataList[]', item);
+            // });
+            const datas = [{
+                "name": "RSt_Fahrerhinweise",
+                "txt": "Fahreruebernahme_Hinweis_ZAT_Automat_ohne_Gong"
+            }];
+
+            axios.put(`http://${publisher_base_url}:${standard_simulation_port}/modules/${instance}/data/${msgId}/signal`, datas)
+                .then(res => {
+                    console.log(res.data)
+                }).catch(err => {
+                console.log(err);
+            });
         });
 
         it('should test4', function () {
