@@ -4,7 +4,8 @@ info:
   version: '1.0'
   description: ''
 servers:
-  - url: 'http://192.168.1.125:5001'
+  - url: 'http://127.0.0.1:5001'
+    description: ''
 paths:
   /instance:
     get:
@@ -46,8 +47,14 @@ paths:
                           initial_delay_max: 0
                           ttl: 0
       operationId: get-instance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
     post:
-      summary: Create simulation instance
+      summary: Create someip server/client instance
       operationId: post-instance
       responses:
         '200':
@@ -57,11 +64,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/BaseHttpResponse'
               examples:
-                example-1:
+                sever:
                   value:
                     code: 200
                     message: load instances successed.
                     data: someip-server_1.0.0_1
+                client:
+                  value:
+                    code: 0
+                    message: string
+                    data: string
       requestBody:
         content:
           application/json:
@@ -89,14 +101,17 @@ paths:
                   minLength: 1
                 server_mask:
                   type: number
+                client_ip:
+                  type: string
+                  minLength: 1
+                client_mask:
+                  type: number
                 client_id:
                   type: number
                 protocol_version:
                   type: number
                 interface_version:
                   type: number
-                bind_generic_function:
-                  type: boolean
                 applications:
                   type: object
                   properties:
@@ -106,16 +121,43 @@ paths:
                         protocol:
                           type: string
                           minLength: 1
+                        bind_generic_function:
+                          type: boolean
                         spec_files:
                           type: object
                           properties:
                             '300':
                               type: string
                               minLength: 1
+                            '24603':
+                              type: string
+                              minLength: 1
+                            '24604':
+                              type: string
+                              minLength: 1
+                            '24747':
+                              type: string
+                              minLength: 1
+                            '24864':
+                              type: string
+                              minLength: 1
+                            '24884':
+                              type: string
+                              minLength: 1
+                            '65280':
+                              type: string
+                              minLength: 1
                           required:
                             - '300'
+                            - '24603'
+                            - '24604'
+                            - '24747'
+                            - '24864'
+                            - '24884'
+                            - '65280'
                       required:
                         - protocol
+                        - bind_generic_function
                         - spec_files
                   required:
                     - '29180'
@@ -155,10 +197,11 @@ paths:
                 - role
                 - server_ip
                 - server_mask
+                - client_ip
+                - client_mask
                 - client_id
                 - protocol_version
                 - interface_version
-                - bind_generic_function
                 - applications
                 - service_discovery
               x-examples:
@@ -171,15 +214,23 @@ paths:
                   role: server
                   server_ip: 'fd53:7cb8:0383:0004:0000:0000:0000:0067'
                   server_mask: 64
+                  client_ip: 'fd53:7cb8:0383:0004:0000:0000:0000:0001'
+                  client_mask: 64
                   client_id: 1
                   protocol_version: 1
                   interface_version: 1
-                  bind_generic_function: false
                   applications:
                     '29180':
                       protocol: tcp
+                      bind_generic_function: false
                       spec_files:
-                        '300': 0x12C_NetworkAccessService_V2.3.2F.json
+                        '300': /fibex/0x12C_NetworkAccessService-v3.0.0E.json
+                        '24603': /autosar/Service_Positioning.json
+                        '24604': /autosar/Service_GNSS.json
+                        '24747': /fibex/0x60AB_Service_V2XMessage-ID-REF-Fix-Typo-Fix-FIELD-LENGTH-Fix.json
+                        '24864': /fibex/0x6120_Service_BluetoothPhone_v3_3F.json
+                        '24884': /fibex/0x6134_OSDRegistration_V1.2.3F.json
+                        '65280': /fibex/0xFF00_TestabilityService_V2.0.0F_CBox.json
                   service_discovery:
                     enable: true
                     protocol: udp
@@ -189,7 +240,7 @@ paths:
                     initial_delay_max: 100
                     ttl: 3
             examples:
-              example-1:
+              sever:
                 value:
                   id: 1
                   name: someip-server
@@ -199,15 +250,23 @@ paths:
                   role: server
                   server_ip: 'fd53:7cb8:0383:0004:0000:0000:0000:0067'
                   server_mask: 64
+                  client_ip: 'fd53:7cb8:0383:0004:0000:0000:0000:0001'
+                  client_mask: 64
                   client_id: 1
                   protocol_version: 1
                   interface_version: 1
-                  bind_generic_function: false
                   applications:
                     '29180':
                       protocol: tcp
+                      bind_generic_function: false
                       spec_files:
-                        '300': 0x12C_NetworkAccessService_V2.3.2F.json
+                        '300': /fibex/0x12C_NetworkAccessService-v3.0.0E.json
+                        '24603': /autosar/Service_Positioning.json
+                        '24604': /autosar/Service_GNSS.json
+                        '24747': /fibex/0x60AB_Service_V2XMessage-ID-REF-Fix-Typo-Fix-FIELD-LENGTH-Fix.json
+                        '24864': /fibex/0x6120_Service_BluetoothPhone_v3_3F.json
+                        '24884': /fibex/0x6134_OSDRegistration_V1.2.3F.json
+                        '65280': /fibex/0xFF00_TestabilityService_V2.0.0F_CBox.json
                   service_discovery:
                     enable: true
                     protocol: udp
@@ -216,6 +275,43 @@ paths:
                     initial_delay_min: 10
                     initial_delay_max: 100
                     ttl: 3
+              client:
+                value:
+                  id: 2
+                  name: someip-client
+                  version: 1.0.0
+                  phy_id: 104
+                  vlan: 4
+                  role: client
+                  server_ip: 'fd53:7cb8:0383:0004:0000:0000:0000:0067'
+                  server_mask: 64
+                  client_ip: 'fd53:7cb8:0383:0004:0000:0000:0000:0001'
+                  client_mask: 64
+                  client_id: 1
+                  protocol_version: 1
+                  interface_version: 1
+                  bind_generic_function: false
+                  applications:
+                    '29180':
+                      protocol: tcp
+                      bind_generic_function: false
+                      spec_files:
+                        '300': /fibex/0x12C_NetworkAccessService-v3.0.0E.json
+                        '24603': /autosar/Service_Positioning.json
+                        '24604': /autosar/Service_GNSS.json
+                        '24747': /fibex/0x60AB_Service_V2XMessage-ID-REF-Fix-Typo-Fix-FIELD-LENGTH-Fix.json
+                        '24864': /fibex/0x6120_Service_BluetoothPhone_v3_3F.json
+                        '24884': /fibex/0x6134_OSDRegistration_V1.2.3F.json
+                        '65280': /fibex/0xFF00_TestabilityService_V2.0.0F_CBox.json
+                  service_discovery:
+                    enable: true
+                    protocol: udp
+                    multicast_ip: 224.224.224.245
+                    multicast_port: 30490
+                    initial_delay_min: 10
+                    initial_delay_max: 100
+                    ttl: 3
+        description: ''
     delete:
       summary: Delete all  the instances
       operationId: delete-instance
@@ -239,9 +335,10 @@ paths:
           example: someip-server_1.0.0_1
         name: id
         in: path
+        description: here man can whrite 'someip-server_1.0.0_1' or 'someip-client_1.0.0_2'
         required: true
     post:
-      summary: Start all someip service of  the instances
+      summary: Start  someip server/client  instance
       operationId: post-instance-id-start
       responses:
         '200':
@@ -289,7 +386,12 @@ paths:
                   example-1:
                     code: 400
                     message: 'instance(id:id) does not exist.'
-      description: Here  id should be "someip-server_1.0.0_1"
+              examples:
+                example-1:
+                  value:
+                    code: 400
+                    message: 'instance(id:server_ins_id) does not exist.'
+      description: ''
   '/instance/{id}/stop':
     parameters:
       - schema:
@@ -298,8 +400,9 @@ paths:
         name: id
         in: path
         required: true
+        description: here man can whrite 'someip-server_1.0.0_1' or 'someip-client_1.0.0_2'
     post:
-      summary: Stop all someip service of  the instances
+      summary: Stop someip server/client instance
       operationId: post-instance-id-stop
       responses:
         '200':
@@ -327,7 +430,7 @@ paths:
                   value:
                     code: 200
                     message: 'stop instance(id:someip-server_1.0.0_1) successed.'
-      description: Here id should be equal to the start instance
+      description: ''
   '/instance/{id}/discovery/start':
     parameters:
       - schema:
@@ -336,8 +439,9 @@ paths:
         name: id
         in: path
         required: true
+        description: here man can whrite 'someip-server_1.0.0_1' or 'someip-client_1.0.0_2'
     post:
-      summary: Start the someip service discovery of instance
+      summary: Start the someip server/client discovery of instance
       operationId: post-instance-id-discovery-start
       responses:
         '200':
@@ -390,7 +494,7 @@ paths:
                   value:
                     code: 400
                     message: 'instance(id:1212) does not exist.'
-      description: Here the id should also  be the same
+      description: ''
   '/instance/{id}/discovery/stop':
     parameters:
       - schema:
@@ -399,8 +503,9 @@ paths:
         name: id
         in: path
         required: true
+        description: here man can whrite 'someip-server_1.0.0_1' or 'someip-client_1.0.0_2'
     post:
-      summary: Stop the someip service discovery of instance
+      summary: Stop the someip server/client discovery of instance
       operationId: post-instance-id-discovery-stop
       responses:
         '200':
@@ -453,7 +558,7 @@ paths:
                   value:
                     code: 400
                     message: 'instance(id:123) does not exist.'
-      description: Here id should also  be the same
+      description: ''
   '/instance/{id}/{appPort}/{serviceId}/{methodId}/{direction}/payload':
     parameters:
       - schema:
@@ -462,6 +567,7 @@ paths:
         name: id
         in: path
         required: true
+        description: here man can whrite 'someip-server_1.0.0_1' or 'someip-client_1.0.0_2'
       - schema:
           type: string
           example: '29180'
@@ -470,7 +576,7 @@ paths:
         required: true
       - schema:
           type: string
-          example: '300'
+          example: '65280'
         name: serviceId
         in: path
         required: true
@@ -486,8 +592,9 @@ paths:
         name: direction
         in: path
         required: true
+        description: '''input''  or ''return'''
     get:
-      summary: Get the payload of someip service
+      summary: Get the payload of someip server/client service
       tags: []
       responses:
         '200':
@@ -526,7 +633,9 @@ paths:
                     code: 200
                     message: get parameters payload successed.
                     data:
-                      version: ''
+                      outUINT16: 6
+                      outUINT32: 5
+                      "{\n  \"outUINT16\": 0,\n  \"outUINT32\": 0\n}": ''
         '400':
           description: Bad Request
           content:
@@ -555,7 +664,7 @@ paths:
       operationId: get-instance-id-appPort-serviceId-methodId-direction-payload
       description: ''
     post:
-      summary: Set the payload of someip service
+      summary: Set the payload of someip server/client  service
       operationId: post-instance-id-appPort-serviceId-methodId-direction-payload
       responses:
         '200':
@@ -571,18 +680,44 @@ paths:
                   message:
                     type: string
                     minLength: 1
+                  data:
+                    type: object
+                    properties:
+                      outUINT16:
+                        type: number
+                      outUINT32:
+                        type: number
+                      "{\n  \"outUINT16\": 0,\n  \"outUINT32\": 0\n}":
+                        type: string
+                    required:
+                      - outUINT16
+                      - outUINT32
+                      - |-
+                        {
+                          "outUINT16": 0,
+                          "outUINT32": 0
+                        }
                 required:
                   - code
                   - message
+                  - data
                 x-examples:
                   example-1:
                     code: 200
-                    message: set parameters payload successed.
+                    message: get parameters payload successed.
+                    data:
+                      outUINT16: 6
+                      outUINT32: 5
+                      "{\n  \"outUINT16\": 0,\n  \"outUINT32\": 0\n}": ''
               examples:
                 example-1:
                   value:
                     code: 200
-                    message: set parameters payload successed.
+                    message: get parameters payload successed.
+                    data:
+                      outUINT16: 6
+                      outUINT32: 5
+                      "{\n  \"outUINT16\": 0,\n  \"outUINT32\": 0\n}": ''
         '400':
           description: Bad Request
           content:
@@ -609,6 +744,29 @@ paths:
                     code: 400
                     message: 'instance(id:id) does not exist.'
       description: ''
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: ''
+              type: object
+              properties:
+                outUINT16:
+                  type: number
+                outUINT32:
+                  type: number
+              required:
+                - outUINT16
+                - outUINT32
+              x-examples:
+                example-1:
+                  outUINT16: 1
+                  outUINT32: 2
+            examples:
+              example-1:
+                value:
+                  outUINT16: 5
+                  outUINT32: 6
   '/instance/{id}/{appPort}/rule':
     parameters:
       - schema:
@@ -617,6 +775,7 @@ paths:
         name: id
         in: path
         required: true
+        description: here man can whrite 'someip-server_1.0.0_1' or 'someip-client_1.0.0_2'
       - schema:
           type: string
           example: '29180'
@@ -781,7 +940,7 @@ paths:
                   value:
                     code: 200
                     message: add rule successed.
-                    data: '50810'
+                    data: '36203'
       requestBody:
         content:
           application/json:
@@ -805,14 +964,14 @@ paths:
               x-examples:
                 example-1:
                   type: afterDecode
-                  condition: '(sourceChannel, message, service) => {const { header } = message;const methodId = header.messageId.methodId;console.log(''hello condition func => methodId:'', header.messageId);return methodId % 2 === 0;}'
-                  todo: '(sourceChannel, message, service) => {console.log(''hello rule function !!!'');}'
+                  condition: '[Function: condition]'
+                  todo: '[Function: todo]'
             examples:
               example-1:
                 value:
                   type: afterDecode
-                  condition: '(sourceChannel, message, service) => {const { header } = message;const methodId = header.messageId.methodId;console.log(''hello condition func => methodId:'', header.messageId);return methodId % 2 === 0;}'
-                  todo: '(sourceChannel, message, service) => {console.log(''hello rule function !!!'');}'
+                  condition: "(channel, message, service, handler) => {\r\n            console.log('condition func(channel)', JSON.stringify(channel));\r\n            console.log('condition func(message)', JSON.stringify(message));\r\n            // console.log('condition func(service)', JSON.stringify(service));\r\n            return true;\r\n        }"
+                  todo: "(channel, message, service, handler) => {\r\n            console.log('todo func(channel)', JSON.stringify(channel));\r\n            console.log('todo func(message)', JSON.stringify(message));\r\n            // console.log('todo func(service)', JSON.stringify(service));\r\n            const pdu = message.data;\r\n            handler.send(pdu);\r\n        }"
           application/xml:
             schema:
               description: ''
@@ -844,6 +1003,7 @@ paths:
                   "todo": "(sourceChannel, message, service) => {console.log('hello rule function !!!');}"
                   }
         description: ''
+      description: ''
     delete:
       summary: Delete Callback to the simulation instance
       operationId: delete-instance-id-appPort-serviceId-rule
@@ -995,20 +1155,20 @@ paths:
                     data:
                       type: Buffer
                       data:
+                        - 255
+                        - 0
+                        - 0
+                        - 1
                         - 0
                         - 0
                         - 0
+                        - 14
                         - 0
+                        - 1
                         - 0
-                        - 0
-                        - 0
-                        - 0
-                        - 0
-                        - 0
-                        - 0
-                        - 0
-                        - 0
-                        - 0
+                        - 1
+                        - 1
+                        - 1
                         - 0
                         - 0
         '500':
@@ -1098,9 +1258,9 @@ paths:
               example-1:
                 value:
                   messageId:
-                    serviceId: 300
+                    serviceId: 65280
                     methodId: 1
-                  length: 9
+                  length: 14
                   requestId:
                     clientId: 1
                     sessionId: 1
@@ -1116,6 +1276,7 @@ paths:
         name: id
         in: path
         required: true
+        description: here man can whrite 'someip-server_1.0.0_1' or 'someip-client_1.0.0_2'
       - schema:
           type: string
           example: '29180'
@@ -1123,7 +1284,7 @@ paths:
         in: path
         required: true
     post:
-      summary: Encode someip header by parameter
+      summary: Encode someip server/client  header by parameter
       operationId: post-instance-id-appPort-header-encode
       responses:
         '200':
@@ -1188,21 +1349,21 @@ paths:
                     data:
                       type: Buffer
                       data:
-                        - 1
-                        - 44
+                        - 255
                         - 0
-                        - 1
-                        - 0
-                        - 0
-                        - 0
-                        - 9
                         - 0
                         - 1
                         - 0
+                        - 0
+                        - 0
+                        - 14
+                        - 0
+                        - 1
+                        - 0
+                        - 1
+                        - 1
+                        - 1
                         - 2
-                        - 1
-                        - 1
-                        - 0
                         - 0
       requestBody:
         content:
@@ -1240,10 +1401,10 @@ paths:
               example-1:
                 value:
                   messageId:
-                    serviceId: 300
+                    serviceId: 65280
                     methodId: 1
-                  length: 9
-                  messageType: 0
+                  length: 14
+                  messageType: 2
         description: ''
   '/instance/{id}/{appPort}/{serviceId}/{methodId}/{direction}/payload/encode':
     parameters:
@@ -1253,6 +1414,7 @@ paths:
         name: id
         in: path
         required: true
+        description: here man can whrite 'someip-server_1.0.0_1' or 'someip-client_1.0.0_2'
       - schema:
           type: string
           example: '29180'
@@ -1261,7 +1423,7 @@ paths:
         required: true
       - schema:
           type: string
-          example: '300'
+          example: '65280'
         name: serviceId
         in: path
         required: true
@@ -1277,8 +1439,9 @@ paths:
         name: direction
         in: path
         required: true
+        description: '''input''  or ''return'''
     post:
-      summary: Encode the payload object
+      summary: Encode the server/client  payload object
       operationId: post-instance-id-appPort-serviceId-methodId-direction-payload-encode
       responses:
         '200':
@@ -1373,18 +1536,29 @@ paths:
               description: ''
               type: object
               properties:
-                version:
-                  type: string
-                  minLength: 1
+                payload:
+                  type: object
+                  properties:
+                    outUINT16:
+                      type: number
+                    outUINT32:
+                      type: number
+                  required:
+                    - outUINT16
+                    - outUINT32
               required:
-                - version
+                - payload
               x-examples:
                 example-1:
-                  version: 5.2.0
+                  payload:
+                    outUINT16: 1
+                    outUINT32: 2
             examples:
               example-1:
                 value:
-                  version: 5.2.0
+                  payload:
+                    outUINT16: 1
+                    outUINT32: 2
   '/instance/{id}/{appPort}/{serviceId}/{methodId}/{direction}/payload/decode':
     parameters:
       - schema:
@@ -1393,6 +1567,7 @@ paths:
         name: id
         in: path
         required: true
+        description: here man can whrite 'someip-server_1.0.0_1' or 'someip-client_1.0.0_2'
       - schema:
           type: string
           example: '29180'
@@ -1401,7 +1576,7 @@ paths:
         required: true
       - schema:
           type: string
-          example: '300'
+          example: '65280'
         name: serviceId
         in: path
         required: true
@@ -1417,8 +1592,9 @@ paths:
         name: direction
         in: path
         required: true
+        description: '''input''  or ''return'''
     post:
-      summary: Decode the payload buffer
+      summary: Decode the  server/client payload buffer
       operationId: post-instance-id-appPort-serviceId-methodId-direction-payload-decode
       responses:
         '200':
@@ -1437,11 +1613,13 @@ paths:
                   data:
                     type: object
                     properties:
-                      version:
-                        type: string
-                        minLength: 1
+                      outUINT16:
+                        type: number
+                      outUINT32:
+                        type: number
                     required:
-                      - version
+                      - outUINT16
+                      - outUINT32
                 required:
                   - code
                   - message
@@ -1451,14 +1629,16 @@ paths:
                     code: 200
                     message: decode payload successed.
                     data:
-                      version: 5.2.0
+                      outUINT16: 1
+                      outUINT32: 2
               examples:
                 example-1:
                   value:
                     code: 200
                     message: decode payload successed.
                     data:
-                      version: 5.2.0
+                      outUINT16: 1
+                      outUINT32: 2
             application/xml:
               schema:
                 type: object
@@ -1495,40 +1675,45 @@ paths:
               description: ''
               type: object
               properties:
-                type:
-                  type: string
-                  minLength: 1
-                data:
-                  type: array
-                  items:
-                    required: []
-                    properties: {}
+                payload:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      minLength: 1
+                    data:
+                      type: array
+                      items:
+                        required: []
+                        properties: {}
+                  required:
+                    - type
+                    - data
               required:
-                - type
-                - data
+                - payload
               x-examples:
                 example-1:
-                  type: Buffer
-                  data:
-                    - 0
-                    - 5
-                    - 53
-                    - 46
-                    - 50
-                    - 46
-                    - 48
+                  payload:
+                    type: Buffer
+                    data:
+                      - 0
+                      - 1
+                      - 0
+                      - 0
+                      - 0
+                      - 2
             examples:
               example-1:
                 value:
-                  type: Buffer
-                  data:
-                    - 0
-                    - 5
-                    - 53
-                    - 46
-                    - 50
-                    - 46
-                    - 48
+                  payload:
+                    type: Buffer
+                    data:
+                      - 0
+                      - 1
+                      - 0
+                      - 0
+                      - 0
+                      - 2
   '/instance/{id}/{appPort}/{direction}/pdu/encode':
     parameters:
       - schema:
@@ -1537,6 +1722,7 @@ paths:
         name: id
         in: path
         required: true
+        description: here man can whrite 'someip-server_1.0.0_1' or 'someip-client_1.0.0_2'
       - schema:
           type: string
           example: '29180'
@@ -1549,8 +1735,9 @@ paths:
         name: direction
         in: path
         required: true
+        description: '''input''  or ''return'''
     post:
-      summary: Encode PDU (header+payload) object
+      summary: Encode server/client  PDU (header+payload) object
       operationId: post-instance-id-appPort-direction-pdu-encode
       responses:
         '200':
@@ -1591,30 +1778,28 @@ paths:
                     data:
                       type: Buffer
                       data:
-                        - 1
-                        - 44
-                        - 0
-                        - 1
+                        - 255
                         - 0
                         - 0
-                        - 0
-                        - 9
-                        - 0
-                        - 1
-                        - 0
-                        - 1
-                        - 1
                         - 1
                         - 0
                         - 0
                         - 0
-                        - 6
-                        - 115
-                        - 116
-                        - 114
-                        - 105
-                        - 110
-                        - 103
+                        - 14
+                        - 0
+                        - 1
+                        - 0
+                        - 1
+                        - 1
+                        - 1
+                        - 2
+                        - 0
+                        - 0
+                        - 1
+                        - 0
+                        - 0
+                        - 0
+                        - 2
               examples:
                 example-1:
                   value:
@@ -1623,30 +1808,28 @@ paths:
                     data:
                       type: Buffer
                       data:
-                        - 1
-                        - 44
-                        - 0
-                        - 1
+                        - 255
                         - 0
                         - 0
-                        - 0
-                        - 9
-                        - 0
-                        - 1
-                        - 0
-                        - 1
-                        - 1
                         - 1
                         - 0
                         - 0
                         - 0
-                        - 6
-                        - 115
-                        - 116
-                        - 114
-                        - 105
-                        - 110
-                        - 103
+                        - 14
+                        - 0
+                        - 1
+                        - 0
+                        - 1
+                        - 1
+                        - 1
+                        - 2
+                        - 0
+                        - 0
+                        - 1
+                        - 0
+                        - 0
+                        - 0
+                        - 2
         '400':
           description: Bad Request
           content:
@@ -1679,91 +1862,102 @@ paths:
               description: ''
               type: object
               properties:
-                header:
+                pdu:
                   type: object
                   properties:
-                    messageId:
+                    header:
                       type: object
                       properties:
-                        serviceId:
+                        messageId:
+                          type: object
+                          properties:
+                            serviceId:
+                              type: number
+                            methodId:
+                              type: number
+                          required:
+                            - serviceId
+                            - methodId
+                        length:
                           type: number
-                        methodId:
+                        requestId:
+                          type: object
+                          properties:
+                            clientId:
+                              type: number
+                            sessionId:
+                              type: number
+                          required:
+                            - clientId
+                            - sessionId
+                        protocolVersion:
+                          type: number
+                        interfaceVersion:
+                          type: number
+                        messageType:
+                          type: number
+                        returnCode:
                           type: number
                       required:
-                        - serviceId
-                        - methodId
-                    length:
-                      type: number
-                    requestId:
+                        - messageId
+                        - length
+                        - requestId
+                        - protocolVersion
+                        - interfaceVersion
+                        - messageType
+                        - returnCode
+                    payload:
                       type: object
                       properties:
-                        clientId:
+                        outUINT16:
                           type: number
-                        sessionId:
+                        outUINT32:
                           type: number
                       required:
-                        - clientId
-                        - sessionId
-                    protocolVersion:
-                      type: number
-                    interfaceVersion:
-                      type: number
-                    messageType:
-                      type: number
-                    returnCode:
-                      type: number
+                        - outUINT16
+                        - outUINT32
                   required:
-                    - messageId
-                    - length
-                    - requestId
-                    - protocolVersion
-                    - interfaceVersion
-                    - messageType
-                    - returnCode
-                payload:
-                  type: object
-                  properties:
-                    version:
-                      type: string
-                      minLength: 1
-                  required:
-                    - version
+                    - header
+                    - payload
               required:
-                - header
-                - payload
+                - pdu
               x-examples:
                 example-1:
-                  header:
-                    messageId:
-                      serviceId: 300
-                      methodId: 1
-                    length: 9
-                    requestId:
-                      clientId: 1
-                      sessionId: 1
-                    protocolVersion: 1
-                    interfaceVersion: 1
-                    messageType: 0
-                    returnCode: 0
-                  payload:
-                    version: 5.2.0
+                  pdu:
+                    header:
+                      messageId:
+                        serviceId: 65280
+                        methodId: 1
+                      length: 14
+                      requestId:
+                        clientId: 1
+                        sessionId: 1
+                      protocolVersion: 1
+                      interfaceVersion: 1
+                      messageType: 2
+                      returnCode: 0
+                    payload:
+                      outUINT16: 1
+                      outUINT32: 2
             examples:
               example-1:
                 value:
-                  header:
-                    messageId:
-                      serviceId: 300
-                      methodId: 1
-                    length: 9
-                    requestId:
-                      clientId: 1
-                      sessionId: 1
-                    protocolVersion: 1
-                    interfaceVersion: 1
-                    messageType: 0
-                    returnCode: 0
-                  payload:
-                    version: 5.2.0
+                  pdu:
+                    header:
+                      messageId:
+                        serviceId: 65280
+                        methodId: 1
+                      length: 14
+                      requestId:
+                        clientId: 1
+                        sessionId: 1
+                      protocolVersion: 1
+                      interfaceVersion: 1
+                      messageType: 2
+                      returnCode: 0
+                    payload:
+                      outUINT16: 1
+                      outUINT32: 2
   '/instance/{id}/{appPort}/{direction}/pdu/decode':
     parameters:
       - schema:
@@ -1772,6 +1966,7 @@ paths:
         name: id
         in: path
         required: true
+        description: here man can whrite 'someip-server_1.0.0_1' or 'someip-client_1.0.0_2'
       - schema:
           type: string
           example: '29180'
@@ -1784,8 +1979,9 @@ paths:
         name: direction
         in: path
         required: true
+        description: '''input''  or ''return'''
     post:
-      summary: Decode PDU (header+payload) buffer
+      summary: Decode  server/client  PDU (header+payload) buffer
       operationId: post-instance-id-appPort-direction-pdu-decode
       responses:
         '200':
@@ -1812,13 +2008,10 @@ paths:
                             properties:
                               serviceId:
                                 type: number
-                              subId:
-                                type: number
                               methodId:
                                 type: number
                             required:
                               - serviceId
-                              - subId
                               - methodId
                           length:
                             type: number
@@ -1851,11 +2044,13 @@ paths:
                       payload:
                         type: object
                         properties:
-                          version:
-                            type: string
-                            minLength: 1
+                          outUINT16:
+                            type: number
+                          outUINT32:
+                            type: number
                         required:
-                          - version
+                          - outUINT16
+                          - outUINT32
                     required:
                       - header
                       - payload
@@ -1870,19 +2065,19 @@ paths:
                     data:
                       header:
                         messageId:
-                          serviceId: 300
-                          subId: 0
+                          serviceId: 65280
                           methodId: 1
-                        length: 9
+                        length: 14
                         requestId:
                           clientId: 1
                           sessionId: 1
                         protocolVersion: 1
                         interfaceVersion: 1
-                        messageType: 0
+                        messageType: 2
                         returnCode: 0
                       payload:
-                        version: 5.2.0
+                        outUINT16: 1
+                        outUINT32: 2
               examples:
                 example-1:
                   value:
@@ -1891,19 +2086,19 @@ paths:
                     data:
                       header:
                         messageId:
-                          serviceId: 300
-                          subId: 0
+                          serviceId: 65280
                           methodId: 1
-                        length: 9
+                        length: 14
                         requestId:
                           clientId: 1
                           sessionId: 1
                         protocolVersion: 1
                         interfaceVersion: 1
-                        messageType: 0
+                        messageType: 2
                         returnCode: 0
                       payload:
-                        version: 5.2.0
+                        outUINT16: 1
+                        outUINT32: 2
         '400':
           description: Bad Request
           content:
@@ -1936,72 +2131,78 @@ paths:
               description: ''
               type: object
               properties:
-                type:
-                  type: string
-                  minLength: 1
-                data:
-                  type: array
-                  items:
-                    required: []
-                    properties: {}
+                pdu:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      minLength: 1
+                    data:
+                      type: array
+                      items:
+                        required: []
+                        properties: {}
+                  required:
+                    - type
+                    - data
               required:
-                - type
-                - data
+                - pdu
               x-examples:
                 example-1:
-                  type: Buffer
-                  data:
-                    - 1
-                    - 44
-                    - 0
-                    - 1
-                    - 0
-                    - 0
-                    - 0
-                    - 9
-                    - 0
-                    - 1
-                    - 0
-                    - 1
-                    - 1
-                    - 1
-                    - 0
-                    - 0
-                    - 0
-                    - 5
-                    - 53
-                    - 46
-                    - 50
-                    - 46
-                    - 48
+                  pdu:
+                    type: Buffer
+                    data:
+                      - 1
+                      - 44
+                      - 0
+                      - 1
+                      - 0
+                      - 0
+                      - 0
+                      - 9
+                      - 0
+                      - 1
+                      - 0
+                      - 1
+                      - 1
+                      - 1
+                      - 0
+                      - 0
+                      - 0
+                      - 5
+                      - 53
+                      - 46
+                      - 50
+                      - 46
+                      - 48
             examples:
               example-1:
                 value:
-                  type: Buffer
-                  data:
-                    - 1
-                    - 44
-                    - 0
-                    - 1
-                    - 0
-                    - 0
-                    - 0
-                    - 9
-                    - 0
-                    - 1
-                    - 0
-                    - 1
-                    - 1
-                    - 1
-                    - 0
-                    - 0
-                    - 0
-                    - 5
-                    - 53
-                    - 46
-                    - 50
-                    - 46
-                    - 48
+                  pdu:
+                    type: Buffer
+                    data:
+                      - 255
+                      - 0
+                      - 0
+                      - 1
+                      - 0
+                      - 0
+                      - 0
+                      - 14
+                      - 0
+                      - 1
+                      - 0
+                      - 1
+                      - 1
+                      - 1
+                      - 2
+                      - 0
+                      - 0
+                      - 1
+                      - 0
+                      - 0
+                      - 0
+                      - 2
           application/xml:
             schema:
               description: ''
@@ -2060,6 +2261,7 @@ paths:
         name: id
         in: path
         required: true
+        description: here man can whrite 'someip-server_1.0.0_1' or 'someip-client_1.0.0_2'
       - schema:
           type: string
           example: '29180'
@@ -2067,7 +2269,7 @@ paths:
         in: path
         required: true
     post:
-      summary: Send PDU buffer
+      summary: Send  server/client  PDU buffer
       operationId: post-instance-id-appPort-pdu-send
       responses:
         '200':
@@ -2131,72 +2333,77 @@ paths:
               description: ''
               type: object
               properties:
-                type:
-                  type: string
-                  minLength: 1
-                data:
-                  type: array
-                  items:
-                    required: []
-                    properties: {}
+                pdu:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      minLength: 1
+                    data:
+                      type: array
+                      items:
+                        required: []
+                        properties: {}
+                  required:
+                    - type
+                    - data
               required:
-                - type
-                - data
+                - pdu
               x-examples:
                 example-1:
-                  type: Buffer
-                  data:
-                    - 1
-                    - 44
-                    - 0
-                    - 1
-                    - 0
-                    - 0
-                    - 0
-                    - 9
-                    - 0
-                    - 1
-                    - 0
-                    - 1
-                    - 1
-                    - 1
-                    - 0
-                    - 0
-                    - 0
-                    - 5
-                    - 53
-                    - 46
-                    - 50
-                    - 46
-                    - 48
+                  pdu:
+                    type: Buffer
+                    data:
+                      - 255
+                      - 0
+                      - 0
+                      - 1
+                      - 0
+                      - 0
+                      - 0
+                      - 14
+                      - 0
+                      - 1
+                      - 0
+                      - 1
+                      - 1
+                      - 1
+                      - 2
+                      - 0
+                      - 0
+                      - 1
+                      - 0
+                      - 0
+                      - 0
+                      - 2
             examples:
               example-1:
                 value:
-                  type: Buffer
-                  data:
-                    - 1
-                    - 44
-                    - 0
-                    - 1
-                    - 0
-                    - 0
-                    - 0
-                    - 9
-                    - 0
-                    - 1
-                    - 0
-                    - 1
-                    - 1
-                    - 1
-                    - 0
-                    - 0
-                    - 0
-                    - 5
-                    - 53
-                    - 46
-                    - 50
-                    - 46
-                    - 48
+                  pdu:
+                    type: Buffer
+                    data:
+                      - 255
+                      - 0
+                      - 0
+                      - 1
+                      - 0
+                      - 0
+                      - 0
+                      - 14
+                      - 0
+                      - 1
+                      - 0
+                      - 1
+                      - 1
+                      - 1
+                      - 2
+                      - 0
+                      - 0
+                      - 1
+                      - 0
+                      - 0
+                      - 0
+                      - 2
   '/instance/{id}/{appPort}/{direction}/pdu/send':
     parameters:
       - schema:
@@ -2205,6 +2412,7 @@ paths:
         name: id
         in: path
         required: true
+        description: here man can whrite 'someip-server_1.0.0_1' or 'someip-client_1.0.0_2'
       - schema:
           type: string
           example: '29180'
@@ -2217,8 +2425,9 @@ paths:
         name: direction
         in: path
         required: true
+        description: '''input''  or ''return'''
     post:
-      summary: Send PDU buffer (from PDU object encode)
+      summary: Send server/client  PDU buffer (from PDU object encode)
       operationId: post-instance-id-appPort-direction-pdu-send
       responses:
         '200':
@@ -2278,91 +2487,60 @@ paths:
               description: ''
               type: object
               properties:
-                header:
+                pdu:
                   type: object
                   properties:
-                    messageId:
+                    header:
                       type: object
                       properties:
-                        serviceId:
-                          type: number
-                        methodId:
-                          type: number
+                        messageId:
+                          type: object
+                          properties:
+                            serviceId:
+                              type: number
+                            methodId:
+                              type: number
+                          required:
+                            - serviceId
+                            - methodId
                       required:
-                        - serviceId
-                        - methodId
-                    length:
-                      type: number
-                    requestId:
+                        - messageId
+                    payload:
                       type: object
                       properties:
-                        clientId:
+                        outUINT16:
                           type: number
-                        sessionId:
+                        outUINT32:
                           type: number
                       required:
-                        - clientId
-                        - sessionId
-                    protocolVersion:
-                      type: number
-                    interfaceVersion:
-                      type: number
-                    messageType:
-                      type: number
-                    returnCode:
-                      type: number
+                        - outUINT16
+                        - outUINT32
                   required:
-                    - messageId
-                    - length
-                    - requestId
-                    - protocolVersion
-                    - interfaceVersion
-                    - messageType
-                    - returnCode
-                payload:
-                  type: object
-                  properties:
-                    version:
-                      type: string
-                      minLength: 1
-                  required:
-                    - version
+                    - header
+                    - payload
               required:
-                - header
-                - payload
+                - pdu
               x-examples:
                 example-1:
-                  header:
-                    messageId:
-                      serviceId: 300
-                      methodId: 1
-                    length: 9
-                    requestId:
-                      clientId: 1
-                      sessionId: 1
-                    protocolVersion: 1
-                    interfaceVersion: 1
-                    messageType: 0
-                    returnCode: 0
-                  payload:
-                    version: 5.2.0
+                  pdu:
+                    header:
+                      messageId:
+                        serviceId: 65280
+                        methodId: 1
+                    payload:
+                      outUINT16: 1
+                      outUINT32: 2
             examples:
               example-1:
                 value:
-                  header:
-                    messageId:
-                      serviceId: 300
-                      methodId: 1
-                    length: 9
-                    requestId:
-                      clientId: 1
-                      sessionId: 1
-                    protocolVersion: 1
-                    interfaceVersion: 1
-                    messageType: 0
-                    returnCode: 0
-                  payload:
-                    version: 5.2.0
+                  pdu:
+                    header:
+                      messageId:
+                        serviceId: 65280
+                        methodId: 1
+                    payload:
+                      outUINT16: 1
+                      outUINT32: 2
 components:
   schemas:
     NewSomeipSimulationInstance:
