@@ -3,7 +3,7 @@ const WebSocket = require('ws');
 const EventEmitter = require('events');
 const trycatch = require('./trycatchWrapper');
 const logger = require('./logger')();
-const swagServiceConfig = {default: {ipAddress: '192.168.1.99'}};
+const swagServiceConfig = {default: {ipAddress: '192.168.1.135'}};
 
 const BASE_URL = `http://${swagServiceConfig.default.ipAddress}/api/trace-service` // :6001
 const WS_URL = `ws://${swagServiceConfig.default.ipAddress}:6001`
