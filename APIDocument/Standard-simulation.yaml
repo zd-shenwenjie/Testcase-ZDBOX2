@@ -395,55 +395,12 @@ paths:
         name: instance
         in: path
         required: true
-    get:
-      summary: Your GET endpoint
-      tags: []
+    post:
+      summary: ''
+      operationId: post-modules-instance-stop
       responses:
         '200':
           description: OK
-          content:
-            application/json:
-              schema:
-                description: ''
-                type: object
-                properties:
-                  isRunning:
-                    type: boolean
-                required:
-                  - isRunning
-                x-examples:
-                  example-1:
-                    isRunning: false
-              examples:
-                example-1:
-                  value:
-                    isRunning: false
-        '400':
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                description: ''
-                type: object
-                properties:
-                  code:
-                    type: number
-                  msg:
-                    type: string
-                    minLength: 1
-                required:
-                  - code
-                  - msg
-                x-examples:
-                  example-1:
-                    code: 20
-                    msg: instance ab not found
-              examples:
-                example-1:
-                  value:
-                    code: 20
-                    msg: instance ab not found
-      operationId: get-modules-instance-stop
   '/modules/{instance}/activate/{msgId}':
     parameters:
       - schema:

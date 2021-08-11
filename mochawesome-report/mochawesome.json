@@ -1,0 +1,292 @@
+{
+  "stats": {
+    "suites": 2,
+    "tests": 8,
+    "passes": 8,
+    "pending": 0,
+    "failures": 0,
+    "start": "2021-08-11T13:21:42.268Z",
+    "end": "2021-08-11T13:21:52.423Z",
+    "duration": 10155,
+    "testsRegistered": 8,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "d7648fdf-ff21-4267-8ea5-434d62f4a1f0",
+      "title": "",
+      "fullFile": "",
+      "file": "",
+      "beforeHooks": [
+        {
+          "title": "\"before all\" hook: create can-standard-simulation and can-websocket in \"{root}\"",
+          "fullTitle": "\"before all\" hook: create can-standard-simulation and can-websocket in \"{root}\"",
+          "timedOut": false,
+          "duration": 0,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "it('should create can-simulation-instance', (done) => {\n    const deletePromise = axios.delete(`http://${publisher_base_url}:${standard_simulation_port}`, {data: {uuid: instance}})\n        .then((res) => {\n            // console.log(res)\n        });\n    const postPromise = axios.post(`http://${publisher_base_url}:${standard_simulation_port}`, {\n        uuid: instance,\n        type: \"CAN-SIM\",\n        dst_phy_id: \"can2\",\n        file_path: \"/root/simulations/testproj/cansim.simod\"\n    }).then((response) => {\n        console.log(response.data);\n    })\n    const getPromise = axios.get(`http://${publisher_base_url}:${standard_simulation_port}`)\n        .then(res => {\n            console.log('----------------')\n            // console.log(res.data);\n        });\n    Promise.allSettled([deletePromise, postPromise, getPromise])\n        .then((results) => {\n            // console.log(results);\n            done();\n        })\n});\nit('should start instance', function () {\n    const getInstancePromise = axios.get(`http://${publisher_base_url}:${standard_simulation_port}/modules/${instance}/status`)\n        .then(res => {\n            // console.log(res.data)\n        });\n    const postInstancePromise = axios.post(`http://${publisher_base_url}:${standard_simulation_port}/modules/${instance}/start`)\n        .then(res => {\n            // console.log(res.data);\n        });\n    Promise.allSettled([getInstancePromise, postInstancePromise])\n        .then((results) => {\n            console.log(results);\n            done()\n        })\n});\nit('should activate msgId', (done) => {\n    const getActivatePromise = axios.get(`http://${publisher_base_url}:${standard_simulation_port}/modules/${instance}/activate/${msgId}`)\n        .then(res => {\n            console.log('*************************')\n            console.log(res.data);\n        });\n    const postActivatePromise = axios.post(`http://${publisher_base_url}:${standard_simulation_port}/modules/${instance}/activate/${msgId}`)\n        .then(res => {\n            console.log(res.data);\n        });\n    Promise.allSettled([getActivatePromise, postActivatePromise])\n        .then((results) => {\n            console.log(results);\n            done();\n        })\n});\nit('should create can-websocket', async () => {\n    const resGetConverter = await toolkit.getConverter();\n    // console.log(resGetConverter)\n    session = await toolkit.startSession();\n    // console.log(session)\n    const tracingChannel = await session.getTracingChannel();\n    // console.log(tracingChannel)\n    const addChannel = await session.addTracingChannel({\n        bus: 'ipdu',\n        portType: 'can',\n    }, ['default-can']);\n    //\n    // await session.subscribePDU(() => {\n    //     return true\n    // }, (pdus) => {\n    //     pdus.forEach(ele => {\n    //         if (ele.parsed) {\n    //             // console.dir(ele, {depth: null});\n    //         }\n    //     })\n    // });\n    // await new Promise((res) => {\n    //     setTimeout(res, 2000)\n    // });\n    //\n    // toolkit.stopSession(session);\n    // done();\n    // await toolkit.deleteConverter(converterKey);\n})",
+          "err": {},
+          "uuid": "43b7845f-de69-4a30-bb34-51e77d925120",
+          "parentUUID": "d7648fdf-ff21-4267-8ea5-434d62f4a1f0",
+          "isHook": true,
+          "skipped": false
+        }
+      ],
+      "afterHooks": [
+        {
+          "title": "\"after all\" hook: close all item in \"{root}\"",
+          "fullTitle": "\"after all\" hook: close all item in \"{root}\"",
+          "timedOut": false,
+          "duration": 14,
+          "state": null,
+          "speed": null,
+          "pass": false,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "toolkit.stopSession(session);\naxios.post(`http://${publisher_base_url}:${standard_simulation_port}/modules/${instance}/stop`)\n    .then(res => {\n        console.log(res.data);\n        done();\n    });",
+          "err": {},
+          "uuid": "dafcdc51-5a2b-45d9-8f95-2a47ef6a0ac8",
+          "parentUUID": "d7648fdf-ff21-4267-8ea5-434d62f4a1f0",
+          "isHook": true,
+          "skipped": false
+        }
+      ],
+      "tests": [
+        {
+          "title": "should create can-simulation-instance",
+          "fullTitle": "should create can-simulation-instance",
+          "timedOut": false,
+          "duration": 50,
+          "state": "passed",
+          "speed": "medium",
+          "pass": true,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "const deletePromise = axios.delete(`http://${publisher_base_url}:${standard_simulation_port}`, {data: {uuid: instance}})\n    .then((res) => {\n        // console.log(res)\n    });\nconst postPromise = axios.post(`http://${publisher_base_url}:${standard_simulation_port}`, {\n    uuid: instance,\n    type: \"CAN-SIM\",\n    dst_phy_id: \"can2\",\n    file_path: \"/root/simulations/testproj/cansim.simod\"\n}).then((response) => {\n    console.log(response.data);\n})\nconst getPromise = axios.get(`http://${publisher_base_url}:${standard_simulation_port}`)\n    .then(res => {\n        console.log('----------------')\n        // console.log(res.data);\n    });\nPromise.allSettled([deletePromise, postPromise, getPromise])\n    .then((results) => {\n        // console.log(results);\n        done();\n    })",
+          "err": {},
+          "uuid": "c8fdcc08-c81d-490d-9679-da92db7543ce",
+          "parentUUID": "d7648fdf-ff21-4267-8ea5-434d62f4a1f0",
+          "isHook": false,
+          "skipped": false
+        },
+        {
+          "title": "should start instance",
+          "fullTitle": "should start instance",
+          "timedOut": false,
+          "duration": 0,
+          "state": "passed",
+          "speed": "fast",
+          "pass": true,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "const getInstancePromise = axios.get(`http://${publisher_base_url}:${standard_simulation_port}/modules/${instance}/status`)\n    .then(res => {\n        // console.log(res.data)\n    });\nconst postInstancePromise = axios.post(`http://${publisher_base_url}:${standard_simulation_port}/modules/${instance}/start`)\n    .then(res => {\n        // console.log(res.data);\n    });\nPromise.allSettled([getInstancePromise, postInstancePromise])\n    .then((results) => {\n        console.log(results);\n        done()\n    })",
+          "err": {},
+          "uuid": "4966e6a4-db09-498a-97ce-4e177137d286",
+          "parentUUID": "d7648fdf-ff21-4267-8ea5-434d62f4a1f0",
+          "isHook": false,
+          "skipped": false
+        },
+        {
+          "title": "should activate msgId",
+          "fullTitle": "should activate msgId",
+          "timedOut": false,
+          "duration": 22,
+          "state": "passed",
+          "speed": "fast",
+          "pass": true,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "const getActivatePromise = axios.get(`http://${publisher_base_url}:${standard_simulation_port}/modules/${instance}/activate/${msgId}`)\n    .then(res => {\n        console.log('*************************')\n        console.log(res.data);\n    });\nconst postActivatePromise = axios.post(`http://${publisher_base_url}:${standard_simulation_port}/modules/${instance}/activate/${msgId}`)\n    .then(res => {\n        console.log(res.data);\n    });\nPromise.allSettled([getActivatePromise, postActivatePromise])\n    .then((results) => {\n        console.log(results);\n        done();\n    })",
+          "err": {},
+          "uuid": "9cc01712-5c1a-4a70-88b2-37da680dc2a9",
+          "parentUUID": "d7648fdf-ff21-4267-8ea5-434d62f4a1f0",
+          "isHook": false,
+          "skipped": false
+        },
+        {
+          "title": "should create can-websocket",
+          "fullTitle": "should create can-websocket",
+          "timedOut": false,
+          "duration": 38,
+          "state": "passed",
+          "speed": "medium",
+          "pass": true,
+          "fail": false,
+          "pending": false,
+          "context": null,
+          "code": "const resGetConverter = await toolkit.getConverter();\n// console.log(resGetConverter)\nsession = await toolkit.startSession();\n// console.log(session)\nconst tracingChannel = await session.getTracingChannel();\n// console.log(tracingChannel)\nconst addChannel = await session.addTracingChannel({\n    bus: 'ipdu',\n    portType: 'can',\n}, ['default-can']);\n//\n// await session.subscribePDU(() => {\n//     return true\n// }, (pdus) => {\n//     pdus.forEach(ele => {\n//         if (ele.parsed) {\n//             // console.dir(ele, {depth: null});\n//         }\n//     })\n// });\n// await new Promise((res) => {\n//     setTimeout(res, 2000)\n// });\n//\n// toolkit.stopSession(session);\n// done();\n// await toolkit.deleteConverter(converterKey);",
+          "err": {},
+          "uuid": "44c6d85b-fb3b-44aa-9871-f9c34fc88cd6",
+          "parentUUID": "d7648fdf-ff21-4267-8ea5-434d62f4a1f0",
+          "isHook": false,
+          "skipped": false
+        }
+      ],
+      "suites": [
+        {
+          "uuid": "0c5c1676-f9a9-4a68-afc8-db7f4c63cf0f",
+          "title": "CAN-Trace test",
+          "fullFile": "C:\\zd-tool\\Testcase-ZDBOX2\\test\\can_trace_test.js",
+          "file": "\\test\\can_trace_test.js",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [],
+          "suites": [
+            {
+              "uuid": "042e54e9-1ea3-414d-b59a-73c7febb6173",
+              "title": "verify can-trace",
+              "fullFile": "C:\\zd-tool\\Testcase-ZDBOX2\\test\\can_trace_test.js",
+              "file": "\\test\\can_trace_test.js",
+              "beforeHooks": [],
+              "afterHooks": [],
+              "tests": [
+                {
+                  "title": "should verify id",
+                  "fullTitle": "CAN-Trace test verify can-trace should verify id",
+                  "timedOut": false,
+                  "duration": 5012,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "await session.subscribePDU(() => {\n    return true\n}, (pdus) => {\n    pdus.forEach(ele => {\n        if (ele.parsed) {\n            // console.dir(ele, {depth: null});\n            console.log(ele.id);\n            expect(ele.id).to.be.equal(960);\n        }\n    });\n});\nawait new Promise((res) => {\n    setTimeout(res, 5000)\n});",
+                  "err": {},
+                  "uuid": "8fbd2315-71fb-48e4-ae80-db07273fa591",
+                  "parentUUID": "042e54e9-1ea3-414d-b59a-73c7febb6173",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "should test2",
+                  "fullTitle": "CAN-Trace test verify can-trace should test2",
+                  "timedOut": false,
+                  "duration": 5004,
+                  "state": "passed",
+                  "speed": "slow",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "await session.subscribePDU(() => {\n    return true\n}, (pdus) => {\n    pdus.forEach(ele => {\n        if (ele.parsed) {\n            // console.dir(ele, {depth: null});\n            console.log(ele.id);\n            expect(ele.id).to.be.equal(960);\n        }\n    });\n});\nawait new Promise((res) => {\n    setTimeout(res, 5000)\n});",
+                  "err": {},
+                  "uuid": "37725e8f-a4a0-4067-b7d9-c35f42dd7453",
+                  "parentUUID": "042e54e9-1ea3-414d-b59a-73c7febb6173",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "should test3",
+                  "fullTitle": "CAN-Trace test verify can-trace should test3",
+                  "timedOut": false,
+                  "duration": 0,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "console.log('test3')",
+                  "err": {},
+                  "uuid": "d6e4d27d-9541-4f49-b3b7-e7cb43c0d992",
+                  "parentUUID": "042e54e9-1ea3-414d-b59a-73c7febb6173",
+                  "isHook": false,
+                  "skipped": false
+                },
+                {
+                  "title": "should test4",
+                  "fullTitle": "CAN-Trace test verify can-trace should test4",
+                  "timedOut": false,
+                  "duration": 0,
+                  "state": "passed",
+                  "speed": "fast",
+                  "pass": true,
+                  "fail": false,
+                  "pending": false,
+                  "context": null,
+                  "code": "console.log('test4')",
+                  "err": {},
+                  "uuid": "cef16ba6-548a-4048-9b53-3930db963bcc",
+                  "parentUUID": "042e54e9-1ea3-414d-b59a-73c7febb6173",
+                  "isHook": false,
+                  "skipped": false
+                }
+              ],
+              "suites": [],
+              "passes": [
+                "8fbd2315-71fb-48e4-ae80-db07273fa591",
+                "37725e8f-a4a0-4067-b7d9-c35f42dd7453",
+                "d6e4d27d-9541-4f49-b3b7-e7cb43c0d992",
+                "cef16ba6-548a-4048-9b53-3930db963bcc"
+              ],
+              "failures": [],
+              "pending": [],
+              "skipped": [],
+              "duration": 10016,
+              "root": false,
+              "rootEmpty": false,
+              "_timeout": 20000
+            }
+          ],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 20000
+        }
+      ],
+      "passes": [
+        "c8fdcc08-c81d-490d-9679-da92db7543ce",
+        "4966e6a4-db09-498a-97ce-4e177137d286",
+        "9cc01712-5c1a-4a70-88b2-37da680dc2a9",
+        "44c6d85b-fb3b-44aa-9871-f9c34fc88cd6"
+      ],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 110,
+      "root": true,
+      "rootEmpty": false,
+      "_timeout": 20000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "9.0.3"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.2.2"
+    },
+    "marge": {
+      "options": null,
+      "version": "5.2.0"
+    }
+  }
+}
