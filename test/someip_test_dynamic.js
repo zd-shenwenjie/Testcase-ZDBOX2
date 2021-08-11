@@ -5,12 +5,12 @@ const axios = require('axios');
 const chai = require('chai');
 
 chai.should();
+const monitor_URL = '192.168.1.125'
 
-const traceToolkit = require('../toolkit/traceToolkit-v2');
+const traceToolkit = require('../toolkit/traceToolkit-v2')(monitor_URL);
 
 const SERVER_SOMEIP_URL = 'http://192.168.1.125:5001';
-const CLIENT_SOMEIP_URL = 'http://192.168.1.125:5001';
-const monitor_URL = '192.168.1.125'
+const CLIENT_SOMEIP_URL = 'http://192.168.1.135:5001';
 const server_config = fs.readJSONSync(path.join(__dirname, 'server.json'));
 const client_config = fs.readJSONSync(path.join(__dirname, 'client.json'));
 const service_spec = fs.readJSONSync(path.join(__dirname, '0xFF00_TestabilityService_V2.0.0F_CBox.json'))
@@ -28,319 +28,309 @@ var session;
 
 
 before('create client and server instance', async () => {
-  // TODO: using database management to upload service spec
-  it('database should be uploaded via database management')
+    // TODO: using database management to upload service spec
+    it('database should be uploaded via database management')
 
-  //create client instance
-  it('create someip simulation client instance', async () => {
-    const res = await axios.post(`${CLIENT_SOMEIP_URL}/instance`, client_config);
-    //console.log(res.data);
-    client_ins_id = res.data.data
-  });
+    //create client instance
+    it('create someip simulation client instance', async () => {
+        const res = await axios.post(`${CLIENT_SOMEIP_URL}/instance`, client_config);
+        //console.log(res.data);
+        client_ins_id = res.data.data
+    });
 
-  // create server instance
-  it('create someip simulation server instance', async () => {
-    const res = await axios.post(`${SERVER_SOMEIP_URL}/instance`, server_config);
-    // console.log(res.data);
-    server_ins_id = res.data.data
-  });
+    // create server instance
+    it('create someip simulation server instance', async () => {
+        const res = await axios.post(`${SERVER_SOMEIP_URL}/instance`, server_config);
+        // console.log(res.data);
+        server_ins_id = res.data.data
+    });
 
-  //start client instance
-  it('get client instance & start someip simulation client instance', async () => {
-    let res = await axios.get(`${CLIENT_SOMEIP_URL}/instance`);
-    // console.log(res.data)
-    res = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/start`);
-    // console.log(res.data);
-  });
+    //start client instance
+    it('get client instance & start someip simulation client instance', async () => {
+        let res = await axios.get(`${CLIENT_SOMEIP_URL}/instance`);
+        // console.log(res.data)
+        res = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/start`);
+        // console.log(res.data);
+    });
 
-  it('get server instance & start someip simulation server instance', async () => {
-    let res = await axios.get(`${SERVER_SOMEIP_URL}/instance`);
-    // console.log(res.data)
-    res = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/start`);
-    // console.log(res.data)
-    // console.log(server_ins_id)
-  })
+    it('get server instance & start someip simulation server instance', async () => {
+        let res = await axios.get(`${SERVER_SOMEIP_URL}/instance`);
+        // console.log(res.data)
+        res = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/start`);
+        // console.log(res.data)
+        // console.log(server_ins_id)
+    })
 
-  it('setup tracing service', async () => {
-//     converterKey = await traceToolkit.createConverter("SOMEIP", '', './someip/fibex/0xFF00_TestabilityService_V2.0.0F_CBox.json');
-//     console.log(await traceToolkit.addSomeipConverterSpec(converterKey
-//       //, './someip/fibex/0x190_VoiceManagerService_V1.8.10F.json'
-//     ))
-//     console.log(await traceToolkit.addSomeipPorts('tcp', [Number(application_endpoint)]))
-//     console.log(await traceToolkit.getConverter());
-//     session = await traceToolkit.startSession();
-//     console.log(await session.getTracingChannel());
-//     console.log(await session.addTracingChannel({
-//       bus: 'ipdu',
-//       srcPort: application_endpoint,
-//       srcIP: 'fd:53:7c:b8:03:83:00:04:00:00:00:00:00:00:00:1',
-//       dstIP: 'fd:53:7c:b8:03:83:00:03:00:00:00:00:00:00:00:67'
-//     }, [converterKey, 'default-arxml']));
-//     const channels = await session.getTracingChannel();
-//     console.log(channels)
-     })
+    it('setup tracing service', async () => {
+        converterKey = await traceToolkit.createConverter("SOMEIP", '', './someip/fibex/0xFF00_TestabilityService_V2.0.0F_CBox.json');
+        console.log(await traceToolkit.addSomeipConverterSpec(converterKey
+            //, './someip/fibex/0x190_VoiceManagerService_V1.8.10F.json'
+        ))
+        console.log(await traceToolkit.addSomeipPorts('tcp', [Number(application_endpoint)]))
+        console.log(await traceToolkit.getConverter());
+    })
 })
 
 // ----------------------------------------------------------end-----------------------------------------------------------
 after('clear all env', () => {
-  //stop serve instance
-  it('test stop all someip simulation instance', async () => {
-    const res = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/stop`);
-    console.log(res.data);
-  });
+    //stop serve instance
+    it('test stop all someip simulation instance', async () => {
+        const res = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/stop`);
+        console.log(res.data);
+    });
 
-  //delete all server instances
-  it('test delete all someip simulation instances', async () => {
-    const res = await axios.delete(`${SERVER_SOMEIP_URL}/instance`);
-    console.log(res.data);
-  });
+    //delete all server instances
+    it('test delete all someip simulation instances', async () => {
+        const res = await axios.delete(`${SERVER_SOMEIP_URL}/instance`);
+        console.log(res.data);
+    });
 
-  it('test stop all someip simulation instance', async () => {
-    const res = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/stop`);
-    console.log(res.data);
-  });
+    it('test stop all someip simulation instance', async () => {
+        const res = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/stop`);
+        console.log(res.data);
+    });
 
-  // delete all client instances
-  it('test delete all someip simulation instances', async () => {
-    const res = await axios.delete(`${CLIENT_SOMEIP_URL}/instance`);
-    console.log(res.data);
-  })
+    // delete all client instances
+    it('test delete all someip simulation instances', async () => {
+        const res = await axios.delete(`${CLIENT_SOMEIP_URL}/instance`);
+        console.log(res.data);
+    })
 
-  //stop tracing
-  it('stop tracing by using trace toolkit', async () => {
-    toolkit.stopSession(session)
-    toolkit.deleteConverter(converterKey)
-  })
+    //stop tracing
+    it('stop tracing by using trace toolkit', async () => {
+        toolkit.stopSession(session)
+        toolkit.deleteConverter(converterKey)
+    })
 
-  // TODO: delete database used by this case
-  it('database should be deleted') 
+    // TODO: delete database used by this case
+    it('database should be deleted')
 })
 
 describe('test get payload Server & Client', async () => {
-  //  --------------get (each) payload client side---------
-  describe('client: get someip service payload obj', async () => {
-    const appPort = application_endpoint;
-    // const serviceId = 65280;
-    const direction = 'input'; // 'input' | 'return'
-    service_spec.services[0]['methods'].forEach(async method => {
-      const methodId = method['num_id']
-      it(`Method ${methodId}: ${method['name']} `, async function () {
-        const res = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
-        // console.log(res.data);
-        res.data.message.should.include('get parameters payload successed.');
-      })
-    });
-  })
-  describe('Server: get someip service payload obj', async () => {
-    // const service_spec = fs.readJSONSync(path.join(__dirname, '0xFF00_TestabilityService_V2.0.0F_CBox.json'))
-    const appPort = application_endpoint;
-    const serviceId = 65280;
-    const direction = 'return'; // 'input' | 'return'
-    service_spec.services[0]['methods'].forEach(async method => {
-      const methodId = method['num_id']
-      it(`Method ${methodId}: ${method['name']} `, async () => {
-        const res = await axios.get(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
-        // console.log(res.data);
-        res.data.message.should.include('get parameters payload successed.');
-      })
-    });
-  })
+    //  --------------get (each) payload client side---------
+    describe('client: get someip service payload obj', async () => {
+        const appPort = application_endpoint;
+        // const serviceId = 65280;
+        const direction = 'input'; // 'input' | 'return'
+        service_spec.services[0]['methods'].forEach(async method => {
+            const methodId = method['num_id']
+            it(`Method ${methodId}: ${method['name']} `, async function () {
+                const res = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
+                // console.log(res.data);
+                res.data.message.should.include('get parameters payload successed.');
+            })
+        });
+    })
+    describe('Server: get someip service payload obj', async () => {
+        // const service_spec = fs.readJSONSync(path.join(__dirname, '0xFF00_TestabilityService_V2.0.0F_CBox.json'))
+        const appPort = application_endpoint;
+        const serviceId = 65280;
+        const direction = 'return'; // 'input' | 'return'
+        service_spec.services[0]['methods'].forEach(async method => {
+            const methodId = method['num_id']
+            it(`Method ${methodId}: ${method['name']} `, async () => {
+                const res = await axios.get(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
+                // console.log(res.data);
+                res.data.message.should.include('get parameters payload successed.');
+            })
+        });
+    })
 })
 
 // ---------------set & get payload, payload encode & decode and Validation-------
 describe('payload set & get & encode & decode', () => {
-  // dynamic test case for payload validation
-  // 1. Get Object from Client & Server Side
-  // 2. random modify value 
-  // 3. set Data
-  // 4. get Data
-  // 5. gotted Data should be equal with the random data
-  // 6. using encoder to generate a byte Stream
-  // 7. using decoder to parser the byte Stream 
-  // 8. parsered date should be equal with the random data
-  describe('client side set & get & Decoder & Encoder', async () => {
-    service_spec.services[0]['methods'].forEach(async (method) => {
-      it(`Method ${method['num_id']}: ${method['name']}`, async () => {
-        methodId = method['num_id']
-        const appPort = application_endpoint;
-        const direction = 'input';
-        const res_get = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
-        res_get.data.code.should.equal(200);
-        console.log('Raw', res_get.data)
-        // testObj {
-        //   outUINT16: 5, outUINT32: 6
-        // }
-        let testObj = JSON.parse(JSON.stringify(res_get.data.data));
+    // dynamic test case for payload validation
+    // 1. Get Object from Client & Server Side
+    // 2. random modify value 
+    // 3. set Data
+    // 4. get Data
+    // 5. gotted Data should be equal with the random data
+    // 6. using encoder to generate a byte Stream
+    // 7. using decoder to parser the byte Stream 
+    // 8. parsered date should be equal with the random data
+    describe('client side set & get & Decoder & Encoder', async () => {
+        service_spec.services[0]['methods'].forEach(async (method) => {
+            it(`Method ${method['num_id']}: ${method['name']}`, async () => {
+                methodId = method['num_id']
+                const appPort = application_endpoint;
+                const direction = 'input';
+                const res_get = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
+                res_get.data.code.should.equal(200);
+                console.log('Raw', res_get.data)
+                // testObj {
+                //   outUINT16: 5, outUINT32: 6
+                // }
+                let testObj = JSON.parse(JSON.stringify(res_get.data.data));
 
-        let first_level_keys = Object.keys(testObj);
-        first_level_keys.forEach(paramKey => {
-            if(paramKey == 'arrayMember') {
+                let first_level_keys = Object.keys(testObj);
+                first_level_keys.forEach(paramKey => {
+                    if (paramKey == 'arrayMember') {
 
-            } else {
-                if(testObj.hasOwnProperty('members')) {
-                    //deep level param
-                } else {
-                    let findEle = method.input_params.filter( (param) => {return param.name === paramKey} )[0]
-                    if(findEle && findEle.datatype.type == 'common' && findEle.datatype.name !== 'INT64' && findEle.datatype.name !== 'FLOAT64' ) {
-                        let methodParamLength = findEle.datatype.length
-                        testObj[paramKey] = Math.round(Math.random() * Math.pow(2, methodParamLength));
                     } else {
-                        console.log(findEle)
+                        if (testObj.hasOwnProperty('members')) {
+                            //deep level param
+                        } else {
+                            let findEle = method.input_params.filter((param) => {
+                                return param.name === paramKey
+                            })[0]
+                            if (findEle && findEle.datatype.type == 'common' && findEle.datatype.name !== 'INT64' && findEle.datatype.name !== 'FLOAT64') {
+                                let methodParamLength = findEle.datatype.length
+                                testObj[paramKey] = Math.round(Math.random() * Math.pow(2, methodParamLength));
+                            } else {
+                                console.log(findEle)
+                            }
+                        }
                     }
-                }   
-            }   
-          // testObj[paramKey] = Math.round(Math.random() * 10000);
-        })
-        console.log(testObj)
-        const res_set = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`, testObj);
-        console.log(res_set.data)
-        res_set.data.code.should.equal(200);
-        const res_get2 = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
-        console.log(res_get2.data.data)
-        res_get2.data.code.should.equal(200);
-        // assertion 5
-        res_get2.data.data.should.include(testObj);
+                    // testObj[paramKey] = Math.round(Math.random() * 10000);
+                })
+                console.log(testObj)
+                const res_set = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`, testObj);
+                console.log(res_set.data)
+                res_set.data.code.should.equal(200);
+                const res_get2 = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
+                console.log(res_get2.data.data)
+                res_get2.data.code.should.equal(200);
+                // assertion 5
+                res_get2.data.data.should.include(testObj);
 
-        const res_encode = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload/encode`,
-          {
-              payload : testObj
-            }
-        );
-        console.log(res_encode.data);
-        res_encode.data.code.should.equal(200);
-        let testByteStream = res_encode.data;
-        const res_decode = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload/decode`,
-          {payload: testByteStream}
-        )
-        // testByteStream{
-        //   type: 'Buffer',
-        //   data: [0, 5, 0, 0, 0, 6 ]
-        // }
-        console.log(res_decode.data)
-        res_decode.data.code.should.equal(200);
-        let finalObj = res_decode.data.data
-        finalObj.should.include(testObj)
-      })
-    });
-  })
+                const res_encode = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload/encode`, {
+                    payload: testObj
+                });
+                console.log(res_encode.data);
+                res_encode.data.code.should.equal(200);
+                let testByteStream = res_encode.data;
+                const res_decode = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload/decode`, {
+                    payload: testByteStream
+                })
+                // testByteStream{
+                //   type: 'Buffer',
+                //   data: [0, 5, 0, 0, 0, 6 ]
+                // }
+                console.log(res_decode.data)
+                res_decode.data.code.should.equal(200);
+                let finalObj = res_decode.data.data
+                finalObj.should.include(testObj)
+            })
+        });
+    })
 
-//   describe('server side set & get & Decoder & Encoder', async () => {
-//     service_spec.services[0]['methods'].forEach(async (method) => {
-//       it(`Method ${method['num_id']}: ${method['name']}`, async () => {
-//         methodId = method['num_id']
-//         const appPort = application_endpoint;
-//         const direction = 'return';
-//         const res_get = await axios.get(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
-//         console.log(res_get.data);
-//         // testObj {
-//         //   outUINT16: 5, outUINT32: 6
-//         // }
-//         let testObj = res_get.data;
-//         let first_level_keys = Object.keys(testObj);
-//         first_level_keys.forEach(paramKey => {
-//           testObj[paramKey] = Math.random() * 10000;
-//         })
-//         const res_set = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`, testObj);
-//         console.log(res_set.data)
-//         const res_get2 = await axios.get(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
-//         console.log(res_get2.data)
-//         // assertion 5
-//         res_get2.data.should.equal(testObj);
+    //   describe('server side set & get & Decoder & Encoder', async () => {
+    //     service_spec.services[0]['methods'].forEach(async (method) => {
+    //       it(`Method ${method['num_id']}: ${method['name']}`, async () => {
+    //         methodId = method['num_id']
+    //         const appPort = application_endpoint;
+    //         const direction = 'return';
+    //         const res_get = await axios.get(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
+    //         console.log(res_get.data);
+    //         // testObj {
+    //         //   outUINT16: 5, outUINT32: 6
+    //         // }
+    //         let testObj = res_get.data;
+    //         let first_level_keys = Object.keys(testObj);
+    //         first_level_keys.forEach(paramKey => {
+    //           testObj[paramKey] = Math.random() * 10000;
+    //         })
+    //         const res_set = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`, testObj);
+    //         console.log(res_set.data)
+    //         const res_get2 = await axios.get(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
+    //         console.log(res_get2.data)
+    //         // assertion 5
+    //         res_get2.data.should.equal(testObj);
 
-//         const res_encode = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload/encode`,
-//           testObj
-//         );
-//         console.log(res_encode.data);
-//         let testByteStream = res_encode.data;
-//         const res_decode = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload/decode`,
-//           testByteStream
-//         )
-//         // testByteStream{
-//         //   type: 'Buffer',
-//         //   data: [0, 5, 0, 0, 0, 6 ]
-//         // }
-//         console.log(res_decode.data)
-//         let finalObj = res_decode.data
-//         finalObj.should.equal(testObj)
-//       })
-//     });
-//   })
+    //         const res_encode = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload/encode`,
+    //           testObj
+    //         );
+    //         console.log(res_encode.data);
+    //         let testByteStream = res_encode.data;
+    //         const res_decode = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload/decode`,
+    //           testByteStream
+    //         )
+    //         // testByteStream{
+    //         //   type: 'Buffer',
+    //         //   data: [0, 5, 0, 0, 0, 6 ]
+    //         // }
+    //         console.log(res_decode.data)
+    //         let finalObj = res_decode.data
+    //         finalObj.should.equal(testObj)
+    //       })
+    //     });
+    //   })
 })
 
 
 // ---------------header ---------------------------------------------------------
 // header decode & encode should be done by unit test
 describe('someip header encode & decode', async () => {
-  describe('client side header encode & decode', async () => {
-    // encode someip header
-    it('encode someip header by parameter', async () => {
-      const client_ins_id = 'someip-client_1.0.0_2';
-      const appPort = application_endpoint;
-      const res = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/header/encode`, {
-        messageId: {
-          serviceId: Number(serviceId),
-          methodId: 1
-        },
-        length: 8 + 6, //(8+buffer's length)
-        messageType: 0, // REQUEST=0  REQUEST_NO_RETURN=1 NOTIFICATION=2
-      });
-      // console.log(res.data);
-    });
+    describe('client side header encode & decode', async () => {
+        // encode someip header
+        it('encode someip header by parameter', async () => {
+            const client_ins_id = 'someip-client_1.0.0_2';
+            const appPort = application_endpoint;
+            const res = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/header/encode`, {
+                messageId: {
+                    serviceId: Number(serviceId),
+                    methodId: 1
+                },
+                length: 8 + 6, //(8+buffer's length)
+                messageType: 0, // REQUEST=0  REQUEST_NO_RETURN=1 NOTIFICATION=2
+            });
+            // console.log(res.data);
+        });
 
-    it('encode someip header by header object', async () => {
-      const res = await axios.post(`${CLIENT_SOMEIP_URL}/instance/header/encode`, {
-        messageId: {
-          serviceId: Number(serviceId),
-          methodId: 1
-        },
-        length: 8 + 6, //(8+buffer's length)
-        requestId: {
-          clientId: 1,
-          sessionId: 1
-        },
-        protocolVersion: 1,
-        interfaceVersion: 1,
-        messageType: 0, // REQUEST=0  REQUEST_NO_RETURN=1 NOTIFICATION=2
-        returnCode: 0 // OK = 0x00
-      });
-      console.log(res.data);
-    });
-  })
+        it('encode someip header by header object', async () => {
+            const res = await axios.post(`${CLIENT_SOMEIP_URL}/instance/header/encode`, {
+                messageId: {
+                    serviceId: Number(serviceId),
+                    methodId: 1
+                },
+                length: 8 + 6, //(8+buffer's length)
+                requestId: {
+                    clientId: 1,
+                    sessionId: 1
+                },
+                protocolVersion: 1,
+                interfaceVersion: 1,
+                messageType: 0, // REQUEST=0  REQUEST_NO_RETURN=1 NOTIFICATION=2
+                returnCode: 0 // OK = 0x00
+            });
+            console.log(res.data);
+        });
+    })
 
-  describe('server side header encode & decode', async () => {
-    // encode someip header
-    it('encode someip header by parameter', async () => {
-      const server_ins_id = 'someip-server_1.0.0_1';
-      const appPort = application_endpoint;
-      const res = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/header/encode`, {
-        messageId: {
-          serviceId: 65280,
-          methodId: 1
-        },
-        length: 8 + 6, //(8+buffer's length)
-        messageType: 0, // REQUEST=0  REQUEST_NO_RETURN=1 NOTIFICATION=2
-      });
-      // console.log(res.data);
-    });
-    it('encode someip header by header object', async () => {
-      const res = await axios.post(`${SERVER_SOMEIP_URL}/instance/header/encode`, {
-        messageId: {
-          serviceId: 65280,
-          methodId: 1
-        },
-        length: 8 + 6, //(8+buffer's length)
-        requestId: {
-          clientId: 1,
-          sessionId: 1
-        },
-        protocolVersion: 1,
-        interfaceVersion: 1,
-        messageType: 0, // REQUEST=0  REQUEST_NO_RETURN=1 NOTIFICATION=2
-        returnCode: 0 // OK = 0x00
-      });
-      console.log(res.data);
-    });
-  })
+    describe('server side header encode & decode', async () => {
+        // encode someip header
+        it('encode someip header by parameter', async () => {
+            const server_ins_id = 'someip-server_1.0.0_1';
+            const appPort = application_endpoint;
+            const res = await axios.post(`${SERVER_SOMEIP_URL}/instance/${server_ins_id}/${appPort}/header/encode`, {
+                messageId: {
+                    serviceId: 65280,
+                    methodId: 1
+                },
+                length: 8 + 6, //(8+buffer's length)
+                messageType: 0, // REQUEST=0  REQUEST_NO_RETURN=1 NOTIFICATION=2
+            });
+            // console.log(res.data);
+        });
+        it('encode someip header by header object', async () => {
+            const res = await axios.post(`${SERVER_SOMEIP_URL}/instance/header/encode`, {
+                messageId: {
+                    serviceId: 65280,
+                    methodId: 1
+                },
+                length: 8 + 6, //(8+buffer's length)
+                requestId: {
+                    clientId: 1,
+                    sessionId: 1
+                },
+                protocolVersion: 1,
+                interfaceVersion: 1,
+                messageType: 0, // REQUEST=0  REQUEST_NO_RETURN=1 NOTIFICATION=2
+                returnCode: 0 // OK = 0x00
+            });
+            console.log(res.data);
+        });
+    })
 })
 
 
@@ -395,97 +385,130 @@ describe('someip header encode & decode', async () => {
 // })
 
 describe('Integration: client send & server tracing', async () => {
-  // dynamic test case for payload validation
-  // 1. Get Object from Client
-  // 2. random modify value 
-  // 3. encode payload
-  // 4. send Data
-  // 5. assertion on server side: parsed payload should be equal with modified data
-  beforeEach( function () {
-      //
-  })
-  afterEach( function () {
-      traceToolkit.stopSession(session)
-  })
+    // dynamic test case for payload validation
+    // 1. Get Object from Client
+    // 2. random modify value 
+    // 3. encode payload
+    // 4. send Data
+    // 5. assertion on server side: parsed payload should be equal with modified data
+    beforeEach(async function () {
+        session = await traceToolkit.startSession();
+        console.log('beforeEach', await session.getTracingChannel());
+        console.log('beforeEach', await session.addTracingChannel({
+            bus: 'ipdu',
+            srcPort: application_endpoint,
+            srcIP: 'fd:53:7c:b8:03:83:00:04:00:00:00:00:00:00:00:67',
+            dstIP: 'fd:53:7c:b8:03:83:00:04:00:00:00:00:00:00:00:01'
+        }, [converterKey, 'default-arxml']));
+        console.log('beforeEach', await session.addTracingChannel({
+            bus: 'ipdu',
+            dstPort: application_endpoint,
+            srcIP: 'fd:53:7c:b8:03:83:00:04:00:00:00:00:00:00:00:01',
+            dstIP: 'fd:53:7c:b8:03:83:00:04:00:00:00:00:00:00:00:67'
+        }, [converterKey, 'default-arxml']));
+        const channels = await session.getTracingChannel();
+        console.log('beforeEach', channels)
+    })
+    afterEach(function () {
+        traceToolkit.stopSession(session)
+    })
 
-  describe('client side get->random->set->send and receive by server monitor', async () => {
-    service_spec.services[0]['methods'].forEach(async (method) => {
-      it(`Method ${method['num_id']}: ${method['name']}`, async (done) => {
-        this.timeout(3000);
-        methodId = method['num_id']
+    describe('client side get->random->set->send and receive by server monitor', async () => {
+        service_spec.services[0]['methods'].forEach(async (method) => {
+            it(`Method ${method['num_id']}: ${method['name']}`, async ( ) => {
+                // this.timeout(3000);
+                methodId = method['num_id']
+                const appPort = application_endpoint;
+                const direction = 'input';
+                const res_get = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
+                console.log(res_get.data);
+                // testObj {
+                //   outUINT16: 5, outUINT32: 6
+                // }
+                let testObj = JSON.parse(JSON.stringify(res_get.data.data));
 
-        const direction = 'input';
-        const res_get = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
-        console.log(res_get.data);
-        // testObj {
-        //   outUINT16: 5, outUINT32: 6
-        // }
-        let testObj = res_get.data;
-        let first_level_keys = Object.keys(testObj);
-        first_level_keys.forEach(paramKey => {
-            if(paramKey == 'arrayMember') {
+                let first_level_keys = Object.keys(testObj);
+                first_level_keys.forEach(paramKey => {
+                    if (paramKey == 'arrayMember') {
 
-            } else {
-                if(testObj.hasOwnProperty('members')) {
-                    //deep level param
-                } else {
-                    methodParamLength = method.input_params.map( param.name == paramKey)[0].length
-                    testObj[paramKey] = Math.random() * Math.pow(2, methodParamLength);
-                }   
-            }         
-        })
-        const res_set = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`, testObj);
-        console.log(res_set.data)
-        const res_get2 = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
-        console.log(res_get2.data)
-        // assertion 5
-        res_get2.data.should.equal(testObj);
-        // testByteStream{
-        //   type: 'Buffer',
-        //   data: [0, 5, 0, 0, 0, 6 ]
-        // }
-        //send
-        const res = await axios.post(`${SERVER_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${direction}/pdu/send`, {
-          header: {
-            messageId: {
-              serviceId: 65280,
-              methodId
-            },
-            // length: 8+6,
-            // requestId: {
-            //   clientId: 1,
-            //   sessionId: 1
-            // },
-            // protocolVersion: 1,
-            // interfaceVersion: 1,
-            // messageType: 0, // REQUEST=0  REQUEST_NO_RETURN=1 NOTIFICATION=2
-            // returnCode: 0 // OK = 0x00
-          },
-          testObj
+                    } else {
+                        if (testObj.hasOwnProperty('members')) {
+                            //deep level param
+                        } else {
+                            let findEle = method.input_params.filter((param) => {
+                                return param.name === paramKey
+                            })[0]
+                            if (findEle && findEle.datatype.type == 'common' && findEle.datatype.name !== 'INT64' && findEle.datatype.name !== 'FLOAT64') {
+                                let methodParamLength = findEle.datatype.length
+                                testObj[paramKey] = Math.round(Math.random() * Math.pow(2, methodParamLength));
+                            } else {
+                                console.log(findEle)
+                            }
+                        }
+                    }
+                    // testObj[paramKey] = Math.round(Math.random() * 10000);
+                })
+                console.log(testObj)
+                const res_set = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`, testObj);
+                console.log(res_set.data)
+                const res_get2 = await axios.get(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${serviceId}/${methodId}/${direction}/payload`);
+                console.log('2rd get', res_get2.data)
+                // assertion 5
+                // res_get2.data.should.equal(testObj);
+
+                await session.subscribePDU(() => {
+                    return true
+                }, (pdus) => {
+                    pdus.forEach(ele => {
+                        console.dir(ele, {
+                            depth: null
+                        })
+                        if (ele.parsed) {
+
+                        }
+                        ele.parsed.header.should.include({
+                            messageId: {
+                                serviceId: 65280,
+                                methodId
+                            }
+                        });
+                        // ele.parsed.payload.should.equal(testObj)
+                        // done()
+                    })
+                })
+
+                // testByteStream{
+                //   type: 'Buffer',
+                //   data: [0, 5, 0, 0, 0, 6 ]
+                // }
+                //send
+                const send_res = await axios.post(`${CLIENT_SOMEIP_URL}/instance/${client_ins_id}/${appPort}/${direction}/pdu/send`, {
+                    pdu: {
+                        header: {
+                            messageId: {
+                                serviceId: 65280,
+                                methodId
+                            },
+                            // length: 8+6,
+                            // requestId: {
+                            //   clientId: 1,
+                            //   sessionId: 1
+                            // },
+                            // protocolVersion: 1,
+                            // interfaceVersion: 1,
+                            messageType: 0, // REQUEST=0  REQUEST_NO_RETURN=1 NOTIFICATION=2
+                            // returnCode: 0 // OK = 0x00
+                        },
+                        payload: testObj
+                    }
+                });
+                console.log('send_res', send_res.data)
+                await new Promise((resolve) => {
+                    setTimeout(resolve, 3000);
+                })
+            })
         });
-
-        await session.subscribePDU(() => {
-          return true
-        }, (pdus) => {
-          pdus.forEach(ele => {
-            if (ele.parsed) {
-              console.dir(ele, {
-                depth: null
-              })
-            }
-            ele.parsed.header.should.include({
-              messageId: {
-                serviceId: 65280,
-                methodId: 1
-              }
-            });
-            ele.parsed.payload.should.equal(testObj)
-            done()
-          })
-        })
-      })
-    });
-  })
+    })
 })
 
 /*

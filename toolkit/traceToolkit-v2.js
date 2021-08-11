@@ -3,10 +3,6 @@ const WebSocket = require('ws');
 const EventEmitter = require('events');
 const trycatch = require('./trycatchWrapper');
 const logger = require('./logger')();
-const swagServiceConfig = {default: {ipAddress: '192.168.1.135'}};
-
-const BASE_URL = `http://${swagServiceConfig.default.ipAddress}/api/trace-service` // :6001
-const WS_URL = `ws://${swagServiceConfig.default.ipAddress}:6001`
 
 function SessionErrorHandler(functionName) {
   return (err) => {
@@ -16,14 +12,15 @@ function SessionErrorHandler(functionName) {
 }
 
 class Session {
-  constructor() {
+  constructor(ipAddress) {
+    this.ipAddress = ipAddress
     this.emitter = new EventEmitter();
     this.emitter.setMaxListeners(0);
   }
 
   __init() {
     return new Promise((resolve, reject) => {
-      this.ws = new WebSocket(WS_URL);
+      this.ws = new WebSocket(`ws://${this.ipAddress}:6001`);
       this.requestId = 1;
 
       this.ws.on('open', () => {
@@ -204,7 +201,7 @@ class Session {
 }
 
 async function startSession() {
-  const session = new Session();
+  const session = new Session(this.ipAddress);
   await session.__init();
   return session;
 }
@@ -215,13 +212,13 @@ function stopSession(session) {
 }
 
 function getConverter() {
-  return axios.get(`${BASE_URL}/codec`).then(res => {
+  return axios.get(`http://${this.ipAddress}/api/trace-service/codec`).then(res => {
     return res.data
   })
 }
 
 function deleteConverter(name) {
-  return axios.delete(`${BASE_URL}/codec`, {data: {name}}).then(res => {
+  return axios.delete(`http://${this.ipAddress}/api/trace-service/codec`, {data: {name}}).then(res => {
     const delname = res.data.name
     logger.debug(`[traceToolkit.deleteConverter] converter ${delname} deleted`)
     return delname
@@ -229,7 +226,7 @@ function deleteConverter(name) {
 }
 
 function createConverter(protocol, mod, path, tag) {
-  return axios.post(`${BASE_URL}/codec`, {
+  return axios.post(`http://${this.ipAddress}/api/trace-service/codec`, {
     tag, protocol, mod, path
   }).then(res => {
     logger.debug(`[traceToolkit.createConverter] converter created`)
@@ -238,7 +235,7 @@ function createConverter(protocol, mod, path, tag) {
 }
 
 function addSomeipConverterSpec(converterName, specPath) {
-  return axios.post(`${BASE_URL}/codec/${converterName}/someip/spec`, {
+  return axios.post(`http://${this.ipAddress}/api/trace-service/codec/${converterName}/someip/spec`, {
     path: specPath
   }).then(res => {
     return res.data
@@ -246,41 +243,43 @@ function addSomeipConverterSpec(converterName, specPath) {
 }
 
 function addSomeipPorts(protocol, ports) {
-  return axios.post(`${BASE_URL}/someip/config/ports?protocol=${protocol}`, {
+  return axios.post(`http://${this.ipAddress}/api/trace-service/someip/config/ports?protocol=${protocol}`, {
     ports
   }).then(res => {
     return res.data
   })
 }
 
-const TCP_SOAD_URL = `http://${swagServiceConfig.default.ipAddress}/api/tcp-soad`
+const TCP_SOAD_TAG_URL = 'api/tcp-soad/netif/config/tag'
 function addProtocolTag(protocol, tags) {
-  return axios.post(`${TCP_SOAD_URL}/netif/config/tag/${protocol}`, tags).then(res => {
+  return axios.post(`http://${this.ipAddress}/${TCP_SOAD_TAG_URL}/${protocol}`, tags).then(res => {
     return res.data
   })
 }
 
 function getProtocolTag(protocol) {
-  return axios.get(`${TCP_SOAD_URL}/netif/config/tag/${protocol}`).then(res => {
+  return axios.get(`http://${this.ipAddress}/${TCP_SOAD_TAG_URL}/${protocol}`).then(res => {
     return res.data
   })
 }
 
 function deleteProtocolTag(protocol, tags) {
-  return axios.delete(`${TCP_SOAD_URL}/netif/config/tag/${protocol}`, {data: tags}).then(res => {
+  return axios.delete(`http://${this.ipAddress}/${TCP_SOAD_TAG_URL}/${protocol}`, {data: tags}).then(res => {
     return res.data
   })
 }
 
-module.exports = trycatch({
-  startSession,
-  stopSession,
-  getConverter,
-  deleteConverter,
-  createConverter,
-  addSomeipConverterSpec,
-  addSomeipPorts,
-  addProtocolTag,
-  getProtocolTag,
-  deleteProtocolTag,
-}, 'traceToolkit', logger)
+module.exports = (ip) => {
+  return trycatch({
+    startSession,
+    stopSession,
+    getConverter,
+    deleteConverter,
+    createConverter,
+    addSomeipConverterSpec,
+    addSomeipPorts,
+    addProtocolTag,
+    getProtocolTag,
+    deleteProtocolTag,
+  }, 'traceToolkit', logger, {ipAddress: ip})
+}

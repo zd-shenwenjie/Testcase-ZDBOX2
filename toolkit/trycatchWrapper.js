@@ -34,11 +34,11 @@ function errorHandlerGenerator(funcname, toolkitName, logger) {
   }
 }
 
-const trycatchWrapper = (funcname, func, toolkitName, logger) => {
+const trycatchWrapper = (funcname, func, toolkitName, logger, thisPtr) => {
   const errorHandler = errorHandlerGenerator(funcname, toolkitName, logger)
   return (...args) => {
     try {
-      const ret = func.apply(this, args)
+      const ret = func.apply(thisPtr, args)
       if (ret instanceof Promise) {
         return ret.catch(errorHandler)
       } else {
@@ -50,11 +50,11 @@ const trycatchWrapper = (funcname, func, toolkitName, logger) => {
   }
 }
 
-module.exports = (funcs, toolkitName='toolkit', logger=console) => {
+module.exports = (funcs, toolkitName='toolkit', logger=console, thisPtr={}) => {
   const exModules = {}
   Object.keys(funcs).forEach(funcname => {
     const func = funcs[funcname]
-    exModules[funcname] = trycatchWrapper(funcname, func, toolkitName, logger)
+    exModules[funcname] = trycatchWrapper(funcname, func, toolkitName, logger, thisPtr)
   })
   return exModules
 }
