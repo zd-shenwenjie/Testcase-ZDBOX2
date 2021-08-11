@@ -19,7 +19,7 @@
             "protocol": "tcp",
             "bind_generic_function": false,
             "spec_files": {
-                "65280": "0xFF00_TestabilityService_V2.0.0F_CBox.json"
+                "65280": "/fibex/0xFF00_TestabilityService_V2.0.0F_CBox.json"
             }
         }
     },
